@@ -8,7 +8,7 @@ const userSchema = new Schema(
     account: {
       type: String,
       required: [true, '請輸入 Email'],
-      unique: 'Email 已被使用',
+      unique: true,
       validate: {
         validator (value) {
           return validator.isEmail(value)
@@ -18,13 +18,7 @@ const userSchema = new Schema(
     },
     password: {
       type: String,
-      required: [true, '請輸入密碼'],
-      validate: {
-        validator (value) {
-          return validator.isStrongPassword(value)
-        },
-        message: '密碼安全度不足'
-      }
+      required: [true, '請輸入密碼']
     },
     name: {
       type: String,
@@ -35,7 +29,8 @@ const userSchema = new Schema(
     },
     about: {
       type: String,
-      maxlength: [300, '關於介紹不能超過 300 個字']
+      maxlength: [300, '關於介紹不能超過 300 個字'],
+      default: null
     }
   },
   {
