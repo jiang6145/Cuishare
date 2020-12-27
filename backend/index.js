@@ -6,7 +6,7 @@ import connectMongo from 'connect-mongo'
 import cors from 'cors'
 import session from 'express-session'
 
-import routerUser from './routes/users.js'
+import userRouter from './routes/users.js'
 
 dotenv.config()
 mongoose.connect(process.env.DBURL, { useNewUrlParser: true, useUnifiedTopology: true })
@@ -40,12 +40,17 @@ app.use(cors({
 const MongoStore = connectMongo(session)
 
 const sessionSettings = {
+  // 密鑰
   secret: 'cuishare',
+  // session 儲存位置 => 這裡設定為 MongoDB 資料庫
   store: new MongoStore({ mongooseConnection: mongoose.connection }),
+  // 登入有效期限
   cookie: {
     maxAge: 1000 * 60 * 30
   },
+  // 是否保存未被修改的 session
   saveUninitialized: false,
+  // 是否每次請求重設登入有效期限
   rolling: true,
   resave: true
 }
@@ -58,10 +63,17 @@ if (process.env.DEV === 'false') {
 }
 
 app.use(session(sessionSettings))
-app.set('trust proxy', 1) // 部署上 heroku 一定要設定
+
+// 部署上 Heroku 一定要設定, 不然後台在 Heroku 時會無法登入
+app.set('trust proxy', 1)
 
 // Router
-app.use('/users', routerUser)
+app.use('/users', userRouter)
+
+// 處理 bodyParser, cors 之類的 middleware 中間件發生錯誤時的處理
+app.use((_, req, res, next) => {
+  res.status(500).send({ success: false, message: '伺服器錯誤' })
+})
 
 app.listen(process.env.PORT, () => {
   console.log('http://localhost:' + process.env.PORT)
