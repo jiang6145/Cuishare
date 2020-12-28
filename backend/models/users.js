@@ -10,7 +10,7 @@ const userSchema = new Schema(
       required: [true, '請輸入 Email 註冊'],
       unique: true,
       validate: {
-        validator (value) {
+        validator(value) {
           return validator.isEmail(value)
         },
         message: 'Email 格式錯誤'
@@ -32,6 +32,18 @@ const userSchema = new Schema(
     },
     photo: {
       type: String
+    },
+    competence: {
+      type: Number,
+      default: 0
+    },
+    lockdown: {
+      type: Boolean,
+      default: false
+    },
+    delete: {
+      type: Boolean,
+      default: false
     }
   },
   {
