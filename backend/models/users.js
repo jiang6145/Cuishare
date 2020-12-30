@@ -9,6 +9,7 @@ const userSchema = new Schema(
       type: String,
       required: true,
       unique: true,
+      immutable: true,
       validate: {
         validator: value => validator.isEmail(value)
       }
