@@ -2,7 +2,6 @@ import express from 'express'
 
 import {
   createUser,
-  deleteUser,
   loginUser,
   logoutUser,
   heartbeat
@@ -10,7 +9,6 @@ import {
 
 const router = express.Router()
 router.post('/', createUser)
-router.patch('/:id', deleteUser)
 router.post('/login', loginUser)
 router.delete('/logout', logoutUser)
 router.get('/heartbeat', heartbeat)

@@ -1,127 +1,69 @@
 import md5 from 'md5'
 
 import users from '../models/users.js'
+import validate from '../validators/users.js'
 
 // 註冊使用者帳號
-export const createUser = async (req, res) => {
-  if (!req.headers['content-type'] || !req.headers['content-type'].includes('application/json')) {
-    res.status(400).send({ success: false, message: '資料格式不符合' })
-    return
-  }
-
+export const createUser = async (req, res, next) => {
   try {
-    if (req.body.password.length < 6) {
-      res.status(400).send({ success: false, message: '密碼最少需要 6 個字' })
-    } else if (req.body.password.length > 20) {
-      res.status(400).send({ success: false, message: '密碼不能超過 20 個字' })
-    } else {
-      await users.create({
-        account: req.body.account,
-        password: md5(req.body.password),
-        name: req.body.name,
-        about: req.body.about
-      })
+    const { error } = validate(req.body, ['email', 'password', 'username'])
+    if (error) return res.status(400).send({ success: false, message: error.message })
 
-      res.status(200).send({ success: true, message: '' })
-    }
+    const user = await users.findOne({ email: req.body.email }, 'email')
+    if (user) return res.status(400).send({ success: false, message: 'email 已被使用' })
+
+    await users.create({
+      email: req.body.email,
+      password: md5(req.body.password),
+      username: req.body.username
+    })
+    res.status(200).send({ success: true, message: '' })
   } catch (error) {
-    if (error.name === 'ValidationError') {
-      const key = Object.keys(error.errors)[0]
-      const message = error.errors[key].message
-      res.status(400).send({ success: false, message })
-    } else if (error.name === 'MongoError' && error.code === 11000) {
-      res.status(400).send({ success: false, message: 'Email 已被使用' })
-    } else {
-      res.status(500).send({ success: false, message: '伺服器錯誤' })
-    }
-
-    console.log(error)
+    next(error)
   }
 }
 
-// 刪除使用者帳號 (假刪除)
-export const deleteUser = async (req, res) => {
-  if (!req.headers['content-type'] || !req.headers['content-type'].includes('application/json')) {
-    res.status(400).send({ success: false, message: '資料格式不符合' })
-    return
-  }
-
-  if (!req.session.user) {
-    res.status(401).send({ success: false, message: '未登入' })
-    return
-  }
-
+// 使用者登入
+export const loginUser = async (req, res, next) => {
   try {
-    let result = await users.findById(req.params.id)
-    if (result.id !== req.session.user._id) {
-      res.status(403).send({ success: false, message: '沒有權限' })
-    } else {
-      result = await users.findByIdAndUpdate(req.params.id, req.body, { new: true })
+    const { error } = validate(req.body, ['email', 'password'])
+    if (error) return res.status(400).send({ success: false, message: error.message })
 
-      const message = result.delete ? result.account + ' 帳號已刪除' : result.account + ' 帳號已復原'
-      res.status(200).send({ success: true, message })
-    }
-  } catch (error) {
-    if (error.name === 'ValidationError') {
-      const key = Object.keys(error.errors)[0]
-      const message = error.errors[key].message
-      res.status(400).send({ success: false, message })
-    } else if (error.name === 'CastError') {
-      res.status(400).send({ success: false, message: 'ID 格式錯誤' })
-    } else {
-      res.status(500).send({ success: false, message: '伺服器錯誤' })
-    }
-
-    console.log(error)
-  }
-}
-
-// 登入
-export const loginUser = async (req, res) => {
-  if (!req.headers['content-type'] || !req.headers['content-type'].includes('application/json')) {
-    res.status(400).send({ success: false, message: '資料格式不符合' })
-    return
-  }
-
-  try {
-    const result = await users.findOne({
-      account: req.body.account,
+    const user = await users.findOne({
+      email: req.body.email,
       password: md5(req.body.password)
     }, '-password')
+    if (!user) return res.status(400).send({ success: false, message: 'email 或密碼錯誤' })
 
-    if (!result) {
-      res.status(404).send({ success: false, message: '帳號或密碼錯誤' })
-    } else {
-      req.session.user = result
-      res.status(200).send({ success: true, message: '' })
-    }
+    req.session.user = user
+    res.status(200).send({ success: true, message: '', user })
   } catch (error) {
-    if (error.name === 'ValidationError') {
-      const key = Object.keys(error.errors)[0]
-      const message = error.errors[key].message
-      res.status(400).send({ success: false, message })
-    } else {
-      res.status(500).send({ success: false, message: '伺服器錯誤' })
-    }
-
-    console.log(error)
+    next(error)
   }
 }
 
-// 登出
-export const logoutUser = async (req, res) => {
-  req.session.destroy(error => {
-    if (error) {
-      res.status(500).send({ success: false, message: '伺服器錯誤' })
-    } else {
+// 使用者登出
+export const logoutUser = async (req, res, next) => {
+  try {
+    if (!req.session.user) return res.status(500).send({ success: false, message: '未登入' })
+
+    req.session.destroy(error => {
+      if (error) return res.status(500).send({ success: false, message: '登出失敗' })
+
       res.clearCookie()
-      res.status(200).send({ success: true, message: '' })
-    }
-  })
+      res.status(200).send({ success: true, message: '登出成功' })
+    })
+  } catch (error) {
+    next(error)
+  }
 }
 
 // 發出請求避免有效期限自動登出
-export const heartbeat = async (req, res) => {
-  const isLogin = !!req.session.user
-  res.status(200).send(isLogin)
+export const heartbeat = async (req, res, next) => {
+  try {
+    const isLogin = !!req.session.user
+    res.status(200).send(isLogin)
+  } catch (error) {
+    next(error)
+  }
 }

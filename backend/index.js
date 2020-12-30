@@ -6,6 +6,8 @@ import connectMongo from 'connect-mongo'
 import cors from 'cors'
 import session from 'express-session'
 
+import requestFormat from './middlewares/requestFormat.js'
+import errorHandler from './middlewares/errorHandler.js'
 import userRouter from './routes/users.js'
 
 dotenv.config()
@@ -13,11 +15,9 @@ mongoose.connect(process.env.DBURL, { useNewUrlParser: true, useUnifiedTopology:
 
 const app = express()
 
-app.use(bodyParser.json())
-
 // 跨域設定
 app.use(cors({
-  origin (origin, callback) {
+  origin(origin, callback) {
     // 如果是 Postman 之類的後端, 則允許
     if (origin === undefined) {
       callback(null, true)
@@ -61,19 +61,15 @@ if (process.env.DEV === 'false') {
   // 如果是不同網域的認證，一定要設定 secure
   sessionSettings.cookie.secure = true
 }
-
-app.use(session(sessionSettings))
-
 // 部署上 Heroku 一定要設定, 不然後台在 Heroku 時會無法登入
 app.set('trust proxy', 1)
 
+app.use(bodyParser.json())
+app.use(session(sessionSettings))
+app.use(requestFormat) // 自定義 Middleware 驗證 req 是否為 JSON
 // Router
 app.use('/users', userRouter)
-
-// 處理 bodyParser, cors 之類的 middleware 中間件發生錯誤時的處理
-app.use((_, req, res, next) => {
-  res.status(500).send({ success: false, message: '伺服器錯誤' })
-})
+app.use(errorHandler)
 
 app.listen(process.env.PORT, () => {
   console.log('http://localhost:' + process.env.PORT)

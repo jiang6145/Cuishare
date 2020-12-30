@@ -5,45 +5,33 @@ const Schema = mongoose.Schema
 
 const userSchema = new Schema(
   {
-    account: {
+    email: {
       type: String,
-      required: [true, '請輸入 Email 註冊'],
+      required: true,
       unique: true,
       validate: {
-        validator(value) {
-          return validator.isEmail(value)
-        },
-        message: 'Email 格式錯誤'
+        validator: value => validator.isEmail(value)
       }
     },
     password: {
       type: String,
-      required: [true, '請輸入密碼']
+      required: true
     },
-    name: {
+    username: {
       type: String,
-      minlength: [4, '名稱最少需要 4 個字'],
-      maxlength: [20, '名稱不能超過 20 個字'],
-      required: [true, '請輸入名稱']
+      required: true,
+      minlength: 4,
+      maxlength: 30
     },
     about: {
       type: String,
-      maxlength: [300, '關於介紹不能超過 300 個字']
+      maxlength: 255
     },
     photo: {
       type: String
     },
-    competence: {
-      type: Number,
-      default: 0
-    },
-    lockdown: {
-      type: Boolean,
-      default: false
-    },
-    delete: {
-      type: Boolean,
-      default: false
+    isAdmin: {
+      type: Boolean
     }
   },
   {
