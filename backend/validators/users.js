@@ -22,7 +22,7 @@ const validate = (credentials, requiredFields = []) => {
         'string.min': '名稱最少需要 4 個字',
         'string.max': '名稱不能超過 30 個字'
       }),
-    about: Joi.string().trim().max(255)
+    about: Joi.string().trim().allow('').allow(null).max(255)
       .messages({
         'string.max': '關於不能超過 255 個字'
       })

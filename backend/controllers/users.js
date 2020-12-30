@@ -45,7 +45,7 @@ export const loginUser = async (req, res, next) => {
 // 使用者登出
 export const logoutUser = async (req, res, next) => {
   try {
-    if (!req.session.user) return res.status(500).send({ success: false, message: '未登入' })
+    if (!req.session.user) return res.status(401).send({ success: false, message: '未登入' })
 
     req.session.destroy(error => {
       if (error) return res.status(500).send({ success: false, message: '登出失敗' })
@@ -63,6 +63,31 @@ export const heartbeat = async (req, res, next) => {
   try {
     const isLogin = !!req.session.user
     res.status(200).send(isLogin)
+  } catch (error) {
+    next(error)
+  }
+}
+
+// 更新使用者的關於
+export const updateAbout = async (req, res, next) => {
+  try {
+    if (!req.session.user) return res.status(401).send({ success: false, message: '未登入' })
+
+    const key = Object.keys(req.body)[0]
+
+    const { error } = validate(req.body, ['about'])
+    if (error) return res.status(400).send({ success: false, message: error.message })
+
+    const user = await users.findById(req.params.id)
+    if (!user) return res.status(404).send({ success: false, message: '找不到資料' })
+    if (user.id !== req.session.user._id) return res.status(403).send({ success: false, message: '沒有權限' })
+
+    const result = await users.findByIdAndUpdate(
+      req.params.id,
+      { about: req.body.about },
+      { new: true }
+    ).select('about')
+    res.status(200).send({ success: true, message: '', result })
   } catch (error) {
     next(error)
   }
