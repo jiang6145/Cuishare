@@ -35,6 +35,10 @@ export const loginUser = async (req, res, next) => {
     }, '-password')
     if (!user) return res.status(400).send({ success: false, message: 'email 或密碼錯誤' })
 
+    if (req.session.user) {
+      if (user.id === req.session.user._id) return res.status(401).send({ success: false, message: '登入中' })
+    }
+
     req.session.user = user
     res.status(200).send({ success: true, message: '', user })
   } catch (error) {
@@ -58,36 +62,44 @@ export const logoutUser = async (req, res, next) => {
   }
 }
 
-// 發出請求避免有效期限自動登出
-export const heartbeat = async (req, res, next) => {
+// 更新使用者的關於
+export const updateUserInfo = async (req, res, next) => {
   try {
-    const isLogin = !!req.session.user
-    res.status(200).send(isLogin)
+    if (!req.session.user) return res.status(401).send({ success: false, message: '未登入' })
+
+    delete req.body.email
+    const key = Object.keys(req.body)
+    console.log(key)
+
+    const { error } = validate(req.body, key)
+    if (error) return res.status(400).send({ success: false, message: error.message })
+
+    const user = await users.findById(req.params.userId)
+    if (!user) return res.status(404).send({ success: false, message: '找不到資料' })
+    if (user.id !== req.session.user._id) return res.status(403).send({ success: false, message: '沒有權限' })
+    if (req.body.newPassword) {
+      if (md5(req.body.password) !== user.password) return res.status(400).send({ success: false, message: '發生錯誤' })
+
+      req.body.password = md5(req.body.newPassword)
+      delete req.body.newPassword
+    }
+
+    const result = await users.findByIdAndUpdate(
+      req.params.userId,
+      req.body,
+      { new: true }
+    ).select(key)
+    res.status(200).send({ success: true, message: '更改成功', result })
   } catch (error) {
     next(error)
   }
 }
 
-// 更新使用者的關於
-export const updateAbout = async (req, res, next) => {
+// 發出請求避免有效期限自動登出
+export const heartbeat = async (req, res, next) => {
   try {
-    if (!req.session.user) return res.status(401).send({ success: false, message: '未登入' })
-
-    const key = Object.keys(req.body)[0]
-
-    const { error } = validate(req.body, ['about'])
-    if (error) return res.status(400).send({ success: false, message: error.message })
-
-    const user = await users.findById(req.params.id)
-    if (!user) return res.status(404).send({ success: false, message: '找不到資料' })
-    if (user.id !== req.session.user._id) return res.status(403).send({ success: false, message: '沒有權限' })
-
-    const result = await users.findByIdAndUpdate(
-      req.params.id,
-      { about: req.body.about },
-      { new: true }
-    ).select('about')
-    res.status(200).send({ success: true, message: '', result })
+    const isLogin = !!req.session.user
+    res.status(200).send(isLogin)
   } catch (error) {
     next(error)
   }
