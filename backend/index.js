@@ -11,6 +11,7 @@ import errorHandler from './middlewares/errorHandler.js'
 import userRouter from './routes/users.js'
 
 dotenv.config()
+mongoose.set('runValidators', true) // 使 mongoose 在更新資料時也會進行 schema 驗證
 mongoose.connect(process.env.DBURL, { useNewUrlParser: true, useUnifiedTopology: true })
 
 const app = express()
