@@ -15,6 +15,12 @@ const validate = (credentials, requiredFields = []) => {
         'string.empty': '請輸入密碼',
         'string.pattern.base': '合法密碼僅包含數字、英文、最少需要6個字'
       }),
+    newPassword: Joi.string().pattern(/^[a-zA-Z0-9]{6,50}$/)
+      .messages({
+        'any.required': '請輸入新密碼',
+        'string.empty': '請輸入新密碼',
+        'string.pattern.base': '合法密碼僅包含數字、英文、最少需要6個字'
+      }),
     username: Joi.string().trim().min(4).max(30)
       .messages({
         'any.required': '請輸入名稱',

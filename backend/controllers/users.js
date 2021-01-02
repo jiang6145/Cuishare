@@ -62,7 +62,7 @@ export const logoutUser = async (req, res, next) => {
   }
 }
 
-// 更新使用者的關於
+// 更新使用者資料
 export const updateUserInfo = async (req, res, next) => {
   try {
     if (!req.session.user) return res.status(401).send({ success: false, message: '未登入' })
