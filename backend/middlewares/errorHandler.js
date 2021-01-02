@@ -14,6 +14,8 @@ const errorHandler = (error, req, res, next) => {
     return
   }
 
+  if (error.name === 'Error') return res.status(400).send({ success: false, message: error.message })
+
   res.status(500).send({ success: false, message: 'server Error' })
 }
 
