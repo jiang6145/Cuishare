@@ -1,13 +1,10 @@
-<template>
-  <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png" />
-  </div>
+<template lang="pug">
+#home
+  h1 我是#home
 </template>
 
 <script>
-// @ is an alias to /src
 export default {
-  name: 'Home',
-  components: {}
+  name: 'Home'
 }
 </script>
