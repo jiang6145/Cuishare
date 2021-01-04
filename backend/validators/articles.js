@@ -1,5 +1,5 @@
-// import Joi from 'joi'
-import Joi from 'joi-oid'
+import Joi from 'joi'
+// import Joi from 'joi-oid'
 
 const validate = (credentials, requiredFields = []) => {
   // Schema
