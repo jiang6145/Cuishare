@@ -40,7 +40,7 @@ export const loginUser = async (req, res, next) => {
     }
 
     req.session.user = user
-    res.status(200).send({ success: true, message: '', user })
+    res.status(200).send({ success: true, message: '', result: user })
   } catch (error) {
     next(error)
   }
