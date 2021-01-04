@@ -9,6 +9,7 @@ import session from 'express-session'
 import requestFormat from './middlewares/requestFormat.js'
 import errorHandler from './middlewares/errorHandler.js'
 import userRouter from './routes/users.js'
+import articleRouter from './routes/articles.js'
 
 dotenv.config()
 mongoose.set('runValidators', true) // 使 mongoose 在更新資料時也會進行 schema 驗證
@@ -70,6 +71,7 @@ app.use(session(sessionSettings))
 app.use(requestFormat) // 自定義 Middleware 驗證 req 是否為 JSON
 // Router
 app.use('/users', userRouter)
+app.use('/articles', articleRouter)
 app.use(errorHandler)
 
 app.listen(process.env.PORT, () => {
