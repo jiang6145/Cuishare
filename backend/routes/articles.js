@@ -6,8 +6,8 @@ import {
   getArticleAll,
   getAuthorArticles,
   getArticle,
-  editArticle
-  // likeArticle
+  editArticle,
+  likeArticle
 } from '../controllers/articles.js'
 
 const router = express.Router()
@@ -17,6 +17,6 @@ router.get('/', getArticleAll)
 router.get('/author/:authorId', getAuthorArticles)
 router.get('/:articleId', getArticle)
 router.patch('/:articleId', editArticle)
-// router.patch('/likes/:articleId', likeArticle)
+router.patch('/likes/:articleId', likeArticle)
 
 export default router

@@ -30,11 +30,12 @@ const articleSchema = new Schema(
       required: true,
       default: false
     },
-    likes: {
-      type: Number,
-      default: 0,
-      min: 0
-    },
+    likes_userId: [
+      {
+        type: mongoose.ObjectId,
+        ref: 'users'
+      }
+    ],
     favorites: {
       type: Number,
       default: 0,

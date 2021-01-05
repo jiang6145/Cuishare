@@ -13,7 +13,7 @@ import articleRouter from './routes/articles.js'
 
 dotenv.config()
 mongoose.set('runValidators', true) // 使 mongoose 在更新資料時也會進行 schema 驗證
-mongoose.connect(process.env.DBURL, { useNewUrlParser: true, useUnifiedTopology: true })
+mongoose.connect(process.env.DBURL, { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false })
 
 const app = express()
 

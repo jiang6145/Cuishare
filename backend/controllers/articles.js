@@ -94,8 +94,7 @@ export const editArticle = async (req, res, next) => {
     if (!article) return res.status(404).send({ success: false, message: '找不到文章' })
     if (!article.author_id.equals(req.session.user._id)) return res.status(403).send({ success: false, message: '沒有權限' })
 
-    const result = await articles.findByIdAndUpdate(
-      req.params.articleId,
+    const result = await articles.findByIdAndUpdate(req.params.articleId,
       req.body,
       { new: true }
     ).select(keys)
@@ -106,17 +105,31 @@ export const editArticle = async (req, res, next) => {
 }
 
 // 文章案讚更新
-// export const likeArticle = async (req, res, next) => {
-//   try {
-//     if (!req.session.user) return res.status(401).send({ success: false, message: '未登入' })
+export const likeArticle = async (req, res, next) => {
+  try {
+    if (!req.session.user) return res.status(401).send({ success: false, message: '未登入' })
 
-//     // const { error } = validate(req.body, ['likes'])
-//     // if (error) return res.status(400).send({ success: false, message: error.message })
+    const article = await articles.findById(req.params.articleId)
+    if (!article) return res.status(404).send({ success: false, message: '找不到文章' })
+    if (article.author_id.equals(req.session.user._id)) return res.status(403).send({ success: false, message: '沒有權限' })
 
-//     const article = await articles.findById(req.params.articleId)
-//     if (!article) return res.status(404).send({ success: false, message: '找不到文章' })
-//     if (article.author_id.equals(req.session.user._id)) return res.status(403).send({ success: false, message: '沒有權限' })
-//   } catch (error) {
-//     next(error)
-//   }
-// }
+    const isLiked = article.likes_userId.includes(req.session.user._id)
+    if (!isLiked) {
+      const result = await articles.findByIdAndUpdate(req.params.articleId, {
+        $push: { likes_userId: req.session.user._id }
+      }, { new: true })
+
+      res.status(200).send({ success: true, message: '按讚', result })
+    } else {
+      const result = await articles.findByIdAndUpdate(req.params.articleId, {
+        $pull: { likes_userId: req.session.user._id }
+      }, { new: true })
+
+      res.status(200).send({ success: true, message: '收回讚', result })
+    }
+  } catch (error) {
+    next(error)
+  }
+}
+
+// 文章收藏
