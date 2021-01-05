@@ -1,4 +1,5 @@
 import articles from '../models/articles.js'
+import users from '../models/users.js'
 import validate from '../validators/articles.js'
 
 // 創建文章
@@ -133,3 +134,38 @@ export const likeArticle = async (req, res, next) => {
 }
 
 // 文章收藏
+export const favoriteArticle = async (req, res, next) => {
+  try {
+    if (!req.session.user) return res.status(401).send({ success: false, message: '未登入' })
+
+    const article = await articles.findById(req.params.articleId)
+    if (!article) return res.status(404).send({ success: false, message: '找不到文章' })
+    if (article.author_id.equals(req.session.user._id)) return res.status(403).send({ success: false, message: '沒有權限' })
+
+    const isFavorited = article.favorites_userId.includes(req.session.user._id)
+
+    if (!isFavorited) {
+      const result = await articles.findByIdAndUpdate(req.params.articleId, {
+        $push: { favorites_userId: req.session.user._id }
+      }, { new: true })
+
+      await users.findByIdAndUpdate(req.session.user._id, {
+        $push: { favorites_articleId: req.params.articleId }
+      }, { new: true })
+
+      res.status(200).send({ success: true, message: '收藏文章', result })
+    } else {
+      const result = await articles.findByIdAndUpdate(req.params.articleId, {
+        $pull: { favorites_userId: req.session.user._id }
+      }, { new: true })
+
+      await users.findByIdAndUpdate(req.session.user._id, {
+        $pull: { favorites_articleId: req.params.articleId }
+      }, { new: true })
+
+      res.status(200).send({ success: true, message: '取消收藏', result })
+    }
+  } catch (error) {
+    next(error)
+  }
+}

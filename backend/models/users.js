@@ -34,7 +34,13 @@ const userSchema = new Schema(
     isAdmin: {
       type: Boolean,
       default: false
-    }
+    },
+    favorites_articleId: [
+      {
+        type: mongoose.ObjectId,
+        ref: 'articles'
+      }
+    ]
   },
   {
     versionKey: false

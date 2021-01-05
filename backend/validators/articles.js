@@ -12,8 +12,6 @@ const validate = (credentials, requiredFields = []) => {
     content: Joi.string(),
     createDate: Joi.date(),
     isPublish: Joi.boolean(),
-    likes: Joi.number().min(0),
-    favorites: Joi.number().min(0),
     tags: Joi.array().items(Joi.string())
   })
 

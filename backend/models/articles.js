@@ -36,11 +36,12 @@ const articleSchema = new Schema(
         ref: 'users'
       }
     ],
-    favorites: {
-      type: Number,
-      default: 0,
-      min: 0
-    },
+    favorites_userId: [
+      {
+        type: mongoose.ObjectId,
+        ref: 'users'
+      }
+    ],
     tags: {
       type: [String]
     }
