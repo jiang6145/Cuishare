@@ -67,11 +67,10 @@ export const updateUserInfo = async (req, res, next) => {
   try {
     if (!req.session.user) return res.status(401).send({ success: false, message: '未登入' })
 
-    delete req.body.email
-    const key = Object.keys(req.body)
-    console.log(key)
+    const keys = Object.keys(req.body)
+    if (keys.includes('email')) return res.status(400).send({ success: false, message: '錯誤的更新' })
 
-    const { error } = validate(req.body, key)
+    const { error } = validate(req.body, keys)
     if (error) return res.status(400).send({ success: false, message: error.message })
 
     const user = await users.findById(req.params.userId)
@@ -88,7 +87,7 @@ export const updateUserInfo = async (req, res, next) => {
       req.params.userId,
       req.body,
       { new: true }
-    ).select(key)
+    ).select(keys)
     res.status(200).send({ success: true, message: '更改成功', result })
   } catch (error) {
     next(error)
