@@ -30,6 +30,9 @@ const articleSchema = new Schema(
       required: true,
       default: false
     },
+    tags: {
+      type: [String]
+    },
     likes_userId: [
       {
         type: mongoose.ObjectId,
@@ -42,9 +45,12 @@ const articleSchema = new Schema(
         ref: 'users'
       }
     ],
-    tags: {
-      type: [String]
-    }
+    comments_id: [
+      {
+        type: mongoose.ObjectId,
+        ref: 'comments'
+      }
+    ]
   },
   {
     versionKey: false

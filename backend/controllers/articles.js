@@ -6,7 +6,7 @@ import validate from '../validators/articles.js'
 export const createArticle = async (req, res, next) => {
   try {
     const { error } = validate(req.body, ['title', 'content', 'isPublish'])
-    if (error) return res.status(400).send({ success: false, message: `JoiError: ${error.message}` })
+    if (error) return res.status(400).send({ success: false, message: error.message })
 
     if (!req.session.user) return res.status(401).send({ success: false, message: '未登入' })
 
