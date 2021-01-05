@@ -30,7 +30,6 @@
     "express": "^4.17.1",
     "express-session": "^1.17.1",
     "joi": "^17.3.0",
-    "joi-oid": "^1.1.2",
     "md5": "^2.3.0",
     "mongoose": "^5.11.8",
     "validator": "^13.5.2"

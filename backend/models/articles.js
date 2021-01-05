@@ -17,23 +17,25 @@ const articleSchema = new Schema(
     author_id: {
       type: mongoose.ObjectId,
       ref: 'users',
-      required: true
+      required: true,
+      immutable: true
     },
-    date: {
+    createDate: {
       type: Date,
       required: true,
-      default: new Date()
+      default: Date.now
     },
-    isPost: {
+    isPublish: {
       type: Boolean,
-      required: true
+      required: true,
+      default: false
     },
-    like: {
+    likes: {
       type: Number,
       default: 0,
       min: 0
     },
-    favorite: {
+    favorites: {
       type: Number,
       default: 0,
       min: 0

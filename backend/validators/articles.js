@@ -1,5 +1,4 @@
 import Joi from 'joi'
-// import Joi from 'joi-oid'
 
 const validate = (credentials, requiredFields = []) => {
   // Schema
@@ -11,11 +10,10 @@ const validate = (credentials, requiredFields = []) => {
         'string.max': '文章標題不能超過 50 個字'
       }),
     content: Joi.string(),
-    // author: Joi.objectId(),
-    date: Joi.date(),
-    isPost: Joi.boolean(),
-    like: Joi.number().min(0),
-    favorite: Joi.number().min(0),
+    createDate: Joi.date(),
+    isPublish: Joi.boolean(),
+    likes: Joi.number().min(0),
+    favorites: Joi.number().min(0),
     tags: Joi.array().items(Joi.string())
   })
 

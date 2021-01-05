@@ -4,7 +4,7 @@ import validate from '../validators/articles.js'
 // 創建文章
 export const createArticle = async (req, res, next) => {
   try {
-    const { error } = validate(req.body, ['title', 'content', 'isPost'])
+    const { error } = validate(req.body, ['title', 'content', 'isPublish'])
     if (error) return res.status(400).send({ success: false, message: `JoiError: ${error.message}` })
 
     if (!req.session.user) return res.status(401).send({ success: false, message: '未登入' })
@@ -36,7 +36,9 @@ export const deleteArticle = async (req, res, next) => {
 // 取得全部已發佈的文章
 export const getArticleAll = async (req, res, next) => {
   try {
-    const result = await articles.find({ isPost: true }).populate('author_id', ['username', 'photo'])
+    const result = await articles.find({ isPublish: true })
+      .populate('author_id', ['username', 'photo'])
+      .sort('-createDate')
     if (result.length === 0) return res.status(404).send({ success: false, message: '找不到文章' })
 
     res.status(200).send({ success: true, message: '', result })
@@ -50,8 +52,9 @@ export const getAuthorArticles = async (req, res, next) => {
   try {
     const result = await articles.find({
       author_id: req.params.authorId,
-      isPost: true
+      isPublish: true
     }).populate('author_id', ['username', 'photo'])
+      .sort('-createDate')
 
     if (result.length === 0) return res.status(404).send({ success: false, message: '找不到文章' })
     res.status(200).send({ success: true, message: '', result })
@@ -65,7 +68,7 @@ export const getArticle = async (req, res, next) => {
   try {
     const result = await articles.findOne({
       _id: req.params.articleId,
-      isPost: true
+      isPublish: true
     }).populate('author_id', ['username', 'photo'])
 
     if (!result) return res.status(404).send({ success: false, message: '找不到文章' })
@@ -74,3 +77,46 @@ export const getArticle = async (req, res, next) => {
     next(error)
   }
 }
+
+// 更新編輯文章
+export const editArticle = async (req, res, next) => {
+  try {
+    if (!req.session.user) return res.status(401).send({ success: false, message: '未登入' })
+
+    const excludeKeys = ['author_id', 'createDate', 'likes', 'favorites']
+    const keys = Object.keys(req.body)
+    if (keys.some((value) => excludeKeys.includes(value))) return res.status(400).send({ success: false, message: '錯誤的更新' })
+
+    const { error } = validate(req.body, keys)
+    if (error) return res.status(400).send({ success: false, message: error.message })
+
+    const article = await articles.findById(req.params.articleId)
+    if (!article) return res.status(404).send({ success: false, message: '找不到文章' })
+    if (!article.author_id.equals(req.session.user._id)) return res.status(403).send({ success: false, message: '沒有權限' })
+
+    const result = await articles.findByIdAndUpdate(
+      req.params.articleId,
+      req.body,
+      { new: true }
+    ).select(keys)
+    res.status(200).send({ success: true, message: '更改成功', result })
+  } catch (error) {
+    next(error)
+  }
+}
+
+// 文章案讚更新
+// export const likeArticle = async (req, res, next) => {
+//   try {
+//     if (!req.session.user) return res.status(401).send({ success: false, message: '未登入' })
+
+//     // const { error } = validate(req.body, ['likes'])
+//     // if (error) return res.status(400).send({ success: false, message: error.message })
+
+//     const article = await articles.findById(req.params.articleId)
+//     if (!article) return res.status(404).send({ success: false, message: '找不到文章' })
+//     if (article.author_id.equals(req.session.user._id)) return res.status(403).send({ success: false, message: '沒有權限' })
+//   } catch (error) {
+//     next(error)
+//   }
+// }
