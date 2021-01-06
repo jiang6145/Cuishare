@@ -10,20 +10,14 @@ const articleSchema = new Schema(
       trim: true,
       maxlength: 50
     },
-    content: {
+    text: {
       type: String,
       required: true
     },
-    author_id: {
-      type: mongoose.ObjectId,
-      ref: 'users',
-      required: true,
-      immutable: true
-    },
     createDate: {
       type: Date,
-      required: true,
-      default: Date.now
+      default: Date.now,
+      immutable: true
     },
     isPublish: {
       type: Boolean,
@@ -33,22 +27,22 @@ const articleSchema = new Schema(
     tags: {
       type: [String]
     },
-    likes_userId: [
+    author: {
+      type: mongoose.ObjectId,
+      ref: 'users',
+      required: true,
+      immutable: true
+    },
+    likes: [
       {
         type: mongoose.ObjectId,
         ref: 'users'
       }
     ],
-    favorites_userId: [
+    favorites: [
       {
         type: mongoose.ObjectId,
         ref: 'users'
-      }
-    ],
-    comments_id: [
-      {
-        type: mongoose.ObjectId,
-        ref: 'comments'
       }
     ]
   },

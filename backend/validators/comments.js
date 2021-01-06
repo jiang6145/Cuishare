@@ -2,8 +2,8 @@ import Joi from 'joi'
 
 const validate = (credentials, requiredFields = []) => {
   // Schema
-  let userSchema = Joi.object({
-    content: Joi.string().trim().max(1024)
+  let commentSchema = Joi.object({
+    text: Joi.string().trim().max(1024)
       .messages({
         'any.required': '請輸入留言內容',
         'string.empty': '請輸入留言內容',
@@ -11,9 +11,9 @@ const validate = (credentials, requiredFields = []) => {
       })
   })
 
-  userSchema = userSchema.fork(requiredFields, field => field.required())
+  commentSchema = commentSchema.fork(requiredFields, field => field.required())
 
-  return userSchema.validate(credentials)
+  return commentSchema.validate(credentials)
 }
 
 export default validate

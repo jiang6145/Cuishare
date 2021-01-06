@@ -6,7 +6,6 @@ import connectMongo from 'connect-mongo'
 import cors from 'cors'
 import session from 'express-session'
 
-import requestFormat from './middlewares/requestFormat.js'
 import errorHandler from './middlewares/errorHandler.js'
 import userRouter from './routes/users.js'
 import articleRouter from './routes/articles.js'
@@ -69,7 +68,7 @@ app.set('trust proxy', 1)
 
 app.use(bodyParser.json())
 app.use(session(sessionSettings))
-app.use(requestFormat) // 自定義 Middleware 驗證 req 是否為 JSON
+
 // Router
 app.use('/users', userRouter)
 app.use('/articles', articleRouter)

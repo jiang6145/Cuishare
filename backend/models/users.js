@@ -24,21 +24,33 @@ const userSchema = new Schema(
       minlength: 4,
       maxlength: 30
     },
+    photoUrl: {
+      type: String
+    },
     about: {
       type: String,
       maxlength: 255
     },
-    photo: {
-      type: String
-    },
     isAdmin: {
       type: Boolean,
-      default: false
+      default: false,
+      immutable: true
     },
-    favorites_articleId: [
+    createDate: {
+      type: Date,
+      default: Date.now,
+      immutable: true
+    },
+    following: [
       {
         type: mongoose.ObjectId,
-        ref: 'articles'
+        ref: 'users'
+      }
+    ],
+    followers: [
+      {
+        type: mongoose.ObjectId,
+        ref: 'users'
       }
     ]
   },

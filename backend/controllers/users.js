@@ -17,7 +17,7 @@ export const createUser = async (req, res, next) => {
       password: md5(req.body.password),
       username: req.body.username
     })
-    res.status(200).send({ success: true, message: '' })
+    res.status(200).send({ success: true, message: '註冊成功' })
   } catch (error) {
     next(error)
   }
@@ -89,6 +89,45 @@ export const updateUserInfo = async (req, res, next) => {
       { new: true }
     ).select(keys)
     res.status(200).send({ success: true, message: '更改成功', result })
+  } catch (error) {
+    next(error)
+  }
+}
+
+// 關注其他使用者
+export const followUser = async (req, res, next) => {
+  try {
+    if (!req.session.user) return res.status(401).send({ success: false, message: '未登入' })
+
+    const user = await users.findById(req.session.user._id)
+    const followedUser = await users.findById(req.params.userId)
+    if (!followedUser || !user) return res.status(404).send({ success: false, message: '找不到資料' })
+
+    const isfollowing = user.following.includes(req.params.userId)
+
+    if (!isfollowing) {
+      // 對方的 followers $push 自己的 id
+      await users.findByIdAndUpdate(req.params.userId,
+        { $push: { followers: user._id } }
+      )
+
+      // 自己的 following $push 對方的 id
+      const result = await users.findByIdAndUpdate(req.session.user._id,
+        { $push: { following: followedUser._id } },
+        { new: true }
+      )
+      return res.status(200).send({ success: true, message: '追蹤中', result })
+    } else {
+      await users.findByIdAndUpdate(req.params.userId,
+        { $pull: { followers: user._id } }
+      )
+
+      const result = await users.findByIdAndUpdate(req.session.user._id,
+        { $pull: { following: followedUser._id } },
+        { new: true }
+      )
+      return res.status(200).send({ success: true, message: '取消追蹤', result })
+    }
   } catch (error) {
     next(error)
   }

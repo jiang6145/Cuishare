@@ -1,4 +1,5 @@
 import express from 'express'
+import jsonType from '../middlewares/jsonType.js'
 
 import {
   createArticle,
@@ -12,12 +13,12 @@ import {
 } from '../controllers/articles.js'
 
 const router = express.Router()
-router.post('/', createArticle)
+router.post('/', jsonType, createArticle)
 router.delete('/:articleId', deleteArticle)
+router.patch('/:articleId', jsonType, editArticle)
 router.get('/', getArticleAll)
 router.get('/author/:authorId', getAuthorArticles)
 router.get('/:articleId', getArticle)
-router.patch('/:articleId', editArticle)
 router.patch('/likes/:articleId', likeArticle)
 router.patch('/favorites/:articleId', favoriteArticle)
 

@@ -1,4 +1,4 @@
-const requestFormat = (req, res, next) => {
+const jsonType = (req, res, next) => {
   if (!req.headers['content-type'] || !req.headers['content-type'].includes('application/json')) {
     res.status(400).send({ success: false, message: '資料格式不符合' })
     return
@@ -7,4 +7,4 @@ const requestFormat = (req, res, next) => {
   next()
 }
 
-export default requestFormat
+export default jsonType

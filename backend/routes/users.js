@@ -1,18 +1,21 @@
 import express from 'express'
 
+import jsonType from '../middlewares/jsonType.js'
 import {
   createUser,
   loginUser,
   logoutUser,
-  heartbeat,
-  updateUserInfo
+  updateUserInfo,
+  followUser,
+  heartbeat
 } from '../controllers/users.js'
 
 const router = express.Router()
-router.post('/', createUser)
-router.post('/login', loginUser)
+router.post('/', jsonType, createUser)
+router.post('/login', jsonType, loginUser)
 router.delete('/logout', logoutUser)
+router.patch('/:userId', jsonType, updateUserInfo)
+router.patch('/follow/:userId', followUser)
 router.get('/heartbeat', heartbeat)
-router.patch('/:userId', updateUserInfo)
 
 export default router

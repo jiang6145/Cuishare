@@ -4,7 +4,7 @@ const Schema = mongoose.Schema
 
 const commentSchema = new Schema(
   {
-    content: {
+    text: {
       type: String,
       required: true,
       trim: true,
@@ -15,18 +15,24 @@ const commentSchema = new Schema(
       required: true,
       default: Date.now
     },
-    user_id: {
+    byUser: {
       type: mongoose.ObjectId,
       ref: 'users',
       required: true,
       immutable: true
     },
-    article_id: {
+    byArticle: {
       type: mongoose.ObjectId,
       ref: 'articles',
       required: true,
       immutable: true
-    }
+    },
+    likes: [
+      {
+        type: mongoose.ObjectId,
+        ref: 'users'
+      }
+    ]
   },
   {
     versionKey: false
