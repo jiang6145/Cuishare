@@ -5,10 +5,10 @@ import validate from '../validators/comments.js'
 // 在指定文章中新增留言
 export const cerateComment = async (req, res, next) => {
   try {
+    if (!req.session.user) return res.status(401).send({ success: false, message: '未登入' })
+
     const { error } = validate(req.body, ['text'])
     if (error) return res.status(400).send({ success: false, message: error.message })
-
-    if (!req.session.user) return res.status(401).send({ success: false, message: '未登入' })
 
     const article = articles.findById(req.params.articleId)
     if (!article) return res.status(404).send({ success: false, message: '找不到文章' })
@@ -34,10 +34,12 @@ export const deleteComment = async (req, res, next) => {
     if (!req.session.user) return res.status(401).send({ success: false, message: '未登入' })
 
     const comment = await comments.findById(req.params.commentId).populate('byArticle', 'author')
+
+    console.log(comment.byArticle.author.equals(req.session.user._id))
     if (!comment) return res.status(404).send({ success: false, message: '找不到留言' })
 
     const isCommentUser = comment.byUser.equals(req.session.user._id)
-    const isArticleAuthor = comment.byArticle._id.equals(req.session.user._id)
+    const isArticleAuthor = comment.byArticle.author.equals(req.session.user._id)
     if (!isCommentUser && !isArticleAuthor) return res.status(403).send({ success: false, message: '沒有權限' })
 
     const result = await comments.findByIdAndDelete(req.params.commentId)
@@ -88,6 +90,52 @@ export const likeComment = async (req, res, next) => {
 
       res.status(200).send({ success: true, message: '收回讚', result })
     }
+  } catch (error) {
+    next(error)
+  }
+}
+
+// 回覆留言的訊息
+export const addReply = async (req, res, next) => {
+  try {
+    if (!req.session.user) return res.status(401).send({ success: false, message: '未登入' })
+
+    const { error } = validate(req.body, ['text'])
+    if (error) return res.status(400).send({ success: false, message: error.message })
+
+    const comment = comments.findById(req.params.commentId)
+    if (!comment) return res.status(404).send({ success: false, message: '找不到留言' })
+
+    const result = await comments.findByIdAndUpdate(req.params.commentId,
+      {
+        $push: {
+          replies: {
+            text: req.body.text,
+            byUser: req.session.user._id
+          }
+        }
+      },
+      { new: true }
+    )
+
+    res.status(200).send({ success: true, message: '回覆留言', result })
+  } catch (error) {
+    next(error)
+  }
+}
+
+// 刪除留言的回覆
+export const removeReply = async (req, res, next) => {
+  try {
+    if (!req.session.user) return res.status(401).send({ success: false, message: '未登入' })
+
+    const comment = await comments.findOne({ 'replies._id': req.params.replyId }).select('replies')
+    console.log(comment)
+    if (!comment) return res.status(404).send({ success: false, message: '找不到留言' })
+
+    const isCommentUser = comment.byUser.equals(req.session.user._id)
+    const isArticleAuthor = comment.byArticle._id.equals(req.session.user._id)
+    if (!isCommentUser && !isArticleAuthor) return res.status(403).send({ success: false, message: '沒有權限' })
   } catch (error) {
     next(error)
   }

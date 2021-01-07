@@ -32,6 +32,19 @@ const commentSchema = new Schema(
         type: mongoose.ObjectId,
         ref: 'users'
       }
+    ],
+    replies: [
+      {
+        text: {
+          type: String,
+          maxlength: 1024,
+          trim: true
+        },
+        byUser: {
+          type: mongoose.ObjectId,
+          ref: 'users'
+        }
+      }
     ]
   },
   {

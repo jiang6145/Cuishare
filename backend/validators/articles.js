@@ -3,12 +3,11 @@ import Joi from 'joi'
 const validate = (credentials, requiredFields = []) => {
   // Schema
   let articleSchema = Joi.object({
-    title: Joi.string().trim().max(50)
-      .messages({
-        'any.required': '請輸入文章標題',
-        'string.empty': '請輸入文章標題',
-        'string.max': '文章標題不能超過 50 個字'
-      }),
+    title: Joi.string().trim().max(50).messages({
+      'any.required': '請輸入文章標題',
+      'string.empty': '請輸入文章標題',
+      'string.max': '文章標題不能超過 50 個字'
+    }),
     text: Joi.string(),
     createDate: Joi.date(),
     isPublish: Joi.boolean(),

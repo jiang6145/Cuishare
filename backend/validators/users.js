@@ -3,7 +3,8 @@ import Joi from 'joi'
 const validate = (credentials, requiredFields = []) => {
   // Schema
   let userSchema = Joi.object({
-    email: Joi.string().email({ minDomainSegments: 2, tlds: { allow: ['com', 'net'] } })
+    email: Joi.string()
+      .email({ minDomainSegments: 2, tlds: { allow: ['com', 'net'] } })
       .messages({
         'any.required': '請輸入 email',
         'string.empty': '請輸入 email',
