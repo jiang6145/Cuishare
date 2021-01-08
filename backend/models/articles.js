@@ -31,6 +31,10 @@ const articleSchema = new Schema(
       type: Boolean,
       default: false
     },
+    category: {
+      type: mongoose.ObjectId,
+      ref: 'users'
+    },
     tags: {
       type: [String]
     },

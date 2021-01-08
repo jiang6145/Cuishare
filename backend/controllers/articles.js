@@ -10,6 +10,7 @@ export const createArticle = async (req, res, next) => {
     if (error) return res.status(400).send({ success: false, message: error.message })
 
     req.body.author = req.session.user._id
+
     const result = await articles.create(req.body)
     res.status(200).send({ success: true, message: '', result })
   } catch (error) {
@@ -41,7 +42,7 @@ export const editArticle = async (req, res, next) => {
   try {
     if (!req.session.user) return res.status(401).send({ success: false, message: '未登入' })
 
-    const excludeKeys = ['author', 'createDate', 'likes', 'favorites']
+    const excludeKeys = ['author', 'createDate', 'likes', 'favorites', 'category']
     const keys = Object.keys(req.body)
     if (keys.some((value) => excludeKeys.includes(value))) return res.status(400).send({ success: false, message: '錯誤的更新' })
 
@@ -49,7 +50,6 @@ export const editArticle = async (req, res, next) => {
     if (error) return res.status(400).send({ success: false, message: error.message })
 
     const article = await articles.findById(req.params.articleId)
-    console.log(article)
     if (!article) return res.status(404).send({ success: false, message: '找不到文章' })
     if (!article.author.equals(req.session.user._id)) return res.status(403).send({ success: false, message: '沒有權限' })
 
@@ -58,6 +58,24 @@ export const editArticle = async (req, res, next) => {
       { new: true }
     ).populate('author', ['username', 'photoUrl'])
     res.status(200).send({ success: true, message: '更改成功', result })
+  } catch (error) {
+    next(error)
+  }
+}
+
+// 更新文章類別
+export const editArticleCategory = async (req, res, next) => {
+  try {
+    if (!req.session.user) return res.status(401).send({ success: false, message: '未登入' })
+
+    const article = await articles.findById(req.params.articleId)
+    if (!article) return res.status(404).send({ success: false, message: '找不到文章' })
+    if (!article.author.equals(req.session.user._id)) return res.status(403).send({ success: false, message: '沒有權限' })
+
+    article.category = req.params.categoryId
+    article.save()
+
+    res.status(200).send({ success: true, message: '更改成功', article })
   } catch (error) {
     next(error)
   }
