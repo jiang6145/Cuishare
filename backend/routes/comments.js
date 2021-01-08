@@ -15,7 +15,7 @@ router.post('/:articleId', jsonType, cerateComment)
 router.delete('/:commentId', deleteComment)
 router.get('/:articleId', getComments)
 router.patch('/likes/:commentId', likeComment)
-router.patch('/reply/:commentId', jsonType, addReply)
-router.patch('/reply/:commentId/:replyId', jsonType, removeReply)
+router.post('/reply/:commentId', jsonType, addReply)
+router.delete('/reply/:replyId', removeReply)
 
 export default router

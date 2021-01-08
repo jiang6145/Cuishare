@@ -10,17 +10,18 @@ export const cerateComment = async (req, res, next) => {
     const { error } = validate(req.body, ['text'])
     if (error) return res.status(400).send({ success: false, message: error.message })
 
-    const article = articles.findById(req.params.articleId)
+    const article = await articles.findById(req.params.articleId)
     if (!article) return res.status(404).send({ success: false, message: '找不到文章' })
 
     req.body.byUser = req.session.user._id
-    req.body.byArticle = req.params.articleId
+    req.body.byArticle = article._id
+    req.body.articleAuthor = article.author
 
-    let result = await comments.create(req.body)
-    result = await result
-      .populate('byUser', ['username', 'photoUrl'])
-      .populate('byArticle')
-      .execPopulate()
+    const result = await comments.create(req.body)
+    // result = await result
+    //   .populate('byUser', ['username', 'photoUrl'])
+    //   .populate('byArticle')
+    //   .execPopulate()
 
     res.status(200).send({ success: true, message: '留言', result })
   } catch (error) {
@@ -33,13 +34,11 @@ export const deleteComment = async (req, res, next) => {
   try {
     if (!req.session.user) return res.status(401).send({ success: false, message: '未登入' })
 
-    const comment = await comments.findById(req.params.commentId).populate('byArticle', 'author')
-
-    console.log(comment.byArticle.author.equals(req.session.user._id))
+    const comment = await comments.findById(req.params.commentId)
     if (!comment) return res.status(404).send({ success: false, message: '找不到留言' })
 
     const isCommentUser = comment.byUser.equals(req.session.user._id)
-    const isArticleAuthor = comment.byArticle.author.equals(req.session.user._id)
+    const isArticleAuthor = comment.articleAuthor.equals(req.session.user._id)
     if (!isCommentUser && !isArticleAuthor) return res.status(403).send({ success: false, message: '沒有權限' })
 
     const result = await comments.findByIdAndDelete(req.params.commentId)
@@ -73,7 +72,6 @@ export const likeComment = async (req, res, next) => {
     const comment = await comments.findById(req.params.commentId)
     if (!comment) return res.status(404).send({ success: false, message: '找不到留言' })
 
-    console.log(comment)
     const isLiked = comment.likes.includes(req.session.user._id)
     if (!isLiked) {
       const result = await comments.findByIdAndUpdate(req.params.commentId,
@@ -129,13 +127,26 @@ export const removeReply = async (req, res, next) => {
   try {
     if (!req.session.user) return res.status(401).send({ success: false, message: '未登入' })
 
-    const comment = await comments.findOne({ 'replies._id': req.params.replyId }).select('replies')
-    console.log(comment)
+    const comment = await comments.findOne({ 'replies._id': req.params.replyId })
+    const reply = comment.replies.id(req.params.replyId)
     if (!comment) return res.status(404).send({ success: false, message: '找不到留言' })
 
     const isCommentUser = comment.byUser.equals(req.session.user._id)
-    const isArticleAuthor = comment.byArticle._id.equals(req.session.user._id)
-    if (!isCommentUser && !isArticleAuthor) return res.status(403).send({ success: false, message: '沒有權限' })
+    const isArticleAuthor = comment.articleAuthor.equals(req.session.user._id)
+    const isReplyUser = reply._id.equals(req.session.user._id)
+    if (!isCommentUser && !isArticleAuthor && !isReplyUser) return res.status(403).send({ success: false, message: '沒有權限' })
+
+    const result = await comments.findOneAndUpdate({ 'replies._id': req.params.replyId },
+      {
+        $pull: {
+          replies: {
+            _id: req.params.replyId
+          }
+        }
+      },
+      { new: true }
+    )
+    res.status(200).send({ success: true, message: '刪除回復訊息', result })
   } catch (error) {
     next(error)
   }

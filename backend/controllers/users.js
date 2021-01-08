@@ -12,11 +12,15 @@ export const createUser = async (req, res, next) => {
     const user = await users.findOne({ email: req.body.email }, 'email')
     if (user) return res.status(400).send({ success: false, message: 'email 已被使用' })
 
-    await users.create({
+    // req.body.articleCategory => 預設使用者文章類別
+    const newUser = await users.create({
       email: req.body.email,
       password: md5(req.body.password),
       username: req.body.username
     })
+    newUser.articleCategory.push({ categoryName: 'All' })
+    newUser.save()
+
     res.status(200).send({ success: true, message: '註冊成功' })
   } catch (error) {
     next(error)
@@ -132,6 +136,15 @@ export const followUser = async (req, res, next) => {
     }
   } catch (error) {
     next(error)
+  }
+}
+
+// 增加使用者的文章類別
+export const addArticleCategory = async (req, res, next) => {
+  try {
+
+  } catch (error) {
+
   }
 }
 

@@ -49,6 +49,7 @@ export const editArticle = async (req, res, next) => {
     if (error) return res.status(400).send({ success: false, message: error.message })
 
     const article = await articles.findById(req.params.articleId)
+    console.log(article)
     if (!article) return res.status(404).send({ success: false, message: '找不到文章' })
     if (!article.author.equals(req.session.user._id)) return res.status(403).send({ success: false, message: '沒有權限' })
 

@@ -55,7 +55,10 @@ const userSchema = new Schema(
         type: mongoose.ObjectId,
         ref: 'users'
       }
-    ]
+    ],
+    articleCategory: [{
+      categoryName: String
+    }]
   },
   {
     versionKey: false
