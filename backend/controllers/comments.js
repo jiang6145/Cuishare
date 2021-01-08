@@ -136,7 +136,8 @@ export const removeReply = async (req, res, next) => {
     const isReplyUser = reply._id.equals(req.session.user._id)
     if (!isCommentUser && !isArticleAuthor && !isReplyUser) return res.status(403).send({ success: false, message: '沒有權限' })
 
-    const result = await comments.findOneAndUpdate({ 'replies._id': req.params.replyId },
+    const result = await comments.findOneAndUpdate(
+      { 'replies._id': req.params.replyId },
       {
         $pull: {
           replies: {
