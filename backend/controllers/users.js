@@ -12,14 +12,11 @@ export const createUser = async (req, res, next) => {
     const user = await users.findOne({ email: req.body.email }, 'email')
     if (user) return res.status(400).send({ success: false, message: 'email 已被使用' })
 
-    // req.body.articleCategory => 預設使用者文章類別
-    const newUser = await users.create({
+    await users.create({
       email: req.body.email,
       password: md5(req.body.password),
       username: req.body.username
     })
-    newUser.articleCategory.push({ categoryName: 'All' })
-    newUser.save()
 
     res.status(200).send({ success: true, message: '註冊成功' })
   } catch (error) {
@@ -142,9 +139,87 @@ export const followUser = async (req, res, next) => {
 // 增加使用者的文章類別
 export const addArticleCategory = async (req, res, next) => {
   try {
+    if (!req.session.user) return res.status(401).send({ success: false, message: '未登入' })
 
+    const user = await users.findById(req.params.userId)
+    if (!user) return res.status(404).send({ success: false, message: '找不到資料' })
+    if (user.id !== req.session.user._id) return res.status(403).send({ success: false, message: '沒有權限' })
+
+    for (const item of user.articleCategory) {
+      if (item.categoryName === req.body.categoryName) {
+        return res.status(400).send({ success: false, message: '已有此文章類別' })
+      }
+    }
+
+    const result = await users.findByIdAndUpdate(req.params.userId,
+      {
+        $push: {
+          articleCategory: {
+            categoryName: req.body.categoryName
+          }
+        }
+      },
+      { new: true }
+    )
+    return res.status(200).send({ success: true, message: '新增文章類別', result })
   } catch (error) {
+    next(error)
+  }
+}
 
+// 刪除使用者的文章類別
+export const removeArticleCategory = async (req, res, next) => {
+  try {
+    if (!req.session.user) return res.status(401).send({ success: false, message: '未登入' })
+
+    const user = await users.findOne({ 'articleCategory._id': req.params.categoryId })
+    if (!user) return res.status(404).send({ success: false, message: '找不到資料' })
+    if (user.id !== req.session.user._id) return res.status(403).send({ success: false, message: '沒有權限' })
+
+    // const categoryName = user.articleCategory.id(req.params.categoryId).categoryName
+    // if (categoryName === 'All') return res.status(400).send({ success: false, message: '預設類別請勿刪除' })
+
+    const result = await users.findOneAndUpdate(
+      { 'articleCategory._id': req.params.categoryId },
+      {
+        $pull: {
+          articleCategory: {
+            _id: req.params.categoryId
+          }
+        }
+      },
+      { new: true }
+    )
+    return res.status(200).send({ success: true, message: '刪除文章類別', result })
+  } catch (error) {
+    next(error)
+  }
+}
+
+// 更新使用者的文章類別
+export const updateArticleCategory = async (req, res, next) => {
+  try {
+    if (!req.session.user) return res.status(401).send({ success: false, message: '未登入' })
+
+    const user = await users.findOne({ 'articleCategory._id': req.params.categoryId })
+    if (!user) return res.status(404).send({ success: false, message: '找不到資料' })
+    if (user.id !== req.session.user._id) return res.status(403).send({ success: false, message: '沒有權限' })
+
+    // const categoryName = user.articleCategory.id(req.params.categoryId).categoryName
+    // if (categoryName === 'All') return res.status(400).send({ success: false, message: '預設類別請勿變更' })
+
+    const result = await users.findOneAndUpdate(
+      { 'articleCategory._id': req.params.categoryId },
+      {
+        $set: {
+          'articleCategory.$.categoryName': req.body.categoryName
+        }
+      },
+      { new: true }
+    )
+    return res.status(200).send({ success: true, message: '更新文章類別', result })
+  } catch (error) {
+    next(error)
   }
 }
 
