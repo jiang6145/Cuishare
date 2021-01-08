@@ -35,9 +35,7 @@ export const loginUser = async (req, res, next) => {
     }, '-password')
     if (!user) return res.status(400).send({ success: false, message: 'email 或密碼錯誤' })
 
-    if (req.session.user) {
-      if (user.id === req.session.user._id) return res.status(401).send({ success: false, message: '登入中' })
-    }
+    if (req.session.user && user.id === req.session.user._id) return res.status(401).send({ success: false, message: '登入中' })
 
     req.session.user = user
     res.status(200).send({ success: true, message: '', result: user })
@@ -67,8 +65,10 @@ export const updateUserInfo = async (req, res, next) => {
   try {
     if (!req.session.user) return res.status(401).send({ success: false, message: '未登入' })
 
+    // 禁止使用者更新不該更新的資料
+    const excludeKeys = ['email', 'createDate', 'following', 'followers']
     const keys = Object.keys(req.body)
-    if (keys.includes('email')) return res.status(400).send({ success: false, message: '錯誤的更新' })
+    if (keys.some((value) => excludeKeys.includes(value))) return res.status(400).send({ success: false, message: '錯誤的更新' })
 
     const { error } = validate(req.body, keys)
     if (error) return res.status(400).send({ success: false, message: error.message })
@@ -76,6 +76,8 @@ export const updateUserInfo = async (req, res, next) => {
     const user = await users.findById(req.params.userId)
     if (!user) return res.status(404).send({ success: false, message: '找不到資料' })
     if (user.id !== req.session.user._id) return res.status(403).send({ success: false, message: '沒有權限' })
+
+    // 更改密碼先驗證原密碼
     if (req.body.newPassword) {
       if (md5(req.body.password) !== user.password) return res.status(400).send({ success: false, message: '發生錯誤' })
 
