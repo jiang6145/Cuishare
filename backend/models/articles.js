@@ -14,6 +14,9 @@ const articleSchema = new Schema(
       type: String,
       required: true
     },
+    coverPhotoUrl: {
+      type: String
+    },
     createDate: {
       type: Date,
       default: Date.now,
@@ -22,6 +25,10 @@ const articleSchema = new Schema(
     isPublish: {
       type: Boolean,
       required: true,
+      default: false
+    },
+    isBlocked: {
+      type: Boolean,
       default: false
     },
     tags: {
