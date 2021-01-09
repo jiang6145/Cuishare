@@ -69,7 +69,7 @@ export const updateUserInfo = async (req, res, next) => {
     // 禁止使用者更新不該更新的資料
     const excludeKeys = ['email', 'createDate', 'following', 'followers', 'articleCategory']
     const keys = Object.keys(req.body)
-    if (keys.some((value) => excludeKeys.includes(value))) return res.status(400).send({ success: false, message: '錯誤的更新' })
+    if (keys.some((value) => excludeKeys.includes(value))) return res.status(400).send({ success: false, message: '無法更新使用者' })
 
     const { error } = validate(req.body, keys)
     if (error) return res.status(400).send({ success: false, message: error.message })
