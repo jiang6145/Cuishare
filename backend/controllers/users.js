@@ -79,8 +79,8 @@ export const updateUserInfo = async (req, res, next) => {
     if (user.id !== req.session.user._id) return res.status(403).send({ success: false, message: '沒有權限' })
 
     // 更改密碼先驗證原密碼
-    if (req.body.newPassword) {
-      if (md5(req.body.password) !== user.password) return res.status(400).send({ success: false, message: '發生錯誤' })
+    if (req.body.newPassword || req.body.password) {
+      if (md5(req.body.password) !== user.password || !req.body.newPassword) return res.status(400).send({ success: false, message: '無法更新使用者' })
 
       req.body.password = md5(req.body.newPassword)
       delete req.body.newPassword
