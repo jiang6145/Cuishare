@@ -67,7 +67,7 @@ export const updateUserInfo = async (req, res, next) => {
     if (!req.session.user) return res.status(401).send({ success: false, message: '未登入' })
 
     // 禁止使用者更新不該更新的資料
-    const excludeKeys = ['email', 'createDate', 'following', 'followers']
+    const excludeKeys = ['email', 'createDate', 'following', 'followers', 'articleCategory']
     const keys = Object.keys(req.body)
     if (keys.some((value) => excludeKeys.includes(value))) return res.status(400).send({ success: false, message: '錯誤的更新' })
 
@@ -197,7 +197,7 @@ export const removeArticleCategory = async (req, res, next) => {
 }
 
 // 更新使用者的文章類別
-export const updateArticleCategory = async (req, res, next) => {
+export const changeArticleCategoryName = async (req, res, next) => {
   try {
     if (!req.session.user) return res.status(401).send({ success: false, message: '未登入' })
 

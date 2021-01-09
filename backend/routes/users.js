@@ -10,7 +10,7 @@ import {
   heartbeat,
   addArticleCategory,
   removeArticleCategory,
-  updateArticleCategory
+  changeArticleCategoryName
 } from '../controllers/users.js'
 
 const router = express.Router()
@@ -22,6 +22,6 @@ router.patch('/follow/:userId', followUser)
 router.get('/heartbeat', heartbeat)
 router.post('/category/:userId', jsonType, addArticleCategory)
 router.delete('/category/:categoryId', removeArticleCategory)
-router.patch('/category/:categoryId', jsonType, updateArticleCategory)
+router.patch('/category/:categoryId', jsonType, changeArticleCategoryName)
 
 export default router

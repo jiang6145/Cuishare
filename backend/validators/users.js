@@ -32,7 +32,9 @@ const validate = (credentials, requiredFields = []) => {
     about: Joi.string().trim().allow('').allow(null).max(255)
       .messages({
         'string.max': '關於不能超過 255 個字'
-      })
+      }),
+    isAdmin: Joi.boolean(),
+    isBlocked: Joi.boolean()
   })
 
   // 設定 required 選項

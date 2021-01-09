@@ -49,7 +49,7 @@ export const deleteComment = async (req, res, next) => {
 }
 
 // 取得指定文章的所有留言
-export const getComments = async (req, res, next) => {
+export const getArticleComments = async (req, res, next) => {
   try {
     const result = await comments.find({ byArticle: req.params.articleId })
       .populate('byUser', ['username', 'photoUrl'])

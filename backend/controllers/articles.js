@@ -64,7 +64,7 @@ export const editArticle = async (req, res, next) => {
 }
 
 // 更新文章類別
-export const editArticleCategory = async (req, res, next) => {
+export const changeArticleCategory = async (req, res, next) => {
   try {
     if (!req.session.user) return res.status(401).send({ success: false, message: '未登入' })
 
