@@ -1,5 +1,9 @@
 // utils
 @import 'base/variables';
 
+// base
+@import 'base/reset';
+
 // components
 @import 'components/navbar';
+@import 'components/loginModal';
