@@ -54,8 +54,7 @@ extend('alphaNum', {
 })
 
 extend('emailUnique', {
-  validate: async (value, otherValue) => {
-    console.log(otherValue)
+  validate: async (value) => {
     try {
       const res = await axios.get(process.env.VUE_APP_API + '/users/' + value)
       return res.data.success
