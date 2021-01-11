@@ -1,6 +1,6 @@
 <template lang="pug">
   b-modal#loginModal(centered no-close-on-backdrop hide-footer hide-header)
-    button.close(type='button' aria-label='Close' @click="$bvModal.hide('loginModal')") ×
+    button.close(type='button' aria-label='Close' @click="hideModal") ×
 
     .title
       h2 Cuishare
@@ -8,21 +8,27 @@
     ValidationObserver(v-slot='{ handleSubmit }' ref="loginForm" tag="div")
       b-form#loginForm(@submit.prevent="handleSubmit(onSubmit)")
         //- User Name
-        ValidationProvider(v-if="!isLoginForm" rules="required|min:4|max:30" v-slot="{ errors, valid }" name="username" tag="div")
+        ValidationProvider(
+          v-if="!isLoginForm"
+          rules="required|min:4|max:30"
+          v-slot="{ errors, valid, dirty }"
+          name="username"
+          tag="div"
+        )
           b-form-group(for="username")
             b-form-input(
               name="username"
               type="text"
               v-model="form.username"
               placeholder="用戶名稱 (可以更改)"
-              :state="errors[0] ? false : (valid ? true : null)"
+              :state="validState(errors, valid, dirty)"
             )
             p.error-message {{ errors[0] }}
 
         //- Email
         ValidationProvider(
           :rules="'required|email'+ `${!isLoginForm ? '|emailUnique' : ''}`"
-          v-slot="{ errors, valid }"
+          v-slot="{ errors, valid, dirty }"
           name="email"
           vid="email"
           tag="div"
@@ -33,14 +39,14 @@
               type="text"
               v-model="form.email"
               placeholder="Email"
-              :state="errors[0] ? false : (valid ? true : null)"
+              :state="validState(errors, valid, dirty)"
             )
             p.error-message {{ errors[0] }}
 
         //- Password
         ValidationProvider(
           rules="required|alphaNum|min:6|max:30"
-          v-slot="{ errors, valid }"
+          v-slot="{ errors, valid, dirty }"
           name="password"
           ref="password"
           tag="div"
@@ -50,7 +56,7 @@
               type="password"
               v-model="form.password"
               placeholder="密碼"
-              :state="errors[0] ? false : (valid ? true : null)"
+              :state="validState(errors, valid, dirty)"
             )
             p.error-message {{ errors[0] }}
 
@@ -58,7 +64,7 @@
         ValidationProvider(
           v-if="!isLoginForm"
           rules="required|confirmed:password"
-          v-slot="{ errors, valid }"
+          v-slot="{ errors, valid, dirty }"
           name="confirmPassword"
           tag="div"
         )
@@ -67,7 +73,7 @@
               type="password"
               v-model="form.confirmPassword"
               placeholder="確認密碼"
-              :state="errors[0] ? false : (valid ? true : null)"
+              :state="validState(errors, valid, dirty)"
             )
             p.error-message {{ errors[0] }}
 
@@ -106,6 +112,7 @@ export default {
   },
   methods: {
     async onSubmit () {
+      console.log('送出')
     },
     resetForm () {
       this.form.username = ''
@@ -117,6 +124,15 @@ export default {
     changeForm () {
       this.isLoginForm = !this.isLoginForm
       this.resetForm()
+    },
+    hideModal () {
+      this.$bvModal.hide('loginModal')
+      this.resetForm()
+    },
+    validState (errors, valid, dirty) {
+      if (errors[0] && !valid) return false
+      if (!errors[0] && dirty && valid) return true
+      return null
     }
   }
 }
