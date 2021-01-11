@@ -5,35 +5,42 @@
     .title
       h2 Cuishare
 
-    //- ValidationObserver#loginForm(tag="form" ref="loginForm" @submit.stop.prevent="onSubmit")
     ValidationObserver(v-slot='{ handleSubmit }' ref="loginForm" tag="div")
-      form#loginForm(@submit.prevent="handleSubmit(onSubmit)")
+      b-form#loginForm(@submit.prevent="handleSubmit(onSubmit)")
         //- User Name
-        ValidationProvider(v-if="!isLoginForm" rules="required|min:4|max:30" v-slot="{ errors }" name="username" tag="div")
+        ValidationProvider(v-if="!isLoginForm" rules="required|min:4|max:30" v-slot="{ errors, valid }" name="username" tag="div")
           b-form-group(for="username")
             b-form-input(
               name="username"
               type="text"
               v-model="form.username"
               placeholder="用戶名稱"
+              :state="errors[0] ? false : (valid ? true : null)"
             )
             p.error-message {{ errors[0] }}
 
         //- Email
-        ValidationProvider(rules="required|email" v-slot="{ errors }" name="Email" tag="div")
+        ValidationProvider(
+          :rules="'required|email'+ `${!isLoginForm ? '|emailUnique' : ''}`"
+          v-slot="{ errors, valid }"
+          name="email"
+          vid="email"
+          tag="div"
+        )
           b-form-group(for="email")
             b-form-input(
               name="email"
               type="text"
               v-model="form.email"
               placeholder="Email"
+              :state="errors[0] ? false : (valid ? true : null)"
             )
             p.error-message {{ errors[0] }}
 
         //- Password
         ValidationProvider(
           rules="required|alphaNum|min:6|max:30"
-          v-slot="{ errors }"
+          v-slot="{ errors, valid }"
           name="password"
           ref="password"
           tag="div"
@@ -43,6 +50,7 @@
               type="password"
               v-model="form.password"
               placeholder="密碼"
+              :state="errors[0] ? false : (valid ? true : null)"
             )
             p.error-message {{ errors[0] }}
 
@@ -50,7 +58,7 @@
         ValidationProvider(
           v-if="!isLoginForm"
           rules="required|confirmed:password"
-          v-slot="{ errors }"
+          v-slot="{ errors, valid }"
           name="confirmPassword"
           tag="div"
         )
@@ -59,6 +67,7 @@
               type="password"
               v-model="form.confirmPassword"
               placeholder="確認密碼"
+              :state="errors[0] ? false : (valid ? true : null)"
             )
             p.error-message {{ errors[0] }}
 
@@ -97,15 +106,17 @@ export default {
   },
   methods: {
     async onSubmit () {
-      console.log('送出')
     },
     resetForm () {
+      this.form.username = ''
       this.form.email = ''
       this.form.password = ''
       this.form.confirmPassword = ''
+      this.$refs.loginForm.reset()
     },
     changeForm () {
       this.isLoginForm = !this.isLoginForm
+      this.resetForm()
     }
   }
 }
