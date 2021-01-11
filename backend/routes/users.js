@@ -3,6 +3,7 @@ import express from 'express'
 import jsonType from '../middlewares/jsonType.js'
 import {
   createUser,
+  isEmailRepeat,
   loginUser,
   logoutUser,
   updateUserInfo,
@@ -15,6 +16,7 @@ import {
 
 const router = express.Router()
 router.post('/', jsonType, createUser)
+router.get('/:email', isEmailRepeat)
 router.post('/login', jsonType, loginUser)
 router.delete('/logout', logoutUser)
 router.patch('/:userId', jsonType, updateUserInfo)
