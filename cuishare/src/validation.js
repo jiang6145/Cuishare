@@ -1,4 +1,6 @@
+import axios from 'axios'
 import { extend } from 'vee-validate'
+
 import {
   required,
   email,
@@ -27,6 +29,7 @@ extend('min', {
   ...min,
   message: (fieldName, placeholders) => {
     if (fieldName === 'password') fieldName = '密碼'
+    if (fieldName === 'username') fieldName = '用戶名稱'
     return `${fieldName}不得少於${placeholders.length}個字`
   }
 })
@@ -35,6 +38,7 @@ extend('max', {
   ...max,
   message: (fieldName, placeholders) => {
     if (fieldName === 'password') fieldName = '密碼'
+    if (fieldName === 'username') fieldName = '用戶名稱'
     return `${fieldName}不得超過${placeholders.length}個字`
   }
 })
@@ -47,4 +51,16 @@ extend('confirmed', {
 extend('alphaNum', {
   ...alphaNum,
   message: '密碼僅包含英文字或數字'
+})
+
+extend('emailUnique', {
+  validate: async (value) => {
+    try {
+      const res = await axios.get(process.env.VUE_APP_API + '/users/' + value)
+      return res.data.success
+    } catch (error) {
+      return error.response.data.success
+    }
+  },
+  message: 'email 已被使用過'
 })
