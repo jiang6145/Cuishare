@@ -14,7 +14,7 @@
               name="username"
               type="text"
               v-model="form.username"
-              placeholder="用戶名稱"
+              placeholder="用戶名稱 (可以更改)"
               :state="errors[0] ? false : (valid ? true : null)"
             )
             p.error-message {{ errors[0] }}
@@ -77,7 +77,7 @@
       .text
         p(v-if="isLoginForm") 還沒有帳號嗎?
           a(href="#" @click.prevent="changeForm") 註冊
-        p(v-else) 已有Cuishare帳號
+        p(v-else) 已有Cuishare帳號!
           a(href="#" @click.prevent="changeForm") 登入
 </template>
 
