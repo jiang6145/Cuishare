@@ -9,7 +9,7 @@ import {
   confirmed,
   alpha_num as alphaNum
 } from 'vee-validate/dist/rules'
-// alpha_num, alpha_dash
+
 extend('required', {
   ...required,
   message: (fieldName) => {
@@ -54,7 +54,8 @@ extend('alphaNum', {
 })
 
 extend('emailUnique', {
-  validate: async (value) => {
+  validate: async (value, otherValue) => {
+    console.log(otherValue)
     try {
       const res = await axios.get(process.env.VUE_APP_API + '/users/' + value)
       return res.data.success

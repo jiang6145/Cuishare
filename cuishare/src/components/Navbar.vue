@@ -12,7 +12,7 @@
           b-nav-item(href="#") 常見問題
           b-nav-item(href="#") 註冊會員
 
-      b-button.login-btn(size="sm" v-b-modal="'loginModal'") 登入
+      b-button.login-btn(size="sm" v-b-modal="'registerAndLoginModal'") 登入
 </template>
 
 <script>

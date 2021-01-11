@@ -1,12 +1,12 @@
 <template lang="pug">
-  b-modal#loginModal(centered no-close-on-backdrop hide-footer hide-header)
+  b-modal#registerAndLoginModal(centered no-close-on-backdrop hide-footer hide-header)
     button.close(type='button' aria-label='Close' @click="hideModal") ×
 
     .title
       h2 Cuishare
 
-    ValidationObserver(v-slot='{ handleSubmit }' ref="loginForm" tag="div")
-      b-form#loginForm(@submit.prevent="handleSubmit(onSubmit)")
+    ValidationObserver(v-slot='{ handleSubmit }' ref="registerAndLoginForm" tag="div")
+      b-form#registerAndLoginForm(@submit.prevent="handleSubmit(onSubmit)")
         //- User Name
         ValidationProvider(
           v-if="!isLoginForm"
@@ -89,10 +89,9 @@
 
 <script>
 import { ValidationProvider, ValidationObserver } from 'vee-validate'
-import '../validation.js'
 
 export default {
-  name: 'LoginModal',
+  name: 'RegisterAndLoginModal',
   components: {
     ValidationProvider,
     ValidationObserver
@@ -119,14 +118,14 @@ export default {
       this.form.email = ''
       this.form.password = ''
       this.form.confirmPassword = ''
-      this.$refs.loginForm.reset()
+      this.$refs.registerAndLoginForm.reset()
     },
     changeForm () {
       this.isLoginForm = !this.isLoginForm
       this.resetForm()
     },
     hideModal () {
-      this.$bvModal.hide('loginModal')
+      this.$bvModal.hide('registerAndLoginModal')
       this.resetForm()
     },
     validState (errors, valid, dirty) {

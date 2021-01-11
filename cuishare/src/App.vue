@@ -1,7 +1,7 @@
 <template lang="pug">
 #app
   Navbar
-  LoginModal
+  RegisterAndLoginModal
   router-view
 </template>
 
@@ -11,13 +11,13 @@ import '@/assets/scss/main.scss'
 
 // component
 import Navbar from './components/Navbar'
-import LoginModal from './components/LoginModal'
+import RegisterAndLoginModal from './components/RegisterAndLoginModal'
 
 export default {
   name: 'App',
   components: {
     Navbar,
-    LoginModal
+    RegisterAndLoginModal
   }
 }
 </script>
