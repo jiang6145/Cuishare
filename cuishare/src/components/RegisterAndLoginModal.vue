@@ -96,6 +96,9 @@ export default {
     ValidationProvider,
     ValidationObserver
   },
+  props: {
+    isLoginForm: Boolean
+  },
   data () {
     return {
       form: {
@@ -103,8 +106,7 @@ export default {
         email: '',
         password: '',
         confirmPassword: ''
-      },
-      isLoginForm: true
+      }
     }
   },
   computed: {
@@ -121,7 +123,7 @@ export default {
       this.$refs.registerAndLoginForm.reset()
     },
     changeForm () {
-      this.isLoginForm = !this.isLoginForm
+      this.$emit('changeForm', !this.isLoginForm)
       this.resetForm()
     },
     hideModal () {
