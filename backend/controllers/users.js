@@ -26,7 +26,6 @@ export const createUser = async (req, res, next) => {
 // 註冊帳號時判斷 Email 是否被使用過
 export const isEmailRepeat = async (req, res, next) => {
   try {
-    console.log(req.params.email)
     const user = await users.findOne({ email: req.params.email }, 'email -_id')
 
     if (user) return res.status(400).send({ success: false, message: '' })

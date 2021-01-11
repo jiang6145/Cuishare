@@ -6,20 +6,20 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   state: {
     user: {
-      email: '',
       username: '',
+      photoUrl: '',
       id: ''
     }
   },
   mutations: {
     login (state, data) {
-      state.user.email = data.email
       state.user.username = data.username
+      state.user.photoUrl = data.photoUrl
       state.user.id = data._id
     },
     logout (state) {
-      state.user.email = ''
       state.user.username = ''
+      state.user.photoUrl = ''
       state.user.id = ''
     }
   },

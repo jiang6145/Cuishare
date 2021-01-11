@@ -113,7 +113,32 @@ export default {
   },
   methods: {
     async onSubmit () {
-      console.log('送出')
+      try {
+        if (this.isLoginForm) {
+          const { email, password } = this.$data.form
+          const loginData = {
+            email,
+            password
+          }
+          const res = await this.axios.post(process.env.VUE_APP_API + '/users/login', loginData)
+
+          this.$store.commit('login', res.data.result)
+          return
+        }
+
+        const { username, email, password } = this.$data.form
+        const registerData = {
+          username,
+          email,
+          password
+        }
+        const res = await this.axios.post(process.env.VUE_APP_API + '/users', registerData)
+        console.log(res.data)
+
+        // this.hideModal()
+      } catch (error) {
+        alert(error.response.data.message)
+      }
     },
     resetForm () {
       this.form.username = ''
