@@ -2,12 +2,24 @@
   b-modal#loginModal(centered no-close-on-backdrop hide-footer hide-header)
     button.close(type='button' aria-label='Close' @click="$bvModal.hide('loginModal')") ×
 
-    .text-wrap.text-center
+    .title
       h2 Cuishare
 
     //- ValidationObserver#loginForm(tag="form" ref="loginForm" @submit.stop.prevent="onSubmit")
-    ValidationObserver(v-slot='{ handleSubmit, reset }' ref="loginForm")
-      form#loginForm(@submit.prevent="handleSubmit(onSubmit)" @reset.prevent="reset")
+    ValidationObserver(v-slot='{ handleSubmit }' ref="loginForm" tag="div")
+      form#loginForm(@submit.prevent="handleSubmit(onSubmit)")
+        //- User Name
+        ValidationProvider(v-if="!isLoginForm" rules="required|min:4|max:30" v-slot="{ errors }" name="username" tag="div")
+          b-form-group(for="username")
+            b-form-input(
+              name="username"
+              type="text"
+              v-model="form.username"
+              placeholder="用戶名稱"
+            )
+            p.error-message {{ errors[0] }}
+
+        //- Email
         ValidationProvider(rules="required|email" v-slot="{ errors }" name="Email" tag="div")
           b-form-group(for="email")
             b-form-input(
@@ -18,7 +30,14 @@
             )
             p.error-message {{ errors[0] }}
 
-        ValidationProvider(rules="required|min:6|max:30" v-slot="{ errors }" name="password" tag="div" )
+        //- Password
+        ValidationProvider(
+          rules="required|alphaNum|min:6|max:30"
+          v-slot="{ errors }"
+          name="password"
+          ref="password"
+          tag="div"
+        )
           b-form-group
             b-form-input(
               type="password"
@@ -27,8 +46,30 @@
             )
             p.error-message {{ errors[0] }}
 
-        b-button.w-100(type='submit') 登入
+        //- 確認 Password
+        ValidationProvider(
+          v-if="!isLoginForm"
+          rules="required|confirmed:password"
+          v-slot="{ errors }"
+          name="confirmPassword"
+          tag="div"
+        )
+          b-form-group
+            b-form-input(
+              type="password"
+              v-model="form.confirmPassword"
+              placeholder="確認密碼"
+            )
+            p.error-message {{ errors[0] }}
 
+        b-button.submit-btn(type='submit' v-if="isLoginForm") 登入
+        b-button.submit-btn(type='submit' v-else) 註冊
+
+      .text
+        p(v-if="isLoginForm") 還沒有帳號嗎?
+          a(href="#" @click.prevent="changeForm") 註冊
+        p(v-else) 已有Cuishare帳號
+          a(href="#" @click.prevent="changeForm") 登入
 </template>
 
 <script>
@@ -44,10 +85,15 @@ export default {
   data () {
     return {
       form: {
+        username: '',
         email: '',
-        password: ''
-      }
+        password: '',
+        confirmPassword: ''
+      },
+      isLoginForm: true
     }
+  },
+  computed: {
   },
   methods: {
     async onSubmit () {
@@ -56,6 +102,10 @@ export default {
     resetForm () {
       this.form.email = ''
       this.form.password = ''
+      this.form.confirmPassword = ''
+    },
+    changeForm () {
+      this.isLoginForm = !this.isLoginForm
     }
   }
 }

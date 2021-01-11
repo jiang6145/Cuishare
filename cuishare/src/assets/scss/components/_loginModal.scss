@@ -9,15 +9,23 @@
       font-size: 2.5rem;
     }
 
-    .text-wrap{
+    .title{
       margin-bottom: 3rem;
+      text-align: center;
+    }
+    .text{
+      text-align: center;
+      letter-spacing: 2px;
+      font-size: 0.9rem;
     }
   }
 }
 
 #loginForm{
+  margin-bottom: 2rem;
+
   .form-group{
-    margin-bottom: 2rem;
+    // margin-bottom: 2rem;
   }
 
   .form-control{
@@ -28,9 +36,15 @@
 
   .error-message{
     margin-bottom: 0;
+    height: 0.8rem;
     font-size: 0.8rem;
     letter-spacing: 2px;
     text-align: right;
     color: rgb(216, 22, 22);
+  }
+
+  .submit-btn{
+    width: 100%;
+    border-radius: 5rem;
   }
 }
