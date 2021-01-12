@@ -1,15 +1,19 @@
 <template lang="pug">
-#user-menu
-  b-dropdown(right no-caret)
-    template(#button-content)
-      img.userPhoto(:src="user.photoUrl")
-    b-dropdown-item(href='#') 我的首頁
-    b-dropdown-divider
-    b-dropdown-item(href='#') 寫篇文章
-    b-dropdown-item(href='#') 設定
-    b-dropdown-divider
-    b-dropdown-item(href='#') 關於Cuishare
-    b-dropdown-item(@click="logout") 登出
+#user-nav
+  .search-input
+    b-form-input.mr-sm-2(size='sm' placeholder='Search')
+    b-button.my-2.my-sm-0(size='sm' type='submit') Search
+  .user-menu
+    b-dropdown(right no-caret)
+      template(#button-content)
+        img.userPhoto(:src="user.photoUrl")
+      b-dropdown-item(href='#') 我的首頁
+      b-dropdown-divider
+      b-dropdown-item(href='#') 寫篇文章
+      b-dropdown-item(href='#') 設定
+      b-dropdown-divider
+      b-dropdown-item(href='#') 關於Cuishare
+      b-dropdown-item(@click="logout") 登出
 </template>
 <script>
 export default {
