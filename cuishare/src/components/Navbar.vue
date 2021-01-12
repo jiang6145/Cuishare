@@ -19,6 +19,18 @@
         @click="isLoginModal=true"
       ) 登入
 
+      //- 登入後顯示使用頭像
+      b-dropdown.user-button(v-if="isLogin" right no-caret)
+        template(#button-content)
+          img.userPhoto(:src="user.photoUrl")
+        b-dropdown-item(href='#') 我的首頁
+        b-dropdown-divider
+        b-dropdown-item(href='#') 寫篇文章
+        b-dropdown-item(href='#') 設定
+        b-dropdown-divider
+        b-dropdown-item(href='#') 關於Cuishare
+        b-dropdown-item(href='#') 登出
+
   RegisterAndLoginModal(:isLoginForm="isLoginModal" @changeForm="changeForm")
 </template>
 

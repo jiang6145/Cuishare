@@ -26,7 +26,7 @@ const userSchema = new Schema(
     },
     photoUrl: {
       type: String,
-      default: 'https://ae01.alicdn.com/kf/H4e4028d380bc45b58e7c2abb9fa499d8F.jpg'
+      default: 'https://media.istockphoto.com/vectors/silhouette-default-avatar-man-to-social-user-vector-id860639650'
     },
     about: {
       type: String,
