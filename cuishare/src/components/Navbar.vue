@@ -19,27 +19,20 @@
         @click="isLoginModal=true"
       ) 登入
 
-      //- 登入後顯示使用頭像
-      b-dropdown.user-button(v-if="isLogin" right no-caret)
-        template(#button-content)
-          img.userPhoto(:src="user.photoUrl")
-        b-dropdown-item(href='#') 我的首頁
-        b-dropdown-divider
-        b-dropdown-item(href='#') 寫篇文章
-        b-dropdown-item(href='#') 設定
-        b-dropdown-divider
-        b-dropdown-item(href='#') 關於Cuishare
-        b-dropdown-item(href='#') 登出
+      //- 登入後顯示使用者頭像選單
+      UserMenu(v-else)
 
   RegisterAndLoginModal(:isLoginForm="isLoginModal" @changeForm="changeForm")
 </template>
 
 <script>
 import RegisterAndLoginModal from '../components/RegisterAndLoginModal'
+import UserMenu from '../components/UserMenu'
 export default {
   name: 'Navbar',
   components: {
-    RegisterAndLoginModal
+    RegisterAndLoginModal,
+    UserMenu
   },
   data () {
     return {

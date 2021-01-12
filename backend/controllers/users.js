@@ -59,6 +59,7 @@ export const loginUser = async (req, res, next) => {
 // 使用者登出
 export const logoutUser = async (req, res, next) => {
   try {
+    console.log(req.session.user)
     if (!req.session.user) return res.status(401).send({ success: false, message: '未登入' })
 
     req.session.destroy(error => {
@@ -238,7 +239,7 @@ export const changeArticleCategoryName = async (req, res, next) => {
 export const heartbeat = async (req, res, next) => {
   try {
     const isLogin = !!req.session.user
-    res.status(200).send(isLogin)
+    res.status(200).send({ success: isLogin })
   } catch (error) {
     next(error)
   }
