@@ -10,7 +10,7 @@
         //- User Name
         ValidationProvider(
           v-if="!isLoginForm"
-          rules="required|min:4|max:30"
+          rules="required|min:4|max:30|bannedName"
           v-slot="{ errors, valid, dirty }"
           name="username"
           tag="div"

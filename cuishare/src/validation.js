@@ -64,3 +64,8 @@ extend('emailUnique', {
   },
   message: 'email 已被使用過'
 })
+
+extend('bannedName', {
+  validate: (value) => { return !/Cuishare/i.test(value) },
+  message: '此名稱不能使用'
+})
