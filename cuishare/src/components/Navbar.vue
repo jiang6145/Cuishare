@@ -44,7 +44,7 @@ export default {
       return this.$store.state.user
     },
     isLogin () {
-      return this.user.id
+      return !!this.user.username
     }
   },
   methods: {
