@@ -50,7 +50,7 @@ export const loginUser = async (req, res, next) => {
     if (req.session.user && user.id === req.session.user._id) return res.status(401).send({ success: false, message: '登入中' })
 
     req.session.user = user
-    res.status(200).send({ success: true, message: '', result: user })
+    res.status(200).send({ success: true, message: '登入成功', result: user })
   } catch (error) {
     next(error)
   }

@@ -1,6 +1,6 @@
-#registerAndLoginModal{
+#register-and-login-modal{
   .modal-body{
-    padding: 4rem;
+    padding: 3rem 4rem;
 
     .close{
       position: absolute;
@@ -10,20 +10,23 @@
     }
 
     .title{
-      margin-bottom: 3rem;
+      margin-bottom: 2rem;
       text-align: center;
     }
-    .text{
+    .register-and-login-msg{
       text-align: center;
       letter-spacing: 1px;
       font-size: 0.9rem;
+
+      a{
+        margin-left: 0.5rem;
+      }
     }
   }
 }
 
-#registerAndLoginForm{
-  margin-bottom: 2rem;
-
+#register-and-login-form{
+  margin-bottom: 1rem;
   .form-group{
     // margin-bottom: 2rem;
   }
@@ -34,13 +37,18 @@
     // border-bottom: 1px solid rgba(0,0,0,.2);
   }
 
-  .error-message{
+  .validation-error-msg{
     margin-bottom: 0;
     height: 1rem;
     font-size: 0.8rem;
     letter-spacing: 1px;
     text-align: right;
     color: rgb(216, 22, 22);
+  }
+
+  .res-msg{
+    font-size: 0.9rem;
+    text-align: center;
   }
 
   .submit-btn{

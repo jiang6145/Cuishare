@@ -1,12 +1,12 @@
 <template lang="pug">
-  b-modal#registerAndLoginModal(centered no-close-on-backdrop hide-footer hide-header)
+  b-modal#register-and-login-modal(centered hide-footer hide-header)
     button.close(type='button' aria-label='Close' @click="hideModal") ×
 
     .title
       h2 Cuishare
 
     ValidationObserver(v-slot='{ handleSubmit }' ref="registerAndLoginForm" tag="div")
-      b-form#registerAndLoginForm(@submit.prevent="handleSubmit(onSubmit)")
+      b-form#register-and-login-form(@submit.prevent="handleSubmit(onSubmit)")
         //- User Name
         ValidationProvider(
           v-if="!isLoginForm"
@@ -23,7 +23,7 @@
               placeholder="用戶名稱 (可以更改)"
               :state="validState(errors, valid, dirty)"
             )
-            p.error-message {{ errors[0] }}
+            p.validation-error-msg {{ errors[0] }}
 
         //- Email
         ValidationProvider(
@@ -41,7 +41,7 @@
               placeholder="Email"
               :state="validState(errors, valid, dirty)"
             )
-            p.error-message {{ errors[0] }}
+            p.validation-error-msg {{ errors[0] }}
 
         //- Password
         ValidationProvider(
@@ -58,7 +58,7 @@
               placeholder="密碼"
               :state="validState(errors, valid, dirty)"
             )
-            p.error-message {{ errors[0] }}
+            p.validation-error-msg {{ errors[0] }}
 
         //- 確認 Password
         ValidationProvider(
@@ -75,16 +75,14 @@
               placeholder="確認密碼"
               :state="validState(errors, valid, dirty)"
             )
-            p.error-message {{ errors[0] }}
+            p.validation-error-msg {{ errors[0] }}
 
-        b-button.submit-btn(type='submit' v-if="isLoginForm") 登入
-        b-button.submit-btn(type='submit' v-else) 註冊
+        p.res-msg(:style="{color: isSuccess ? 'green' : 'red'}") {{ resMessage }}
+        b-button.submit-btn(type='submit') {{ isLoginForm ? '登入' : '註冊' }}
 
-      .text
-        p(v-if="isLoginForm") 還沒有帳號嗎?
-          a(href="#" @click.prevent="changeForm") 註冊
-        p(v-else) 已有Cuishare帳號!
-          a(href="#" @click.prevent="changeForm") 登入
+      .register-and-login-msg
+        p {{ isLoginForm ? '還沒有帳號嗎?' : '已有Cuishare帳號!' }}
+          a(href="#" @click.prevent="changeForm") {{ isLoginForm ? '註冊' : '登入' }}
 </template>
 
 <script>
@@ -106,13 +104,14 @@ export default {
         email: '',
         password: '',
         confirmPassword: ''
-      }
+      },
+      resMessage: '',
+      isSuccess: false
     }
-  },
-  computed: {
   },
   methods: {
     async onSubmit () {
+      let message = ''
       try {
         if (this.isLoginForm) {
           const { email, password } = this.$data.form
@@ -122,22 +121,25 @@ export default {
           }
           const res = await this.axios.post(process.env.VUE_APP_API + '/users/login', loginData)
 
+          message = res.data.message
           this.$store.commit('login', res.data.result)
-          return
+        } else {
+          const { username, email, password } = this.$data.form
+          const registerData = {
+            username,
+            email,
+            password
+          }
+          const res = await this.axios.post(process.env.VUE_APP_API + '/users', registerData)
+          message = res.data.message
         }
 
-        const { username, email, password } = this.$data.form
-        const registerData = {
-          username,
-          email,
-          password
-        }
-        const res = await this.axios.post(process.env.VUE_APP_API + '/users', registerData)
-        console.log(res.data)
-
+        this.isSuccess = true
+        this.resMessage = message
         // this.hideModal()
       } catch (error) {
-        alert(error.response.data.message)
+        this.isSuccess = false
+        this.resMessage = error.response.data.message
       }
     },
     resetForm () {
@@ -146,13 +148,14 @@ export default {
       this.form.password = ''
       this.form.confirmPassword = ''
       this.$refs.registerAndLoginForm.reset()
+      this.resMessage = ''
     },
     changeForm () {
       this.$emit('changeForm', !this.isLoginForm)
       this.resetForm()
     },
     hideModal () {
-      this.$bvModal.hide('registerAndLoginModal')
+      this.$bvModal.hide('register-and-login-modal')
       this.resetForm()
     },
     validState (errors, valid, dirty) {
