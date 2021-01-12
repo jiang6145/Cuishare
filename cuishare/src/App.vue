@@ -21,6 +21,13 @@ export default {
       return this.$store.state.user
     }
   },
+  mounted () {
+    this.heartbeat()
+
+    setInterval(() => {
+      this.heartbeat()
+    }, 5000)
+  },
   methods: {
     async heartbeat () {
       try {
@@ -37,13 +44,6 @@ export default {
         if (this.$route.path !== '/') this.$router.push('/')
       }
     }
-  },
-  mounted () {
-    this.heartbeat()
-
-    setInterval(() => {
-      this.heartbeat()
-    }, 5000)
   }
 }
 </script>

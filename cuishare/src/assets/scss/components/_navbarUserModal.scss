@@ -1,22 +1,30 @@
-#register-and-login-modal{
+#navbar-user-modal{
   .modal-body{
     padding: 3rem 4rem;
     @include sm{
       padding: 2rem 1.5rem;
     }
 
-    .close{
+    .close-button{
       position: absolute;
       top: 0.5rem;
       right: 1rem;
-      font-size: 2.5rem;
+      transition: 0.3s;
+      font-size: 2rem;
+      background-color: transparent;
+      border: none;
+      color: rgb(130,130,130);
+
+      &:hover{
+        color: rgb(197, 44, 44);
+      }
     }
 
-    .title{
+    .modal-title{
       margin-bottom: 2rem;
       text-align: center;
     }
-    .register-and-login-msg{
+    .modal-footer-text{
       text-align: center;
       letter-spacing: 1px;
       font-size: 0.9rem;
@@ -40,7 +48,7 @@
     // border-bottom: 1px solid rgba(0,0,0,.2);
   }
 
-  .validation-error-msg{
+  .validation-error-message{
     margin-bottom: 0;
     height: 1rem;
     font-size: 0.9rem;
@@ -49,12 +57,12 @@
     color: rgb(216, 22, 22);
   }
 
-  .res-msg{
+  .res-message{
     font-size: 0.9rem;
     text-align: center;
   }
 
-  .submit-btn{
+  .submit-button{
     width: 100%;
     border-radius: 5rem;
   }

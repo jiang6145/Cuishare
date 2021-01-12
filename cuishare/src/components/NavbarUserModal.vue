@@ -1,8 +1,8 @@
 <template lang="pug">
-  b-modal#register-and-login-modal(centered hide-footer hide-header)
-    button.close(type='button' aria-label='Close' @click="hideModal") ×
+  b-modal#navbar-user-modal(centered hide-footer hide-header)
+    button.close-button(type='button' @click="hideModal") ×
 
-    .title
+    .modal-title
       h2 Cuishare
 
     ValidationObserver(v-slot='{ handleSubmit }' ref="registerAndLoginForm" tag="div")
@@ -23,7 +23,7 @@
               placeholder="用戶名稱 (可以更改)"
               :state="validState(errors, valid, dirty)"
             )
-            p.validation-error-msg {{ errors[0] }}
+            p.validation-error-message {{ errors[0] }}
 
         //- Email
         ValidationProvider(
@@ -41,7 +41,7 @@
               placeholder="Email"
               :state="validState(errors, valid, dirty)"
             )
-            p.validation-error-msg {{ errors[0] }}
+            p.validation-error-message {{ errors[0] }}
 
         //- Password
         ValidationProvider(
@@ -58,7 +58,7 @@
               placeholder="密碼"
               :state="validState(errors, valid, dirty)"
             )
-            p.validation-error-msg {{ errors[0] }}
+            p.validation-error-message {{ errors[0] }}
 
         //- 確認 Password
         ValidationProvider(
@@ -75,12 +75,12 @@
               placeholder="確認密碼"
               :state="validState(errors, valid, dirty)"
             )
-            p.validation-error-msg {{ errors[0] }}
+            p.validation-error-message {{ errors[0] }}
 
-        p.res-msg(:style="{color: isSuccess ? 'green' : 'red'}") {{ resMessage }}
-        b-button.submit-btn(type='submit') {{ isLoginForm ? '登入' : '註冊' }}
+        p.res-message(:style="{color: resMessageColor}") {{ resMessage }}
+        b-button.submit-button(type='submit') {{ isLoginForm ? '登入' : '註冊' }}
 
-      .register-and-login-msg
+      .modal-footer-text
         p {{ isLoginForm ? '還沒有帳號嗎?' : '已有Cuishare帳號!' }}
           a(href="#" @click.prevent="changeForm") {{ isLoginForm ? '註冊' : '登入' }}
 </template>
@@ -89,7 +89,7 @@
 import { ValidationProvider, ValidationObserver } from 'vee-validate'
 
 export default {
-  name: 'RegisterAndLoginModal',
+  name: 'NavbarUserModal',
   components: {
     ValidationProvider,
     ValidationObserver
@@ -106,11 +106,12 @@ export default {
         confirmPassword: ''
       },
       resMessage: '',
-      isSuccess: false
+      resMessageColor: ''
     }
   },
   methods: {
     async onSubmit () {
+      console.log('送出')
       let message = ''
       try {
         if (this.isLoginForm) {
@@ -134,11 +135,11 @@ export default {
           message = res.data.message
         }
 
-        this.isSuccess = true
+        this.resMessageColor = 'green'
         this.resMessage = message
         // this.hideModal()
       } catch (error) {
-        this.isSuccess = false
+        this.resMessageColor = 'red'
         this.resMessage = error.response.data.message
       }
     },
@@ -155,7 +156,7 @@ export default {
       this.resetForm()
     },
     hideModal () {
-      this.$bvModal.hide('register-and-login-modal')
+      this.$bvModal.hide('navbar-user-modal')
       this.resetForm()
     },
     validState (errors, valid, dirty) {

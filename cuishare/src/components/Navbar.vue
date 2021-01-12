@@ -10,29 +10,29 @@
         b-navbar-nav.ml-auto
           b-nav-item(href="#") 關於我們
           b-nav-item(href="#") 常見問題
-          b-nav-item(href="#" v-b-modal="'register-and-login-modal'" @click.prevent="isLoginModal=false") 註冊會員
+          b-nav-item(href="#" v-b-modal="'navbar-user-modal'" @click.prevent="isLoginModal=false") 註冊會員
 
-      b-button.login-btn(
+      b-button.login-button(
         size="sm"
-        v-b-modal="'register-and-login-modal'"
+        v-b-modal="'navbar-user-modal'"
         v-if="!isLogin"
         @click="isLoginModal=true"
       ) 登入
 
       //- 登入後顯示使用者頭像選單
-      UserMenu(v-else)
+      NavbarUserMenu(v-else)
 
-  RegisterAndLoginModal(:isLoginForm="isLoginModal" @changeForm="changeForm")
+  NavbarUserModal(:isLoginForm="isLoginModal" @changeForm="changeForm")
 </template>
 
 <script>
-import RegisterAndLoginModal from '../components/RegisterAndLoginModal'
-import UserMenu from '../components/UserMenu'
+import NavbarUserModal from '../components/NavbarUserModal'
+import NavbarUserMenu from '../components/NavbarUserMenu'
 export default {
   name: 'Navbar',
   components: {
-    RegisterAndLoginModal,
-    UserMenu
+    NavbarUserModal,
+    NavbarUserMenu
   },
   data () {
     return {

@@ -1,5 +1,4 @@
-#user-nav{
-  display: flex;
+#navbar-user-menu{
   .dropdown{
     width: 42px;
     height: 42px;
@@ -14,6 +13,7 @@
       width: 100%;
       border-radius: 50%;
       transition: 0.5s;
+
       &:hover{
         transform: scale(1.15)
       }
