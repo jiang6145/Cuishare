@@ -1,0 +1,32 @@
+#user-menu{
+  .dropdown{
+    width: 42px;
+    height: 42px;
+
+    .dropdown-toggle{
+      padding: 0;
+      overflow: hidden;
+      border-radius: 50%;
+    }
+
+    .userPhoto{
+      width: 100%;
+      border-radius: 50%;
+      transition: 0.5s;
+      &:hover{
+        transform: scale(1.15)
+      }
+    }
+
+    .dropdown-menu {
+      min-width: 230px;
+      border: 1px solid rgb(231, 230, 230);
+      box-shadow: 0 0 5px rgba(0,0,0,0.1);
+
+      .dropdown-item{
+        letter-spacing: 1.4px;
+        line-height: 2rem;
+      }
+    }
+  }
+}
