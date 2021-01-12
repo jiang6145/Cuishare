@@ -4,15 +4,20 @@
     b-container
       b-navbar-brand(href="#") LOGO
 
-      //- RWD 導航列
-      b-navbar-toggle.ml-auto(target="nav-collapse")
-      b-collapse#nav-collapse(is-nav)
+      //- v-if="!isLogin", 未登入時的導航列
+      b-navbar-toggle.ml-auto(target="nav-collapse" v-if="!isLogin")
+      b-collapse#nav-collapse(is-nav v-if="!isLogin")
         b-navbar-nav.ml-auto
           b-nav-item(href="#") 關於我們
           b-nav-item(href="#") 常見問題
           b-nav-item(href="#" v-b-modal="'register-and-login-modal'" @click.prevent="isLoginModal=false") 註冊會員
 
-      b-button.login-btn(size="sm" v-b-modal="'register-and-login-modal'" @click="isLoginModal=true") 登入
+      b-button.login-btn(
+        size="sm"
+        v-b-modal="'register-and-login-modal'"
+        v-if="!isLogin"
+        @click="isLoginModal=true"
+      ) 登入
 
   RegisterAndLoginModal(:isLoginForm="isLoginModal" @changeForm="changeForm")
 </template>
@@ -27,6 +32,14 @@ export default {
   data () {
     return {
       isLoginModal: false
+    }
+  },
+  computed: {
+    user () {
+      return this.$store.state.user
+    },
+    isLogin () {
+      return this.user.id
     }
   },
   methods: {

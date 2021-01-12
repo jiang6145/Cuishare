@@ -25,7 +25,8 @@ const userSchema = new Schema(
       maxlength: 30
     },
     photoUrl: {
-      type: String
+      type: String,
+      default: 'https://ae01.alicdn.com/kf/H4e4028d380bc45b58e7c2abb9fa499d8F.jpg'
     },
     about: {
       type: String,
