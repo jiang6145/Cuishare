@@ -22,6 +22,11 @@
       color: #aaa;
     }
   }
+  .info-wrap{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
 
   .author-wrap{
     cursor: pointer;
@@ -34,6 +39,34 @@
     }
   }
 
+  .icon-wrap{
+    .icon{
+      cursor: pointer;
+      margin-left: 0.6rem;
+      transition: 0.5s;
+      color: #aaa;
+      &:hover{
+        color: #555;
+        transform: scale(1.05);
+      }
+    }
+
+    .checked-like-icon{
+      color: rgb(197, 66, 66);
+      &:hover{
+        color: rgb(197, 44, 44);
+        transform: scale(1.05);
+      }
+    }
+
+    .checked-favorites-icon{
+      color: rgb(246, 248, 112);
+      &:hover{
+        color: rgb(233, 229, 0);
+        transform: scale(1.05);
+      }
+    }
+  }
 
   .right{
     width: 30%;
@@ -43,8 +76,9 @@
     
   .cover-photo{
     cursor: pointer;
-    max-width: 100%;
+    width: 100%;
     transition: .5s;
+    object-fit: cover;
 
     &:hover{
       transform: scale(1.1);
