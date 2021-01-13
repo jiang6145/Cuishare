@@ -2,14 +2,17 @@
 #home
   b-container
     b-row
-      b-col(v-for="(article, index) in articles" :key="article._id")
-        .article
-
+      b-col(cols="12" lg="8" v-for="(article, index) in articles" :key="article._id")
+        HomeArticleItem(:article="article")
 </template>
 
 <script>
+import HomeArticleItem from '../components/HomeArticleItem'
 export default {
   name: 'Home',
+  components: {
+    HomeArticleItem
+  },
   data () {
     return {
       articles: []
@@ -26,6 +29,7 @@ export default {
       const { success, result } = res.data
 
       if (success) this.articles = result.map(article => article)
+      console.log(this.articles[0])
     } catch (error) {
 
     }

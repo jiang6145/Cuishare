@@ -59,8 +59,7 @@ export const loginUser = async (req, res, next) => {
 // 使用者登出
 export const logoutUser = async (req, res, next) => {
   try {
-    console.log(req.session.user)
-    if (!req.session.user) return res.status(401).send({ success: false, message: '未登入' })
+    // if (!req.session.user) return res.status(401).send({ success: false, message: '未登入' })
 
     req.session.destroy(error => {
       if (error) return res.status(500).send({ success: false, message: '登出失敗' })

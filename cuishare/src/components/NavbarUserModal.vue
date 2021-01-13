@@ -111,15 +111,15 @@ export default {
   },
   methods: {
     async onSubmit () {
-      console.log('送出')
       let message = ''
       try {
         if (this.isLoginForm) {
-          const { email, password } = this.$data.form
+          const { email, password } = this.form
           const loginData = {
             email,
             password
           }
+
           const res = await this.axios.post(process.env.VUE_APP_API + '/users/login', loginData)
 
           message = res.data.message

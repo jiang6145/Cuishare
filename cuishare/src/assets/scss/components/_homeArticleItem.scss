@@ -1,0 +1,53 @@
+.article-item{
+  display: flex;
+  align-items: center;
+  margin-bottom: 3rem;
+  // max-height: 200px;
+
+  .left{
+    width: 70%;
+    margin-right: 2rem;
+  }
+  
+  .content-wrap{
+    cursor: pointer;
+    .title{
+      font-size: 1.4rem;
+      font-weight: 900;
+      margin-bottom: 1rem;
+    }
+    
+    .text{
+      font-size: 0.9rem;
+      color: #aaa;
+    }
+  }
+
+  .author-wrap{
+    cursor: pointer;
+
+    .author-name{
+      margin-left: 0.4rem;
+      font-size: 0.8rem;
+      font-weight: 900;
+      vertical-align: middle;
+    }
+  }
+
+
+  .right{
+    width: 30%;
+    overflow: hidden;
+  }
+
+    
+  .cover-photo{
+    cursor: pointer;
+    max-width: 100%;
+    transition: .5s;
+
+    &:hover{
+      transform: scale(1.1);
+    }
+  }
+}
