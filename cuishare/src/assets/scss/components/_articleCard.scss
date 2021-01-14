@@ -80,9 +80,11 @@
     }
 
     .icon-group{
+      width: 5rem;
+      display: flex;
+      justify-content: space-between;
       .icon{
         cursor: pointer;
-        margin-left: 0.6rem;
         transition: 0.5s;
         color: #aaa;
         &:hover{
@@ -107,7 +109,6 @@
         }
       }
     }
-
   }
 
   .right{

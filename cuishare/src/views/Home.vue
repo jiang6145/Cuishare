@@ -31,7 +31,6 @@ export default {
       const { success, result } = res.data
 
       if (success) this.articles = result.map(article => article)
-      // console.log(this.articles)
     } catch (error) {
 
     }

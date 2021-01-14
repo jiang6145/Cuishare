@@ -10,22 +10,25 @@
             b-avatar(:src="article.author.photoUrl" size="sm")
             b-card-text {{ article.author.username }}
           .icon-group
-            font-awesome-icon.icon(
-              :icon="likeIcon"
-              :class="likeIconClass"
-              @click="clikcLike(article)"
-              fixed-width
-            )
-            font-awesome-icon.icon(
-              :icon="favoritesIcon"
-              :class="favoritesIconClass"
-              @click="clikcFavorites(article)"
-              fixed-width
-            )
-            font-awesome-icon.icon(
-              :icon="['far', 'comment-dots']"
-              fixed-width
-            )
+            .icon(v-b-tooltip.hover.bottomleft :title="likeCount")
+              font-awesome-icon(
+                :icon="likeIcon"
+                :class="likeIconClass"
+                @click="clikcLike(article)"
+                fixed-width
+              )
+            .icon(v-b-tooltip.hover.bottomleft :title="favoritesCount")
+              font-awesome-icon(
+                :icon="favoritesIcon"
+                :class="favoritesIconClass"
+                @click="clikcFavorites(article)"
+                fixed-width
+              )
+            .icon(v-b-tooltip.hover.bottomleft title="留言")
+              font-awesome-icon(
+                :icon="['far', 'comment-dots']"
+                fixed-width
+              )
 
       b-col.right(cols="4")
         b-card-img.cover-photo(:src="article.coverPhotoUrl" :img-alt="article.title" @click="toArticle(article)")
@@ -60,6 +63,16 @@ export default {
     },
     favoritesIconClass () {
       return { 'checked-favorites-icon': this.isfavorited }
+    },
+    likeCount () {
+      const length = this.article.likes.length
+      const content = length ? `${length} 人喜歡` : '喜歡文章嗎?'
+      return content
+    },
+    favoritesCount () {
+      const length = this.article.favorites.length
+      const content = length ? `${length} 人收藏` : '收藏文章'
+      return content
     }
   },
   methods: {
