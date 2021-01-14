@@ -2,7 +2,7 @@
 #navbar
   b-navbar(toggleable="sm" type="dark" variant="dark" fixed="true")
     b-container
-      b-navbar-brand(href="#") LOGO
+      b-navbar-brand(href="#" to="/") LOGO
 
       //- v-if="!isLogin", 未登入時的導航列
       b-navbar-toggle.ml-auto(target="nav-collapse" v-if="!isLogin")

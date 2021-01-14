@@ -1,34 +1,34 @@
 <template lang="pug">
-.article-item
-  .left
-    .content-wrap(@click="toArticle(article)")
-      h2.title {{article.title}}
-      p.text {{ article.text }}
+  b-card.article-card(no-body tag="article")
+    b-row(no-gutters)
+      b-col.left(cols="8")
+        b-card-body(:title="article.title" @click="toArticle(article)")
+          p.article-date {{ article.createDate }}
+          b-card-text.article-text {{ article.text }}
+        b-card-footer
+          .author
+            b-avatar(:src="article.author.photoUrl" size="sm")
+            b-card-text {{ article.author.username }}
+          .icon-group
+            font-awesome-icon.icon(
+              :icon="likeIcon"
+              :class="likeIconClass"
+              @click="clikcLike(article)"
+              fixed-width
+            )
+            font-awesome-icon.icon(
+              :icon="favoritesIcon"
+              :class="favoritesIconClass"
+              @click="clikcFavorites(article)"
+              fixed-width
+            )
+            font-awesome-icon.icon(
+              :icon="['far', 'comment-dots']"
+              fixed-width
+            )
 
-    .info-wrap
-      .author-wrap
-        b-avatar(:src="article.author.photoUrl" size="sm")
-        span.author-name {{ article.author.username }}
-      .icon-wrap
-        font-awesome-icon.icon(
-          :icon="likeIcon"
-          :class="likeIconClass"
-          @click="clikcLike(article)"
-          fixed-width
-        )
-        font-awesome-icon.icon(
-          :icon="favoritesIcon"
-          :class="favoritesIconClass"
-          @click="clikcFavorites(article)"
-          fixed-width
-        )
-        font-awesome-icon.icon(
-          :icon="['far', 'comment-dots']"
-          fixed-width
-        )
-
-  .right
-    img.cover-photo(:src="article.coverPhotoUrl")
+      b-col.right(cols="4")
+        b-card-img.cover-photo(:src="article.coverPhotoUrl" :img-alt="article.title" @click="toArticle(article)")
 </template>
 
 <script>
@@ -63,8 +63,8 @@ export default {
     }
   },
   methods: {
-    async toArticle (article) {
-      this.$router.push({ path: '/article', params: article._id })
+    toArticle (article) {
+      this.$router.push({ path: '/article/' + article._id })
     },
     async clikcLike (article) {
       if (!this.user.id) return this.$bvModal.show('navbar-user-modal')

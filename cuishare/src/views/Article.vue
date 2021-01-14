@@ -7,7 +7,7 @@
 export default {
   name: 'Article',
   mounted () {
-    console.log(this.$route.params)
+    console.log(this.$route)
   }
 }
 </script>

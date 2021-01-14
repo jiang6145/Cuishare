@@ -3,15 +3,17 @@
   b-container
     b-row
       b-col(cols="12" lg="8" v-for="(article, index) in articles" :key="article._id")
-        HomeArticleItem(:article="article")
+        ArticleCard(:article="article")
+
 </template>
 
 <script>
-import HomeArticleItem from '../components/HomeArticleItem'
+import ArticleCard from '../components/ArticleCard'
+
 export default {
   name: 'Home',
   components: {
-    HomeArticleItem
+    ArticleCard
   },
   data () {
     return {
