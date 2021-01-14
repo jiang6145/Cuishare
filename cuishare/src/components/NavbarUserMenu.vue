@@ -5,7 +5,7 @@
       img.userPhoto(:src="user.photoUrl")
     b-dropdown-item(href='#') 我的首頁
     b-dropdown-divider
-    b-dropdown-item(href='#') 寫篇文章
+    b-dropdown-item(href='#' to="/new-article") 寫篇文章
     b-dropdown-item(href='#') 設定
     b-dropdown-divider
     b-dropdown-item(href='#') 關於Cuishare
