@@ -15,10 +15,11 @@ module.exports = {
       // CKEditor needs its own plugin to be built using webpack.
       new CKEditorWebpackPlugin({
         // See https://ckeditor.com/docs/ckeditor5/latest/features/ui-language.html
-        language: 'en',
+        language: 'zh',
 
         // Append translations to the file matching the `app` name.
-        translationsOutputFile: /app/
+        translationsOutputFile: /app/,
+        addMainLanguageTranslationsToAllAssets: true
       })
     ]
   },

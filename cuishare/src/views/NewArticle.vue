@@ -5,40 +5,42 @@
 </template>
 
 <script>
-import ClassicEditor from '@ckeditor/ckeditor5-editor-classic/src/classiceditor.js'
+// Ckeditor base editor
+import ClassicEditor from '@ckeditor/ckeditor5-editor-classic/src/classiceditor'
 
-import AutoImage from '@ckeditor/ckeditor5-image/src/autoimage.js'
-import Autoformat from '@ckeditor/ckeditor5-autoformat/src/autoformat.js'
-import Autolink from '@ckeditor/ckeditor5-link/src/autolink.js'
-import Autosave from '@ckeditor/ckeditor5-autosave/src/autosave.js'
-import BlockQuote from '@ckeditor/ckeditor5-block-quote/src/blockquote.js'
-import Bold from '@ckeditor/ckeditor5-basic-styles/src/bold.js'
-import Essentials from '@ckeditor/ckeditor5-essentials/src/essentials.js'
-import Heading from '@ckeditor/ckeditor5-heading/src/heading.js'
-import Highlight from '@ckeditor/ckeditor5-highlight/src/highlight.js'
-import HorizontalLine from '@ckeditor/ckeditor5-horizontal-line/src/horizontalline.js'
-import Image from '@ckeditor/ckeditor5-image/src/image.js'
-import ImageCaption from '@ckeditor/ckeditor5-image/src/imagecaption.js'
-import ImageInsert from '@ckeditor/ckeditor5-image/src/imageinsert.js'
-import ImageResize from '@ckeditor/ckeditor5-image/src/imageresize.js'
-import ImageStyle from '@ckeditor/ckeditor5-image/src/imagestyle.js'
-import ImageToolbar from '@ckeditor/ckeditor5-image/src/imagetoolbar.js'
-import ImageUpload from '@ckeditor/ckeditor5-image/src/imageupload.js'
-import Italic from '@ckeditor/ckeditor5-basic-styles/src/italic.js'
-import Link from '@ckeditor/ckeditor5-link/src/link.js'
-import LinkImage from '@ckeditor/ckeditor5-link/src/linkimage.js'
-import List from '@ckeditor/ckeditor5-list/src/list.js'
-import MediaEmbed from '@ckeditor/ckeditor5-media-embed/src/mediaembed.js'
-import Paragraph from '@ckeditor/ckeditor5-paragraph/src/paragraph.js'
-import PasteFromOffice from '@ckeditor/ckeditor5-paste-from-office/src/pastefromoffice'
-import SimpleUploadAdapter from '@ckeditor/ckeditor5-upload/src/adapters/simpleuploadadapter.js'
-import Strikethrough from '@ckeditor/ckeditor5-basic-styles/src/strikethrough.js'
-import Table from '@ckeditor/ckeditor5-table/src/table.js'
-import TableToolbar from '@ckeditor/ckeditor5-table/src/tabletoolbar.js'
-import TextTransformation from '@ckeditor/ckeditor5-typing/src/texttransformation.js'
-import Title from '@ckeditor/ckeditor5-heading/src/title.js'
-import TodoList from '@ckeditor/ckeditor5-list/src/todolist'
-import WordCount from '@ckeditor/ckeditor5-word-count/src/wordcount.js'
+// Plugins
+import AutoImagePlugin from '@ckeditor/ckeditor5-image/src/autoimage'
+import AutoformatPlugin from '@ckeditor/ckeditor5-autoformat/src/autoformat'
+import AutolinkPlugin from '@ckeditor/ckeditor5-link/src/autolink'
+import AutosavePlugin from '@ckeditor/ckeditor5-autosave/src/autosave'
+import BlockQuotePlugin from '@ckeditor/ckeditor5-block-quote/src/blockquote'
+import BoldPlugin from '@ckeditor/ckeditor5-basic-styles/src/bold'
+import EssentialsPlugin from '@ckeditor/ckeditor5-essentials/src/essentials'
+import HeadingPlugin from '@ckeditor/ckeditor5-heading/src/heading'
+import HighlightPlugin from '@ckeditor/ckeditor5-highlight/src/highlight'
+import HorizontalLinePlugin from '@ckeditor/ckeditor5-horizontal-line/src/horizontalline'
+import ImagePlugin from '@ckeditor/ckeditor5-image/src/image'
+import ImageCaptionPlugin from '@ckeditor/ckeditor5-image/src/imagecaption'
+import ImageInsertPlugin from '@ckeditor/ckeditor5-image/src/imageinsert'
+import ImageResizePlugin from '@ckeditor/ckeditor5-image/src/imageresize'
+import ImageStylePlugin from '@ckeditor/ckeditor5-image/src/imagestyle'
+import ImageToolbarPlugin from '@ckeditor/ckeditor5-image/src/imagetoolbar'
+import ImageUploadPlugin from '@ckeditor/ckeditor5-image/src/imageupload'
+import ItalicPlugin from '@ckeditor/ckeditor5-basic-styles/src/italic'
+import LinkPlugin from '@ckeditor/ckeditor5-link/src/link'
+import LinkImagePlugin from '@ckeditor/ckeditor5-link/src/linkimage'
+import ListPlugin from '@ckeditor/ckeditor5-list/src/list'
+import MediaEmbedPlugin from '@ckeditor/ckeditor5-media-embed/src/mediaembed'
+import ParagraphPlugin from '@ckeditor/ckeditor5-paragraph/src/paragraph'
+import PasteFromOfficePlugin from '@ckeditor/ckeditor5-paste-from-office/src/pastefromoffice'
+import SimpleUploadAdapterPlugin from '@ckeditor/ckeditor5-upload/src/adapters/simpleuploadadapter'
+import StrikethroughPlugin from '@ckeditor/ckeditor5-basic-styles/src/strikethrough'
+import TablePlugin from '@ckeditor/ckeditor5-table/src/table'
+import TableToolbarPlugin from '@ckeditor/ckeditor5-table/src/tabletoolbar'
+import TextTransformationPlugin from '@ckeditor/ckeditor5-typing/src/texttransformation'
+import TitlePlugin from '@ckeditor/ckeditor5-heading/src/title'
+import TodoListPlugin from '@ckeditor/ckeditor5-list/src/todolist'
+import WordCountPlugin from '@ckeditor/ckeditor5-word-count/src/wordcount'
 
 export default {
   name: 'NewArticle',
@@ -48,38 +50,38 @@ export default {
       editorData: '<p>Content of the editor.</p>',
       editorConfig: {
         plugins: [
-          AutoImage,
-          Autoformat,
-          Autolink,
-          Autosave,
-          BlockQuote,
-          Bold,
-          Essentials,
-          Heading,
-          Highlight,
-          HorizontalLine,
-          Image,
-          ImageCaption,
-          ImageInsert,
-          ImageResize,
-          ImageStyle,
-          ImageToolbar,
-          ImageUpload,
-          Italic,
-          Link,
-          LinkImage,
-          List,
-          MediaEmbed,
-          Paragraph,
-          PasteFromOffice,
-          SimpleUploadAdapter,
-          Strikethrough,
-          Table,
-          TableToolbar,
-          TextTransformation,
-          Title,
-          TodoList,
-          WordCount
+          AutoImagePlugin,
+          AutoformatPlugin,
+          AutolinkPlugin,
+          AutosavePlugin,
+          BlockQuotePlugin,
+          BoldPlugin,
+          EssentialsPlugin,
+          HeadingPlugin,
+          HighlightPlugin,
+          HorizontalLinePlugin,
+          ImagePlugin,
+          ImageCaptionPlugin,
+          ImageInsertPlugin,
+          ImageResizePlugin,
+          ImageStylePlugin,
+          ImageToolbarPlugin,
+          ImageUploadPlugin,
+          ItalicPlugin,
+          LinkPlugin,
+          LinkImagePlugin,
+          ListPlugin,
+          MediaEmbedPlugin,
+          ParagraphPlugin,
+          PasteFromOfficePlugin,
+          SimpleUploadAdapterPlugin,
+          StrikethroughPlugin,
+          TablePlugin,
+          TableToolbarPlugin,
+          TextTransformationPlugin,
+          TitlePlugin,
+          TodoListPlugin,
+          WordCountPlugin
         ],
         toolbar: {
           items: [
@@ -105,7 +107,8 @@ export default {
             'undo',
             'redo'
           ]
-        }
+        },
+        language: 'zh'
       }
     }
   }
