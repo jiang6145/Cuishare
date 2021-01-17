@@ -20,9 +20,7 @@ export default {
   methods: {
     initEditor () {
       ClassicEditor
-        .create(document.querySelector('#my-editor'), {
-
-        })
+        .create(document.querySelector('#my-editor'))
         .then(editor => {
           this.editor = editor
           this.editorData = editor.getData()
@@ -37,9 +35,8 @@ export default {
         })
     },
     save () {
-      const Title = this.editor.plugins.get('Title')
-      console.log(Title.getTitle())
-      console.log(this.editorData)
+      // const TitlePlugin = this.editor.plugins.get('Title')
+      // const articleTitle = TitlePlugin.getTitle()
     }
   }
 }

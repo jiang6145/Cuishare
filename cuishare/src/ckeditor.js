@@ -26,7 +26,8 @@ import List from '@ckeditor/ckeditor5-list/src/list'
 import MediaEmbed from '@ckeditor/ckeditor5-media-embed/src/mediaembed'
 import Paragraph from '@ckeditor/ckeditor5-paragraph/src/paragraph'
 import PasteFromOffice from '@ckeditor/ckeditor5-paste-from-office/src/pastefromoffice'
-import SimpleUploadAdapter from '@ckeditor/ckeditor5-upload/src/adapters/simpleuploadadapter'
+// import SimpleUploadAdapter from '@ckeditor/ckeditor5-upload/src/adapters/simpleuploadadapter'
+import Base64UploadAdapter from '@ckeditor/ckeditor5-upload/src/adapters/base64uploadadapter'
 import Strikethrough from '@ckeditor/ckeditor5-basic-styles/src/strikethrough'
 import Table from '@ckeditor/ckeditor5-table/src/table'
 import TableToolbar from '@ckeditor/ckeditor5-table/src/tabletoolbar'
@@ -63,7 +64,8 @@ ClassicEditor.builtinPlugins = [
   MediaEmbed,
   Paragraph,
   PasteFromOffice,
-  SimpleUploadAdapter,
+  // SimpleUploadAdapter,
+  Base64UploadAdapter,
   Strikethrough,
   Table,
   TableToolbar,
@@ -100,16 +102,21 @@ ClassicEditor.defaultConfig = {
       'redo'
     ]
   },
-  title: {
-    placeholder: '輸入文章標題'
-  },
-  placeholder: '寫下你的分享',
   image: {
     toolbar: [
       'imageTextAlternative',
       'imageStyle:full',
       'imageStyle:side'
     ]
+    // upload: {
+    //   imageUploadConfig: {
+    //     types: ['png', 'jpeg']
+    //   }
+    // }
   },
+  title: {
+    placeholder: '輸入文章標題'
+  },
+  placeholder: '寫下你的分享',
   language: 'zh' // This value must be kept in sync with the language defined in webpack.config.js.
 }
