@@ -105,14 +105,12 @@ ClassicEditor.defaultConfig = {
   image: {
     toolbar: [
       'imageTextAlternative',
+      '|',
+      'imageStyle:alignLeft',
       'imageStyle:full',
-      'imageStyle:side'
-    ]
-    // upload: {
-    //   imageUploadConfig: {
-    //     types: ['png', 'jpeg']
-    //   }
-    // }
+      'imageStyle:alignRight'
+    ],
+    styles: ['full', 'alignLeft', 'alignRight']
   },
   title: {
     placeholder: '輸入文章標題'
