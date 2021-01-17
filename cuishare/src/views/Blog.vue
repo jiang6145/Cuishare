@@ -1,18 +1,17 @@
 <template lang="pug">
-#home
+#blog
   b-container
     b-row
-      b-col(cols="12" lg="8")
+      b-col(cols="12")
         ArticleCard(:articles="articles" :iconSize="'lg'")
-      b-col(lg="4")
-        .side
+
 </template>
 
 <script>
 import ArticleCard from '../components/ArticleCard'
 
 export default {
-  name: 'Home',
+  name: 'Blog',
   components: {
     ArticleCard
   },
@@ -21,14 +20,10 @@ export default {
       articles: []
     }
   },
-  computed: {
-    user () {
-      return this.$store.state.user
-    }
-  },
   async mounted () {
     try {
-      const res = await this.axios.get(process.env.VUE_APP_API + '/articles')
+      console.log(this.$route.params.id)
+      const res = await this.axios.get(process.env.VUE_APP_API + '/articles/author/' + this.$route.params.id)
       const { success, result } = res.data
 
       if (success) this.articles = result.map(article => article)
@@ -38,13 +33,3 @@ export default {
   }
 }
 </script>
-
-<style lang="scss">
-.side{
-  background-color: red;
-  height: 100px;
-  position: sticky;
-  top: 1rem;
-  left: 0;
-}
-</style>

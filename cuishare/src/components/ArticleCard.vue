@@ -1,33 +1,43 @@
 <template lang="pug">
-  b-card.article-card(no-body tag="article")
+.article-card
+  b-card(
+    v-for="(article, index) in articles"
+    :key="article._id"
+    tag="article"
+    no-body
+  )
     b-row(no-gutters)
       b-col.left(cols="8")
-        b-card-body(:title="article.title" @click="toArticle(article)")
+        b-card-body(:title="article.title" @click="toArticle(article._id)")
           p.article-date {{ article.createDate }}
           b-card-text.article-text {{ article.text }}
         b-card-footer
-          .author
+          .author(@click="toUserBlog(article.author._id)")
             b-avatar(:src="article.author.photoUrl" size="sm")
             b-card-text {{ article.author.username }}
-          ArticleIcon(:article="article")
+          ArticleIcons(:article="article" :size="iconSize")
       b-col.right(cols="4")
         b-card-img.cover-photo(:src="article.coverPhotoUrl" :img-alt="article.title" @click="toArticle(article)")
 </template>
 
 <script>
-import ArticleIcon from './ArticleIcon'
+import ArticleIcons from './ArticleIcons'
 
 export default {
   name: 'ArticleCard',
   components: {
-    ArticleIcon
+    ArticleIcons
   },
   props: {
-    article: Object
+    articles: Array,
+    iconSize: String
   },
   methods: {
-    toArticle (article) {
-      this.$router.push({ path: '/article/' + article._id })
+    toArticle (articleId) {
+      this.$router.push({ path: '/article/' + articleId })
+    },
+    toUserBlog (userId) {
+      this.$router.push({ path: '/blog/' + userId })
     }
   }
 }

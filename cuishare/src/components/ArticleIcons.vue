@@ -1,5 +1,5 @@
 <template lang="pug">
-.article-icon-group
+.article-icons
   .icon(
     v-b-tooltip.hover.bottomleft
     :title="likeCount"
@@ -35,7 +35,7 @@
 
 <script>
 export default {
-  name: 'ArticleIconGroup',
+  name: 'ArticleIcons',
   props: {
     article: Object,
     size: String

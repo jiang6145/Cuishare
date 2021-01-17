@@ -97,6 +97,7 @@ export const getArticleAll = async (req, res, next) => {
 
 // 取得指定作者的所有已發佈的文章
 export const getAuthorArticles = async (req, res, next) => {
+  console.log(req.params.authorId)
   try {
     const result = await articles.find({
       author: req.params.authorId,

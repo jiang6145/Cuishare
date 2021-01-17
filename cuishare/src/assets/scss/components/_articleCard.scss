@@ -1,7 +1,9 @@
 .article-card{
-  border: none;
-  margin-bottom: 5rem;
-
+  .card{
+    border: none;
+    margin-bottom: 5rem;
+  }
+  
   .left{
     display: flex;
     flex-direction: column;
