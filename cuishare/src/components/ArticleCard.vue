@@ -9,18 +9,18 @@
           .author
             b-avatar(:src="article.author.photoUrl" size="sm")
             b-card-text {{ article.author.username }}
-          ArticleIconGroup(:article="article")
+          ArticleIcon(:article="article")
       b-col.right(cols="4")
         b-card-img.cover-photo(:src="article.coverPhotoUrl" :img-alt="article.title" @click="toArticle(article)")
 </template>
 
 <script>
-import ArticleIconGroup from './ArticleIconGroup'
+import ArticleIcon from './ArticleIcon'
 
 export default {
   name: 'ArticleCard',
   components: {
-    ArticleIconGroup
+    ArticleIcon
   },
   props: {
     article: Object

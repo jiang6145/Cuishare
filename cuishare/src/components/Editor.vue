@@ -1,7 +1,7 @@
 <template lang="pug">
 #editor
   #my-editor
-  b-button(@click="save") save
+  b-button(@click="saveArticle") save
 </template>
 
 <script>
@@ -12,6 +12,11 @@ export default {
     return {
       editor: null,
       editorData: null
+    }
+  },
+  computed: {
+    user () {
+      return this.$store.state.user
     }
   },
   mounted () {
@@ -34,9 +39,22 @@ export default {
           console.log(error)
         })
     },
-    save () {
-      // const TitlePlugin = this.editor.plugins.get('Title')
-      // const articleTitle = TitlePlugin.getTitle()
+    async saveArticle () {
+      const TitlePlugin = this.editor.plugins.get('Title')
+      const articleTitle = TitlePlugin.getTitle()
+
+      try {
+        const data = {
+          title: articleTitle,
+          text: this.editorData,
+          isPublish: true
+        }
+        const res = await this.axios.post(process.env.VUE_APP_API + '/articles', data)
+        alert(res.data.message)
+        // if (this.$route.path !== '/') this.$router.push('/')
+      } catch (error) {
+        alert(error.response.data.message)
+      }
     }
   }
 }

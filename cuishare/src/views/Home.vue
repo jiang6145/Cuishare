@@ -32,7 +32,7 @@ export default {
 
       if (success) this.articles = result.map(article => article)
     } catch (error) {
-
+      alert(error.response.data.message)
     }
   }
 }
