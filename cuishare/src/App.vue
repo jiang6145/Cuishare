@@ -5,10 +5,7 @@
 </template>
 
 <script>
-// style
 import '@/assets/scss/main.scss'
-
-// component
 import Navbar from './components/Navbar'
 
 export default {
