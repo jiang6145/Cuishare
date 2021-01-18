@@ -17,17 +17,20 @@ const routes = [
   {
     path: '/article/:id',
     name: 'Article',
-    component: () => import(/* webpackChunkName: "article" */ '../views/Article.vue')
+    component: () => import(/* webpackChunkName: "article" */ '../views/Article.vue'),
+    meta: { isLogin: false }
   },
   {
     path: '/new-article',
     name: 'NewArticle',
-    component: () => import(/* webpackChunkName: "new-article" */ '../views/NewArticle.vue')
+    component: () => import(/* webpackChunkName: "new-article" */ '../views/NewArticle.vue'),
+    meta: { isLogin: true }
   },
   {
     path: '/blog/:id',
     name: 'Blog',
-    component: () => import(/* webpackChunkName: "blog" */ '../views/Blog.vue')
+    component: () => import(/* webpackChunkName: "blog" */ '../views/Blog.vue'),
+    meta: { isLogin: false }
   }
 ]
 

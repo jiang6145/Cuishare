@@ -42,8 +42,6 @@ export const articleImageUpload = async (req, res, next) => {
 }
 
 export const getArticleImage = async (req, res, next) => {
-  if (!req.session.user) return res.status(401).send({ success: false, message: '未登入' })
-
   // 開發環境回傳本機圖片
   if (process.env.DEV === 'true') {
     // 尋找圖片

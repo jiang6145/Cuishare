@@ -1,6 +1,6 @@
 <template lang="pug">
 #home
-  b-container
+  b-container.main-container
     b-row
       b-col(cols="12" lg="8")
         .article-item(v-for="(article, index) in articles" :key="article._id")

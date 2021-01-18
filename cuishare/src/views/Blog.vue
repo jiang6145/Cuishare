@@ -1,6 +1,6 @@
 <template lang="pug">
 #blog
-  b-container
+  b-container.main-container
     b-row
       b-col.mx-auto(cols="12" lg="7")
         .article-item(v-for="(article, index) in articles" :key="article._id")

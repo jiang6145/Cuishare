@@ -101,6 +101,14 @@
   .left{
     padding-right: 1.6rem;
   }
+
+  .right{
+    max-height: 180px;
+
+    @include sm{
+      max-height: 120px;
+    }
+  }
 }
 
 .article-card.card-vertical{
