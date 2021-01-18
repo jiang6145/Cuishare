@@ -1,11 +1,5 @@
-import multer from 'multer'
-import axios from 'axios'
-import path from 'path'
-import fs from 'fs'
-
 import articles from '../models/articles.js'
 import validate from '../validators/articles.js'
-import { fileStorage, uploadHandler } from '../middlewares/fileStorage.js'
 
 // 創建文章
 export const createArticle = async (req, res, next) => {
@@ -194,70 +188,5 @@ export const favoriteArticle = async (req, res, next) => {
     }
   } catch (error) {
     next(error)
-  }
-}
-
-// 上傳文章圖片
-export const articleImageUpload = async (req, res, next) => {
-  try {
-    if (!req.session.user) return res.status(401).send({ success: false, message: '未登入' })
-    const storage = fileStorage()
-    const upload = uploadHandler(storage)
-
-    upload.single('image')(req, res, async (error) => {
-      console.log(error)
-      if (error instanceof multer.MulterError) {
-        let message = ''
-        if (error.code === 'LIMIT_FILE_SIZE') {
-          message = '檔案太大'
-        } else if (error.code === 'LIMIT_FORMAT') {
-          message = '格式不符'
-        } else {
-          message = '上傳錯誤'
-        }
-
-        return res.status(400).send({ success: false, message })
-      }
-
-      if (error) return res.status(500).send({ success: false, message: '伺服器錯誤' })
-
-      let file = ''
-      if (process.env.DEV === 'true') {
-        file = req.file.filename
-      } else {
-        file = path.basename(req.file.path)
-      }
-
-      console.log(file)
-      return res.status(200).send({ success: true, message: '', file })
-    })
-  } catch (error) {
-    next(error)
-  }
-}
-
-export const getArticleImage = async (req, res, next) => {
-  if (!req.session.user) return res.status(401).send({ success: false, message: '未登入' })
-
-  // 開發環境回傳本機圖片
-  if (process.env.DEV === 'true') {
-    const path = process.cwd() + '/images/' + req.params.imageName
-    const exists = fs.existsSync(path)
-
-    if (exists) {
-      res.status(200).sendFile(path)
-    } else {
-      res.status(404).send({ success: false, message: '找不到圖片' })
-    }
-  } else {
-    axios({
-      method: 'GET',
-      url: 'http://' + process.env.FTP_HOST + '/' + process.env.FTP_USER + '/' + req.params.file,
-      responseType: 'stream'
-    }).then(response => {
-      response.data.pipe(res)
-    }).catch(error => {
-      res.status(error.response.status).send({ success: false, message: '取得圖片失敗' })
-    })
   }
 }

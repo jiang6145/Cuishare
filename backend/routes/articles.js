@@ -11,9 +11,7 @@ import {
   editArticle,
   changeArticleCategory,
   likeArticle,
-  favoriteArticle,
-  articleImageUpload,
-  getArticleImage
+  favoriteArticle
 } from '../controllers/articles.js'
 
 const router = express.Router()
@@ -26,7 +24,5 @@ router.get('/author/:authorId', getAuthorArticles)
 router.get('/:articleId', getArticle)
 router.patch('/likes/:articleId', likeArticle)
 router.patch('/favorites/:articleId', favoriteArticle)
-router.post('/image', formDataType, articleImageUpload)
-router.get('/image/:imageName', getArticleImage)
 
 export default router
