@@ -1,16 +1,14 @@
-#editor{
-  // width: 992px;
-  margin: auto;
+.ck.ck-reset.ck-editor{
 
   .ck-toolbar{
     background-color: #fff;
     border: none;
     border-bottom: 1px solid rgb(221, 221, 221);
   }
-
+  
   .ck-content{
     border:none;
-
+  
     &:focus{
       border: none;
       border-left: 1px solid rgb(221, 221, 221);

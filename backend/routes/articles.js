@@ -1,6 +1,5 @@
 import express from 'express'
 import jsonType from '../middlewares/jsonType.js'
-import formDataType from '../middlewares/formDataType.js'
 
 import {
   createArticle,

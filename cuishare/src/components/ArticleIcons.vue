@@ -98,6 +98,9 @@ export default {
         alert(error.response.data.message)
       }
     }
+  },
+  mounted () {
+    console.log(this.article)
   }
 }
 </script>
