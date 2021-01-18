@@ -1,5 +1,6 @@
 import express from 'express'
 import jsonType from '../middlewares/jsonType.js'
+import formDataType from '../middlewares/formDataType.js'
 
 import {
   createArticle,
@@ -10,7 +11,8 @@ import {
   editArticle,
   changeArticleCategory,
   likeArticle,
-  favoriteArticle
+  favoriteArticle,
+  articleImageUpload
 } from '../controllers/articles.js'
 
 const router = express.Router()
@@ -23,5 +25,6 @@ router.get('/author/:authorId', getAuthorArticles)
 router.get('/:articleId', getArticle)
 router.patch('/likes/:articleId', likeArticle)
 router.patch('/favorites/:articleId', favoriteArticle)
+router.post('/imageUpload', formDataType, articleImageUpload)
 
 export default router
