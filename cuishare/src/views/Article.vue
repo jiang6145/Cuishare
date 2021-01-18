@@ -1,13 +1,20 @@
 <template lang="pug">
 #article
-  h1 文章頁面
+  b-container.editor-container
+
 </template>
 
 <script>
+import Editor from '../components/Editor'
+
 export default {
   name: 'Article',
+  components: {
+    Editor
+  },
   mounted () {
-    console.log(this.$route)
+    console.log(Editor)
+    // console.log(this.$route)
   }
 }
 </script>

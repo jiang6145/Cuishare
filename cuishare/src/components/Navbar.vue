@@ -1,7 +1,7 @@
 <template lang="pug">
 #navbar
   b-navbar(toggleable="sm" type="dark" variant="dark" fixed="true")
-    b-container
+    b-container.main-container
       b-navbar-brand(href="#" to="/") LOGO
 
       //- v-if="!isLogin", 未登入時的導航列

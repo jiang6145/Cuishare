@@ -1,7 +1,7 @@
 <template lang="pug">
 #editor
-  #my-editor
-  b-button(@click="saveArticle") save
+    #my-editor
+    b-button(@click="saveArticle") save
 </template>
 
 <script>

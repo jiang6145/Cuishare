@@ -11,7 +11,7 @@
             b-card-text {{ article.author.username }}
           ArticleIcons(:article="article" :size="'lg'")
       b-col.right(cols="4")
-        b-card-img.cover-photo(:src="article.coverPhotoUrl" :img-alt="article.title" @click="toArticle(article)")
+        b-card-img.cover-photo(:src="article.coverPhotoUrl" :img-alt="article.title" @click="toArticle(article._id)")
 </template>
 
 <script>
