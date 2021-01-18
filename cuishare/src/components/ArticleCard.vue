@@ -1,11 +1,5 @@
 <template lang="pug">
-.article-card
-  b-card(
-    v-for="(article, index) in articles"
-    :key="article._id"
-    tag="article"
-    no-body
-  )
+  b-card.article-card(tag="article" no-body :class="classCard")
     b-row(no-gutters)
       b-col.left(cols="8")
         b-card-body(:title="article.title" @click="toArticle(article._id)")
@@ -15,7 +9,7 @@
           .author(@click="toUserBlog(article.author._id)")
             b-avatar(:src="article.author.photoUrl" size="sm")
             b-card-text {{ article.author.username }}
-          ArticleIcons(:article="article" :size="iconSize")
+          ArticleIcons(:article="article" :size="'lg'")
       b-col.right(cols="4")
         b-card-img.cover-photo(:src="article.coverPhotoUrl" :img-alt="article.title" @click="toArticle(article)")
 </template>
@@ -29,8 +23,22 @@ export default {
     ArticleIcons
   },
   props: {
-    articles: Array,
-    iconSize: String
+    article: Object,
+    direction: {
+      type: String,
+      default: 'horizontal',
+      validator: function (value) {
+        return [
+          'vertical',
+          'horizontal'
+        ].indexOf(value) !== -1
+      }
+    }
+  },
+  computed: {
+    classCard () {
+      return 'card-' + this.direction
+    }
   },
   methods: {
     toArticle (articleId) {

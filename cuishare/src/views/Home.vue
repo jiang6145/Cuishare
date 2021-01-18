@@ -3,7 +3,8 @@
   b-container
     b-row
       b-col(cols="12" lg="8")
-        ArticleCard(:articles="articles" :iconSize="'lg'")
+        .article-item(v-for="(article, index) in articles" :key="article._id")
+          ArticleCard(:article="article")
       b-col(lg="4")
         .side
 </template>

@@ -2,8 +2,9 @@
 #blog
   b-container
     b-row
-      b-col(cols="12")
-        ArticleCard(:articles="articles" :iconSize="'lg'")
+      b-col.mx-auto(cols="12" lg="7")
+        .article-item(v-for="(article, index) in articles" :key="article._id")
+          ArticleCard(:article="article" :direction="'vertical'")
 
 </template>
 

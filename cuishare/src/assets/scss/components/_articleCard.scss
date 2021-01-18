@@ -1,13 +1,10 @@
 .article-card{
-  .card{
-    border: none;
-    margin-bottom: 5rem;
-  }
+  border: none;
+  margin-bottom: 5rem;
   
   .left{
     display: flex;
     flex-direction: column;
-    padding-right: 1.6rem;
   }
 
   .card-body{
@@ -87,14 +84,37 @@
 
     .cover-photo{
       cursor: pointer;
-      transition: .5s;
+      height: 100%;
+      transition: 1s;
       object-fit: cover;
       object-position: center center;
 
 
       &:hover{
-        transform: scale(1.1);
+        transform: scale(1.05);
       }
     }
+  }
+}
+
+.article-card.card-horizontal{
+  .left{
+    padding-right: 1.6rem;
+  }
+}
+
+.article-card.card-vertical{
+  .left{
+    flex: 0 0 100%;
+    max-width: 100%;
+    order: 1;
+    padding-right: 0;
+  }
+
+  .right{
+    flex: 0 0 100%;
+    max-width: 100%;
+    max-height: 300px;
+    margin-bottom: 1rem;
   }
 }
