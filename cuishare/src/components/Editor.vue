@@ -28,7 +28,18 @@ export default {
     initEditor () {
       ClassicEditor
         .create(document.querySelector('#my-editor'), {
-          extraPlugins: [this.UploadAdapterPlugin]
+          extraPlugins: [this.UploadAdapterPlugin],
+          imageRemoveEvent: {
+            callback: async (imagesSrc, nodeObjects) => {
+              // 刪除後端的圖片檔案
+              try {
+                const res = await this.axios.delete(imagesSrc)
+                if (!res.data.success) alert(res.data.message)
+              } catch (error) {
+                alert(error.response.data.message)
+              }
+            }
+          }
         })
         .then(editor => {
           this.editor = editor
@@ -51,6 +62,10 @@ export default {
     async saveArticle () {
       const TitlePlugin = this.editor.plugins.get('Title')
       const articleTitle = TitlePlugin.getTitle()
+
+      // 取得編輯器內的全部 <img>
+      // const articleImages = document.querySelectorAll('.ck.ck-content img')
+      // const imagesSrc = [...articleImages].map(image => image.getAttribute('src'))
 
       try {
         const data = {

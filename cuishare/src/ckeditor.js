@@ -26,8 +26,6 @@ import List from '@ckeditor/ckeditor5-list/src/list'
 import MediaEmbed from '@ckeditor/ckeditor5-media-embed/src/mediaembed'
 import Paragraph from '@ckeditor/ckeditor5-paragraph/src/paragraph'
 import PasteFromOffice from '@ckeditor/ckeditor5-paste-from-office/src/pastefromoffice'
-import SimpleUploadAdapter from '@ckeditor/ckeditor5-upload/src/adapters/simpleuploadadapter'
-// import Base64UploadAdapter from '@ckeditor/ckeditor5-upload/src/adapters/base64uploadadapter'
 import Strikethrough from '@ckeditor/ckeditor5-basic-styles/src/strikethrough'
 import Table from '@ckeditor/ckeditor5-table/src/table'
 import TableToolbar from '@ckeditor/ckeditor5-table/src/tabletoolbar'
@@ -35,6 +33,8 @@ import TextTransformation from '@ckeditor/ckeditor5-typing/src/texttransformatio
 import Title from '@ckeditor/ckeditor5-heading/src/title'
 import TodoList from '@ckeditor/ckeditor5-list/src/todolist'
 import WordCount from '@ckeditor/ckeditor5-word-count/src/wordcount'
+import SimpleUploadAdapter from '@ckeditor/ckeditor5-upload/src/adapters/simpleuploadadapter'
+import ImageRemoveEventCallbackPlugin from 'ckeditor5-image-remove-event-callback-plugin'
 
 export default class ClassicEditor extends ClassicEditorBase {}
 
@@ -64,15 +64,15 @@ ClassicEditor.builtinPlugins = [
   MediaEmbed,
   Paragraph,
   PasteFromOffice,
-  SimpleUploadAdapter,
-  // Base64UploadAdapter,
   Strikethrough,
   Table,
   TableToolbar,
   TextTransformation,
   Title,
   TodoList,
-  WordCount
+  WordCount,
+  SimpleUploadAdapter,
+  ImageRemoveEventCallbackPlugin
 ]
 
 // Editor configuration.
