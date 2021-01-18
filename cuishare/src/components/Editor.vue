@@ -67,10 +67,14 @@ export default {
       // const articleImages = document.querySelectorAll('.ck.ck-content img')
       // const imagesSrc = [...articleImages].map(image => image.getAttribute('src'))
 
+      const articleImage = document.querySelector('.ck.ck-content img')
+      const imageSrc = articleImage ? articleImage.getAttribute('src') : ''
+      console.log(imageSrc)
       try {
         const data = {
           title: articleTitle,
           text: this.editorData,
+          coverPhotoUrl: imageSrc,
           isPublish: true
         }
         const res = await this.axios.post(process.env.VUE_APP_API + '/articles', data)
