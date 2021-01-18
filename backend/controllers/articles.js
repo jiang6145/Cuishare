@@ -199,9 +199,8 @@ export const favoriteArticle = async (req, res, next) => {
 
 // 上傳文章圖片
 export const articleImageUpload = async (req, res, next) => {
-  if (!req.session.user) return res.status(401).send({ success: false, message: '未登入' })
-
   try {
+    if (!req.session.user) return res.status(401).send({ success: false, message: '未登入' })
     const storage = fileStorage()
     const upload = uploadHandler(storage)
 
@@ -230,9 +229,35 @@ export const articleImageUpload = async (req, res, next) => {
       }
 
       console.log(file)
-      return res.status(200).send({ success: true, message: '' })
+      return res.status(200).send({ success: true, message: '', file })
     })
   } catch (error) {
     next(error)
+  }
+}
+
+export const getArticleImage = async (req, res, next) => {
+  if (!req.session.user) return res.status(401).send({ success: false, message: '未登入' })
+
+  // 開發環境回傳本機圖片
+  if (process.env.DEV === 'true') {
+    const path = process.cwd() + '/images/' + req.params.imageName
+    const exists = fs.existsSync(path)
+
+    if (exists) {
+      res.status(200).sendFile(path)
+    } else {
+      res.status(404).send({ success: false, message: '找不到圖片' })
+    }
+  } else {
+    axios({
+      method: 'GET',
+      url: 'http://' + process.env.FTP_HOST + '/' + process.env.FTP_USER + '/' + req.params.file,
+      responseType: 'stream'
+    }).then(response => {
+      response.data.pipe(res)
+    }).catch(error => {
+      res.status(error.response.status).send({ success: false, message: '取得圖片失敗' })
+    })
   }
 }

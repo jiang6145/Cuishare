@@ -6,6 +6,8 @@
 
 <script>
 import ClassicEditor from '../ckeditor'
+import UploadAdapter from '../uploadAdapter'
+
 export default {
   name: 'Editor',
   data () {
@@ -25,7 +27,9 @@ export default {
   methods: {
     initEditor () {
       ClassicEditor
-        .create(document.querySelector('#my-editor'))
+        .create(document.querySelector('#my-editor'), {
+          extraPlugins: [this.UploadAdapterPlugin]
+        })
         .then(editor => {
           this.editor = editor
           this.editorData = editor.getData()
@@ -38,6 +42,11 @@ export default {
         .catch(error => {
           console.log(error)
         })
+    },
+    UploadAdapterPlugin (editor) {
+      editor.plugins.get('FileRepository').createUploadAdapter = (loader) => {
+        return new UploadAdapter(loader)
+      }
     },
     async saveArticle () {
       const TitlePlugin = this.editor.plugins.get('Title')
