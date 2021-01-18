@@ -2,7 +2,8 @@
 #article
     b-container.editor-container
       #show-editor
-      ArticleIcons(:article="article" :size="'lg'")
+      .article-fotter
+        ArticleIcons(v-if="article" :article="article" :size="'lg'")
 
 </template>
 
@@ -17,16 +18,15 @@ export default {
   },
   data () {
     return {
-      article: {}
+      article: null
     }
   },
   async mounted () {
     await this.getArticle()
-    await this.initEditor()
-    console.log(this.article)
+    this.initEditor()
   },
   methods: {
-    async initEditor () {
+    initEditor () {
       ClassicEditor
         .create(document.querySelector('#show-editor'), {
           toolbar: []
@@ -34,10 +34,10 @@ export default {
         .then(editor => {
           editor.isReadOnly = true // 設定唯讀
 
+          // 寫入內容
           const content = this.article.text
           const viewFragment = editor.data.processor.toView(content)
           const modelFragment = editor.data.toModel(viewFragment)
-
           editor.model.insertContent(modelFragment)
         })
         .catch(error => {
