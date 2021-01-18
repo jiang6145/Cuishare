@@ -16,14 +16,15 @@ import {
   faHeart,
   faBookmark,
   faCommentDots,
-  faQuestionCircle
+  faQuestionCircle,
+  faEnvelope
 } from '@fortawesome/free-regular-svg-icons'
 import {
   faHeart as fasHeart,
   faBookmark as fasBookmark
 } from '@fortawesome/free-solid-svg-icons'
 
-library.add(faHeart, fasHeart, faBookmark, fasBookmark, faCommentDots, faQuestionCircle)
+library.add(faHeart, fasHeart, faBookmark, fasBookmark, faCommentDots, faQuestionCircle, faEnvelope)
 Vue.component('font-awesome-icon', FontAwesomeIcon)
 
 axios.defaults.withCredentials = true

@@ -5,24 +5,27 @@
       b-navbar-brand(href="#" to="/") LOGO
 
       //- v-if="!isLogin", 未登入時的導航列
-      b-navbar-toggle.ml-auto(target="nav-collapse" v-if="!isLogin")
-      b-collapse#nav-collapse(is-nav v-if="!isLogin")
-        b-navbar-nav.ml-auto
-          b-nav-item(href="#") 關於我們
-          b-nav-item(href="#") 常見問題
-          b-nav-item(href="#" v-b-modal="'navbar-user-modal'" @click.prevent="isLoginModal=false") 註冊會員
-
-      b-button.login-button(
-        size="sm"
-        v-b-modal="'navbar-user-modal'"
-        v-if="!isLogin"
-        @click="isLoginModal=true"
-      ) 登入
+      b-navbar-nav.ml-auto(v-if="!isLogin")
+        b-nav-item(href="#" v-b-modal="'navbar-user-modal'" @click.prevent="toggleModal(false)") 註冊會員
+        b-nav-item(href="#")
+          font-awesome-icon(
+            :icon="['far', 'question-circle']"
+            :size="'lg'"
+            fixed-width
+          )
+        b-nav-item
+          b-button.login-button(
+            size="sm"
+            v-b-modal="'navbar-user-modal'"
+            v-if="!isLogin"
+            @click="toggleModal(true)"
+          ) 登入
 
       //- 登入後顯示使用者頭像選單
-      NavbarUserMenu(v-else)
+      b-navbar-nav.ml-auto(v-else)
+        NavbarUserMenu
 
-  NavbarUserModal(:isLoginForm="isLoginModal" @changeForm="changeForm")
+  NavbarUserModal
 </template>
 
 <script>
@@ -34,22 +37,20 @@ export default {
     NavbarUserModal,
     NavbarUserMenu
   },
-  data () {
-    return {
-      isLoginModal: false
-    }
-  },
   computed: {
     user () {
       return this.$store.state.user
     },
     isLogin () {
       return !!this.user.username
+    },
+    isLoginModal () {
+      return this.$store.state.isLoginModal
     }
   },
   methods: {
-    changeForm (value) {
-      this.isLoginModal = value
+    toggleModal (boolean) {
+      this.$store.commit('toggleModal', boolean)
     }
   }
 }

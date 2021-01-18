@@ -10,7 +10,8 @@ export default new Vuex.Store({
       username: '',
       photoUrl: '',
       id: ''
-    }
+    },
+    isLoginModal: true
   },
   mutations: {
     login (state, data) {
@@ -22,6 +23,9 @@ export default new Vuex.Store({
       state.user.username = ''
       state.user.photoUrl = ''
       state.user.id = ''
+    },
+    toggleModal (state, data) {
+      state.isLoginModal = data
     }
   },
   actions: {
