@@ -25,6 +25,7 @@
   .icon(
     v-b-tooltip.hover.bottomleft
     v-b-toggle.comment-sidebar
+    @click="clikcComment(article)"
     title="留言"
   )
     font-awesome-icon(
@@ -35,6 +36,7 @@
 </template>
 
 <script>
+
 export default {
   name: 'ArticleIcons',
   props: {
@@ -98,6 +100,9 @@ export default {
       } catch (error) {
         alert(error.response.data.message)
       }
+    },
+    clikcComment (article) {
+      this.$store.commit('activeArticle', article)
     }
   }
 }

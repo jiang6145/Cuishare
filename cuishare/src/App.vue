@@ -2,6 +2,7 @@
 #app
   Navbar
   NavbarUserModal
+  CommentSidebar
   router-view
 </template>
 
@@ -9,12 +10,14 @@
 import '@/assets/scss/main.scss'
 import Navbar from './components/Navbar'
 import NavbarUserModal from './components/NavbarUserModal'
+import CommentSidebar from './components/CommentSidebar'
 
 export default {
   name: 'App',
   components: {
     Navbar,
-    NavbarUserModal
+    NavbarUserModal,
+    CommentSidebar
   },
   computed: {
     user () {

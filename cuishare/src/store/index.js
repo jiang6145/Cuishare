@@ -12,7 +12,8 @@ export default new Vuex.Store({
       id: '',
       following: []
     },
-    isLoginModal: true
+    isLoginModal: true,
+    activeArticle: null
   },
   mutations: {
     login (state, data) {
@@ -31,6 +32,9 @@ export default new Vuex.Store({
     },
     toggleModal (state, data) {
       state.isLoginModal = data
+    },
+    activeArticle (state, data) {
+      state.activeArticle = data
     }
   },
   actions: {

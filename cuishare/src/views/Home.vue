@@ -14,24 +14,19 @@
           ArticleCard(:article="article")
       b-col(lg="4")
         .side
-
-  CommentSidebar(:articles="articles")
 </template>
 
 <script>
 import ArticleCard from '../components/ArticleCard'
-import CommentSidebar from '../components/CommentSidebar'
 
 export default {
   name: 'Home',
   components: {
-    ArticleCard,
-    CommentSidebar
+    ArticleCard
   },
   data () {
     return {
-      articles: [],
-      cuishareArticles: []
+      articles: []
     }
   },
   computed: {
@@ -44,9 +39,7 @@ export default {
       const res = await this.axios.get(process.env.VUE_APP_API + '/articles')
       const { success, result } = res.data
 
-      if (success) {
-        this.articles = result.filter(article => article)
-      }
+      if (success) this.articles = result.map(article => article)
     } catch (error) {
       alert(error.response.data.message)
     }
