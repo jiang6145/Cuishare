@@ -2,7 +2,15 @@
 #blog
   b-container.main-container
     b-row
-      b-col.mx-auto(cols="12" lg="7")
+      b-col(cols="12" lg="3")
+        .author-side
+          b-img.user-photo(:src="author.photoUrl")
+          h3.username {{ author.username }}
+          .about-text
+            h5 About
+            p {{  author.about }}
+          FollowButton(:author="author")
+      b-col.mr-auto(cols="12" lg="6")
         .article-item(v-for="(article, index) in articles" :key="article._id")
           ArticleCard(:article="article" :direction="'vertical'")
 
@@ -10,26 +18,52 @@
 
 <script>
 import ArticleCard from '../components/ArticleCard'
+import FollowButton from '../components/FollowButton'
 
 export default {
   name: 'Blog',
   components: {
-    ArticleCard
+    ArticleCard,
+    FollowButton
   },
   data () {
     return {
-      articles: []
+      articles: [],
+      author: {}
+    }
+  },
+  computed: {
+    user () {
+      return this.$store.state.user
+    },
+    isFollow () {
+      return this.user.following.includes(this.author._id)
     }
   },
   async mounted () {
     try {
-      console.log(this.$route.params.id)
       const res = await this.axios.get(process.env.VUE_APP_API + '/articles/author/' + this.$route.params.id)
       const { success, result } = res.data
 
-      if (success) this.articles = result.map(article => article)
+      if (success) {
+        this.articles = result.map(article => article)
+        this.author = this.articles[0].author
+      }
     } catch (error) {
       alert(error.response.data.message)
+    }
+  },
+  methods: {
+    async follow () {
+      try {
+        const res = await this.axios.patch(process.env.VUE_APP_API + '/users/follow/' + this.author._id)
+        const { success, message, result } = res.data
+        console.log(success, message, result)
+
+        if (success) this.$store.commit('following', result)
+      } catch (error) {
+        alert(error)
+      }
     }
   }
 }

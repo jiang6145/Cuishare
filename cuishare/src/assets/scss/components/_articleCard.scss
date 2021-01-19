@@ -103,8 +103,7 @@
   }
 
   .right{
-    max-height: 180px;
-
+    max-height: 160px;
     @include sm{
       max-height: 120px;
     }

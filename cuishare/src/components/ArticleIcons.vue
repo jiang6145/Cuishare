@@ -24,6 +24,7 @@
     )
   .icon(
     v-b-tooltip.hover.bottomleft
+    v-b-toggle.comment-sidebar
     title="留言"
   )
     font-awesome-icon(
@@ -98,9 +99,6 @@ export default {
         alert(error.response.data.message)
       }
     }
-  },
-  mounted () {
-    console.log(this.article)
   }
 }
 </script>

@@ -12,9 +12,11 @@
 @import 'components/articleCard';
 @import 'components/articleIcons';
 @import 'components/editor';
+@import 'components/followButton';
 
 
 // views
 @import 'views/home';
 @import 'views/newArticle';
-@import 'views/_article';
+@import 'views/article';
+@import 'views/blog';

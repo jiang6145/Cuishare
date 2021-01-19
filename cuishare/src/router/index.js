@@ -21,7 +21,7 @@ const routes = [
     meta: { isLogin: false }
   },
   {
-    path: '/new-article',
+    path: '/new-article/:id',
     name: 'NewArticle',
     component: () => import(/* webpackChunkName: "new-article" */ '../views/NewArticle.vue'),
     meta: { isLogin: true }

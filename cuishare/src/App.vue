@@ -1,17 +1,20 @@
 <template lang="pug">
 #app
   Navbar
+  NavbarUserModal
   router-view
 </template>
 
 <script>
 import '@/assets/scss/main.scss'
 import Navbar from './components/Navbar'
+import NavbarUserModal from './components/NavbarUserModal'
 
 export default {
   name: 'App',
   components: {
-    Navbar
+    Navbar,
+    NavbarUserModal
   },
   computed: {
     user () {

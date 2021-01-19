@@ -2,19 +2,21 @@
 #article
     b-container.editor-container
       #show-editor
-      .article-fotter
+      .article-footer
         ArticleIcons(v-if="article" :article="article" :size="'lg'")
-
+        FollowButton(v-if="article" :author="article.author")
 </template>
 
 <script>
 import ClassicEditor from '../ckeditor'
 import ArticleIcons from '../components/ArticleIcons'
+import FollowButton from '../components/FollowButton'
 
 export default {
   name: 'Article',
   components: {
-    ArticleIcons
+    ArticleIcons,
+    FollowButton
   },
   data () {
     return {

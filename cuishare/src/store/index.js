@@ -9,7 +9,8 @@ export default new Vuex.Store({
     user: {
       username: '',
       photoUrl: '',
-      id: ''
+      id: '',
+      following: []
     },
     isLoginModal: true
   },
@@ -18,11 +19,15 @@ export default new Vuex.Store({
       state.user.username = data.username
       state.user.photoUrl = data.photoUrl
       state.user.id = data._id
+      state.user.following = data.following
     },
     logout (state) {
       state.user.username = ''
       state.user.photoUrl = ''
       state.user.id = ''
+    },
+    following (state, data) {
+      state.user.following = data.following
     },
     toggleModal (state, data) {
       state.isLoginModal = data

@@ -24,17 +24,14 @@
       //- 登入後顯示使用者頭像選單
       b-navbar-nav.ml-auto(v-else)
         NavbarUserMenu
-
-  NavbarUserModal
 </template>
 
 <script>
-import NavbarUserModal from '../components/NavbarUserModal'
 import NavbarUserMenu from '../components/NavbarUserMenu'
+
 export default {
   name: 'Navbar',
   components: {
-    NavbarUserModal,
     NavbarUserMenu
   },
   computed: {
