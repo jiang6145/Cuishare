@@ -1,0 +1,36 @@
+.author-card{
+  position: sticky;
+  padding: 1rem 0;
+  top: 80px;
+  border: none;
+  background-color: #eee;
+  
+  @include lg{
+    margin-top: 0;
+    position: none;
+    top: 0;
+    margin-bottom: 4rem;
+  }
+
+
+  .card-body{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .user-photo{
+    max-width: 120px;
+    border-radius: 50%;
+    overflow: hidden;
+    margin-bottom: 0.5rem;
+  }
+
+  .card-text{
+    margin-bottom: 2rem;
+
+    .username{
+      font-weight: 900;
+    }
+  }
+}

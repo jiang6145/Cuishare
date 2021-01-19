@@ -3,8 +3,8 @@
     b-row(no-gutters)
       b-col.left(cols="8")
         b-card-body(:title="article.title" @click="toArticle(article._id)")
-          p.article-date {{ article.createDate }}
-          b-card-text.article-text {{ article.text }}
+          b-card-text.article-text {{ article.description }}
+          p.article-date {{ articleDate }}
         b-card-footer
           .author(@click="toUserBlog(article.author._id)")
             b-avatar(:src="article.author.photoUrl" size="sm")
@@ -38,6 +38,10 @@ export default {
   computed: {
     classCard () {
       return 'card-' + this.direction
+    },
+    articleDate () {
+      const now = new Date(this.article.createDate)
+      return now
     }
   },
   methods: {

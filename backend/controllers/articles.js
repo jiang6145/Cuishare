@@ -6,7 +6,7 @@ export const createArticle = async (req, res, next) => {
   try {
     if (!req.session.user) return res.status(401).send({ success: false, message: '未登入' })
 
-    const { error } = validate(req.body, ['title', 'text'])
+    const { error } = validate(req.body)
     if (error) return res.status(400).send({ success: false, message: error.message })
 
     req.body.author = req.session.user._id

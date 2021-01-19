@@ -1,5 +1,5 @@
 <template lang="pug">
-#navbar-user-menu
+b-navbar-nav#navbar-user-menu
   b-dropdown(right no-caret)
     template(#button-content)
       img.userPhoto(:src="user.photoUrl")
@@ -30,6 +30,16 @@ export default {
         alert(error.response.data.message)
       }
     }
+    // async toNewArticle () {
+    //   try {
+    //     const res = await this.axios.post(process.env.VUE_APP_API + '/articles', {})
+    //     const { success, result } = res.data
+    //     console.log(success)
+    //     if (success) this.$router.push({ path: '/new-article/' + result._id })
+    //   } catch (error) {
+    //     alert(error.response.data.message)
+    //   }
+    // }
   }
 }
 </script>

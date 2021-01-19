@@ -68,12 +68,19 @@ export default {
       // const articleImages = document.querySelectorAll('.ck.ck-content img')
       // const imagesSrc = [...articleImages].map(image => image.getAttribute('src'))
 
-      const articleImage = document.querySelector('.ck.ck-content img')
-      const imageSrc = articleImage ? articleImage.getAttribute('src') : ''
-      console.log(imageSrc)
+      let descriptiont = ''
+      const paragraphs = document.querySelectorAll('.ck.ck-content p')
+      for (const p of paragraphs) {
+        if (p.innerText.length > 10) descriptiont = p.innerText
+      }
+
+      let imageSrc = document.querySelector('.ck.ck-content img')
+      imageSrc = imageSrc ? imageSrc.getAttribute('src') : ''
+
       try {
         const data = {
           title: articleTitle,
+          description: descriptiont,
           text: this.editorData,
           coverPhotoUrl: imageSrc,
           isPublish: true

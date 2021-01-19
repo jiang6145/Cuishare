@@ -6,13 +6,14 @@ const articleSchema = new Schema(
   {
     title: {
       type: String,
-      required: true,
       trim: true,
       maxlength: 50
     },
+    description: {
+      type: String
+    },
     text: {
-      type: String,
-      required: true
+      type: String
     },
     coverPhotoUrl: {
       type: String
@@ -24,8 +25,10 @@ const articleSchema = new Schema(
     },
     isPublish: {
       type: Boolean,
-      required: true,
       default: false
+    },
+    isDraft: {
+      type: Boolean
     },
     isBlocked: {
       type: Boolean,
