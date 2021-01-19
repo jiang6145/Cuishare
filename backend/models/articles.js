@@ -9,7 +9,7 @@ const articleSchema = new Schema(
       trim: true,
       maxlength: 50
     },
-    description: {
+    subTitle: {
       type: String
     },
     text: {
@@ -28,7 +28,8 @@ const articleSchema = new Schema(
       default: false
     },
     isDraft: {
-      type: Boolean
+      type: Boolean,
+      default: true
     },
     isBlocked: {
       type: Boolean,

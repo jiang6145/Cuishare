@@ -8,6 +8,7 @@
 <script>
 import ClassicEditor from '../ckeditor'
 import UploadAdapter from '../uploadAdapter'
+import autoSaveData from '../autoSaveData'
 
 export default {
   name: 'NewArticle',
@@ -27,6 +28,7 @@ export default {
   },
   methods: {
     initEditor () {
+      const id = this.$route.params.id
       ClassicEditor
         .create(document.querySelector('#my-editor'), {
           extraPlugins: [this.UploadAdapterPlugin],
@@ -39,6 +41,12 @@ export default {
               } catch (error) {
                 alert(error.response.data.message)
               }
+            }
+          },
+          autosave: {
+            waitingTime: 5000,
+            save (editor) {
+              return autoSaveData(editor.getData(), id)
             }
           }
         })
@@ -64,10 +72,6 @@ export default {
       const TitlePlugin = this.editor.plugins.get('Title')
       const articleTitle = TitlePlugin.getTitle()
 
-      // 取得編輯器內的全部 <img>
-      // const articleImages = document.querySelectorAll('.ck.ck-content img')
-      // const imagesSrc = [...articleImages].map(image => image.getAttribute('src'))
-
       let descriptiont = ''
       const paragraphs = document.querySelectorAll('.ck.ck-content p')
       for (const p of paragraphs) {
@@ -87,7 +91,6 @@ export default {
         }
         const res = await this.axios.post(process.env.VUE_APP_API + '/articles', data)
         alert(res.data.message)
-        // if (this.$route.path !== '/') this.$router.push('/')
       } catch (error) {
         alert(error.response.data.message)
       }

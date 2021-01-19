@@ -21,9 +21,21 @@ const routes = [
     meta: { isLogin: false }
   },
   {
-    path: '/new-article',
+    path: '/new-article/',
     name: 'NewArticle',
     component: () => import(/* webpackChunkName: "new-article" */ '../views/NewArticle.vue'),
+    meta: { isLogin: true }
+  },
+  {
+    path: '/new-article-test/',
+    name: 'NewArticleTest',
+    component: () => import(/* webpackChunkName: "new-article-test" */ '../views/NewArticleTest.vue'),
+    meta: { isLogin: true }
+  },
+  {
+    path: '/article-edit/:id',
+    name: 'ArticleEdit',
+    component: () => import(/* webpackChunkName: "article-edit" */ '../views/ArticleEdit.vue'),
     meta: { isLogin: true }
   },
   {

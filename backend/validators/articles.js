@@ -8,7 +8,7 @@ const validate = (credentials, requiredFields = []) => {
       'string.empty': '請輸入文章標題',
       'string.max': '文章標題不能超過 50 個字'
     }),
-    description: Joi.string().allow(''),
+    subTitle: Joi.string().allow(''),
     text: Joi.string().allow(''),
     coverPhotoUrl: Joi.string().allow(''),
     createDate: Joi.date(),

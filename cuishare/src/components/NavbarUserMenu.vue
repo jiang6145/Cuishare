@@ -5,7 +5,7 @@ b-navbar-nav#navbar-user-menu
       img.userPhoto(:src="user.photoUrl")
     b-dropdown-item(href='#') 我的首頁
     b-dropdown-divider
-    b-dropdown-item(href='#' to="/new-article") 寫篇文章
+    b-dropdown-item(href='#' to="/new-article-test") 寫篇文章
     b-dropdown-item(href='#') 設定
     b-dropdown-divider
     b-dropdown-item(href='#') 關於Cuishare
@@ -30,11 +30,11 @@ export default {
         alert(error.response.data.message)
       }
     }
-    // async toNewArticle () {
+    // async createArticle () {
     //   try {
     //     const res = await this.axios.post(process.env.VUE_APP_API + '/articles', {})
     //     const { success, result } = res.data
-    //     console.log(success)
+
     //     if (success) this.$router.push({ path: '/new-article/' + result._id })
     //   } catch (error) {
     //     alert(error.response.data.message)
