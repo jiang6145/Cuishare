@@ -40,7 +40,7 @@
       name="new-password"
       tag="div"
     )
-      b-form-input(
+      b-form-input.setting-input(
         v-model="newPassword"
         :type="type"
         :state="validState(errors, valid, dirty)"
@@ -49,7 +49,7 @@
         ref="new-password"
         placeholder="請輸入新的密碼"
       )
-      p.setting-input__validate-message {{ errors[0] }}
+      p.validate-message {{ errors[0] }}
 
     //- 確認新密碼
     ValidationProvider(
@@ -60,7 +60,7 @@
       name="confirm-new-password"
       tag="div"
     )
-      b-form-input(
+      b-form-input.setting-input(
         v-model="confirmNewPassword"
         :type="type"
         :state="validState(errors, valid, dirty)"
@@ -69,7 +69,7 @@
         ref="confirm-new-password"
         placeholder="確認新的密碼"
       )
-      p.setting-input__validate-message {{ errors[0] }}
+      p.validate-message {{ errors[0] }}
 
 </template>
 

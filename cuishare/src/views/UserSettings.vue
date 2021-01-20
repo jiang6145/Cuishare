@@ -13,16 +13,12 @@
           .user-info
             .user-info__title 個人資料
             SettingInput(
-              :data="'測試1'"
-              :fieldname="'測試1'"
-              :inputname="'測試1'"
-              :type="'password'"
-              :rules="'required|min:4|max:30|bannedName'"
-            )
-            SettingInput(
-              :data="'123456798'"
-              :fieldname="'測試2'"
-              :inputname="'測試2'"
+              v-for="(item) in array"
+              :data="item.data"
+              :fieldname="item.fieldname"
+              :inputname="item.inputname"
+              :type="item.type"
+              :rules="item.rules"
             )
 
 </template>
@@ -40,7 +36,11 @@ export default {
   },
   data () {
     return {
-      isDisabled: true
+      isDisabled: true,
+      array: [
+        { data: 'Jiang', fieldname: '用戶名稱1', inputname: 'username1', rules: 'required|min:4|max:30|bannedName' },
+        { data: 'Milk', fieldname: '用戶名稱2', inputname: 'username2', rules: 'required|min:4|max:30|bannedName' }
+      ]
     }
   },
   computed: {
