@@ -14,6 +14,7 @@ extend('required', {
   ...required,
   message: (fieldName) => {
     if (fieldName === 'password') fieldName = '密碼'
+    if (fieldName === 'new-password') fieldName = '新密碼'
     if (fieldName === 'username') fieldName = '用戶名稱'
     if (fieldName === 'confirmPassword') return '再輸入一次密碼'
     return `必須填寫${fieldName}`
@@ -29,6 +30,7 @@ extend('min', {
   ...min,
   message: (fieldName, placeholders) => {
     if (fieldName === 'password') fieldName = '密碼'
+    if (fieldName === 'new-password') fieldName = '新密碼'
     if (fieldName === 'username') fieldName = '用戶名稱'
     return `${fieldName}不得少於${placeholders.length}個字`
   }
@@ -38,6 +40,7 @@ extend('max', {
   ...max,
   message: (fieldName, placeholders) => {
     if (fieldName === 'password') fieldName = '密碼'
+    if (fieldName === 'new-password') fieldName = '新密碼'
     if (fieldName === 'username') fieldName = '用戶名稱'
     return `${fieldName}不得超過${placeholders.length}個字`
   }

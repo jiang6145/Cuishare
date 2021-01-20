@@ -19,6 +19,15 @@ export default {
     NavbarUserModal,
     CommentSidebar
   },
+  data () {
+    return {
+      fieldname: '密碼',
+      inputname: 'password',
+      type: 'password',
+      rules: 'required|min:4|max:30|bannedName',
+      placeholder: '用戶名稱 (可以更改)'
+    }
+  },
   computed: {
     user () {
       return this.$store.state.user

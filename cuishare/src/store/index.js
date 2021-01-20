@@ -12,6 +12,10 @@ export default new Vuex.Store({
       id: '',
       following: []
     },
+    editorStorage: {
+      id: '',
+      text: ''
+    },
     isLoginModal: true,
     activeArticle: null
   },
@@ -35,6 +39,10 @@ export default new Vuex.Store({
     },
     activeArticle (state, data) {
       state.activeArticle = data
+    },
+    editorStorage (state, data) {
+      state.editorStorage.id = data._id
+      state.editorStorage.text = data.text
     }
   },
   actions: {

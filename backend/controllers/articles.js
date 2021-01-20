@@ -112,12 +112,11 @@ export const getAuthorArticles = async (req, res, next) => {
   }
 }
 
-// 取得指定的已發佈文章
+// 取得指定文章
 export const getArticle = async (req, res, next) => {
   try {
     const result = await articles.findOne({
-      _id: req.params.articleId,
-      isPublish: true
+      _id: req.params.articleId
     }).populate('author', ['username', 'photoUrl'])
 
     if (!result) return res.status(404).send({ success: false, message: '找不到文章' })

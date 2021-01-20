@@ -46,13 +46,3 @@ export default {
   }
 }
 </script>
-
-<style lang="scss">
-.side{
-  background-color: red;
-  height: 100px;
-  position: sticky;
-  top: 1rem;
-  left: 0;
-}
-</style>

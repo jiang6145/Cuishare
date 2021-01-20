@@ -27,12 +27,6 @@ const routes = [
     meta: { isLogin: true }
   },
   {
-    path: '/new-article-test/',
-    name: 'NewArticleTest',
-    component: () => import(/* webpackChunkName: "new-article-test" */ '../views/NewArticleTest.vue'),
-    meta: { isLogin: true }
-  },
-  {
     path: '/article-edit/:id',
     name: 'ArticleEdit',
     component: () => import(/* webpackChunkName: "article-edit" */ '../views/ArticleEdit.vue'),
@@ -43,6 +37,12 @@ const routes = [
     name: 'Blog',
     component: () => import(/* webpackChunkName: "blog" */ '../views/Blog.vue'),
     meta: { isLogin: false }
+  },
+  {
+    path: '/user-settings',
+    name: 'UserSettings',
+    component: () => import(/* webpackChunkName: "user-settings" */ '../views/UserSettings.vue'),
+    meta: { isLogin: true }
   }
 ]
 
