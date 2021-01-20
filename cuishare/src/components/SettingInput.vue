@@ -1,14 +1,26 @@
 <template lang="pug">
-.setting-input
-  ValidationProvider(
-    v-slot="{ errors, valid, dirty }"
-    :rules="rules"
-    :ref="inputname + '-valid'"
-    :name="inputname"
-    tag="div"
-  )
-    b-form-group(label-cols="2" :label="fieldname")
-      b-form-input(
+.setting-input-item
+  .header
+    label {{ fieldname }}
+    font-awesome-icon(
+      v-if="isDisabled"
+      @click="edit"
+      :icon="['fas','pencil-alt']"
+      fixed-width
+    )
+    b-button-group(v-else)
+      b-button(variant="outline-success" size="sm" @click="type !== 'password'? onSubmit() : passwordOnSubmit()") 保存
+      b-button(variant="outline-danger" size="sm" @click="onCancel") 取消
+
+  .content
+    ValidationProvider(
+      v-slot="{ errors, valid, dirty }"
+      :rules="rules"
+      :ref="inputname + '-valid'"
+      :name="inputname"
+      tag="div"
+    )
+      b-form-input.setting-input(
         v-model="value"
         :name="inputname"
         :ref="inputname"
@@ -17,18 +29,17 @@
         :state="validState(errors, valid, dirty)"
         :disabled="isDisabled"
       )
-      p.text-right {{ errors[0] }}
+      p.validate-message {{ errors[0] }}
 
-  //- 如果是修改密碼
-  ValidationProvider(
-    v-if="type === 'password' && !isDisabled"
-    v-slot="{ errors, valid, dirty }"
-    :rules="rules"
-    ref="new-password-valid"
-    name="new-password"
-    tag="div"
-  )
-    b-form-group(label-cols="2" :label="fieldname")
+    //- 如果是修改密碼
+    ValidationProvider(
+      v-if="type === 'password' && !isDisabled"
+      v-slot="{ errors, valid, dirty }"
+      :rules="rules"
+      ref="new-password-valid"
+      name="new-password"
+      tag="div"
+    )
       b-form-input(
         v-model="newPassword"
         :type="type"
@@ -38,18 +49,17 @@
         ref="new-password"
         placeholder="請輸入新的密碼"
       )
-      p {{ errors[0] }}
+      p.setting-input__validate-message {{ errors[0] }}
 
-  //- 確認新密碼
-  ValidationProvider(
-    v-if="type === 'password' && newPassword"
-    v-slot="{ errors, valid, dirty }"
-    ref="confirm-new-password-valid"
-    rules="required|confirmed:new-password-valid"
-    name="confirm-new-password"
-    tag="div"
-  )
-    b-form-group(label-cols="2" :label="fieldname")
+    //- 確認新密碼
+    ValidationProvider(
+      v-if="type === 'password' && newPassword"
+      v-slot="{ errors, valid, dirty }"
+      ref="confirm-new-password-valid"
+      rules="required|confirmed:new-password-valid"
+      name="confirm-new-password"
+      tag="div"
+    )
       b-form-input(
         v-model="confirmNewPassword"
         :type="type"
@@ -59,16 +69,8 @@
         ref="confirm-new-password"
         placeholder="確認新的密碼"
       )
-      p {{ errors[0] }}
-  font-awesome-icon(
-    v-if="isDisabled"
-    @click="edit"
-    :icon="['fas','pencil-alt']"
-    fixed-width
-  )
-  b-button-group(v-else)
-    b-button(variant="outline-success" size="sm" @click="type !== 'password'? onSubmit() : passwordOnSubmit()") 保存
-    b-button(variant="outline-danger" size="sm" @click="onCancel") 取消
+      p.setting-input__validate-message {{ errors[0] }}
+
 </template>
 
 <script>

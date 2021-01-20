@@ -1,9 +1,33 @@
-.setting-input{
-  display: flex;
-  align-items: center;
-  margin-right: auto;
-  
-  .form-group{
-    // width: 80%;
+.setting-input-item{
+
+  .header{
+    margin-bottom: 1rem;
+
+    label{
+      margin-bottom: 0;
+      margin-right: 1rem;
+      letter-spacing: 2px;
+      font-weight: 900;
+    }
+  }
+
+  .validate-message{
+    margin-bottom: 0;
+    height: 1.4rem;
+    letter-spacing: 2px;
+    font-size: 0.8rem;
+    text-align: right;
+    color: red;
+  }
+
+  .setting-input{
+    width: auto;
+    border: none;
+    border-bottom: 1px solid #ccc;
+    background-color: inherit;
+
+    &:focus{
+      background-color: #fff;
+    }
   }
 }

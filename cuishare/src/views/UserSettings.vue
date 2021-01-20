@@ -16,6 +16,7 @@
               :data="'測試1'"
               :fieldname="'測試1'"
               :inputname="'測試1'"
+              :type="'password'"
               :rules="'required|min:4|max:30|bannedName'"
             )
             SettingInput(
