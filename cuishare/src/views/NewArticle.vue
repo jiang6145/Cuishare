@@ -2,55 +2,54 @@
 #new-article
   b-container.editor-container
     #my-editor
-    b-button(@click="saveArticle") save
+    b-button save
 </template>
 
 <script>
 import ClassicEditor from '../ckeditor'
 import UploadAdapter from '../uploadAdapter'
-import autoSaveData from '../autoSaveData'
 
 export default {
   name: 'NewArticle',
   data () {
     return {
       editor: null,
-      editorData: null
+      editorData: ''
     }
   },
   computed: {
-    user () {
-      return this.$store.state.user
-    }
   },
   mounted () {
     this.initEditor()
   },
   methods: {
     initEditor () {
-      const id = this.$route.params.id
+      const autoSave = this.autoSave
+
+      // 創建 CkEditor
       ClassicEditor
         .create(document.querySelector('#my-editor'), {
+          // 插入自定義 UploadAdapter
           extraPlugins: [this.UploadAdapterPlugin],
           imageRemoveEvent: {
+            // 刪除後端的圖片檔案
             callback: async (imagesSrc, nodeObjects) => {
-              // 刪除後端的圖片檔案
               try {
-                const res = await this.axios.delete(imagesSrc)
-                if (!res.data.success) alert(res.data.message)
+                await this.axios.delete(imagesSrc)
               } catch (error) {
-                alert(error.response.data.message)
+                console.log(error.response.data.message)
               }
             }
           },
           autosave: {
             waitingTime: 5000,
             save (editor) {
-              return autoSaveData(editor.getData(), id)
+              return autoSave(editor.getData())
             }
           }
         })
         .then(editor => {
+          // 創建成功執行
           this.editor = editor
           this.editorData = editor.getData()
 
@@ -64,35 +63,48 @@ export default {
         })
     },
     UploadAdapterPlugin (editor) {
+      // 創建 UploadAdapter
       editor.plugins.get('FileRepository').createUploadAdapter = (loader) => {
         return new UploadAdapter(loader)
       }
     },
-    async saveArticle () {
+    autoSave (data) {
+      return new Promise((resolve, reject) => {
+        if (data) {
+          const articleData = this.dataHandler(data)
+          this.axios.post(process.env.VUE_APP_API + '/articles', articleData)
+            .then(res => {
+              const articleId = res.data.result._id
+              this.$router.push('/article-edit/' + articleId)
+            })
+        }
+        console.log('saved')
+        resolve()
+      })
+    },
+    dataHandler (data) {
+      // 取得標題
       const TitlePlugin = this.editor.plugins.get('Title')
-      const articleTitle = TitlePlugin.getTitle()
+      const title = TitlePlugin.getTitle()
 
-      let descriptiont = ''
-      const paragraphs = document.querySelectorAll('.ck.ck-content p')
-      for (const p of paragraphs) {
-        if (p.innerText.length > 10) descriptiont = p.innerText
+      // 取得第一個有內容的 <p>
+      const paragraphs = document.querySelectorAll('.ck-content p')
+      let subTitle = ''
+      for (const paragraph of paragraphs) {
+        if (paragraph.innerText.trim() !== '') {
+          subTitle = paragraph.innerText.trim()
+          break
+        }
       }
 
-      let imageSrc = document.querySelector('.ck.ck-content img')
-      imageSrc = imageSrc ? imageSrc.getAttribute('src') : ''
+      const image = document.querySelector('.ck-content img')
+      const coverPhotoUrl = image ? image.getAttribute('src') : ''
 
-      try {
-        const data = {
-          title: articleTitle,
-          description: descriptiont,
-          text: this.editorData,
-          coverPhotoUrl: imageSrc,
-          isPublish: true
-        }
-        const res = await this.axios.post(process.env.VUE_APP_API + '/articles', data)
-        alert(res.data.message)
-      } catch (error) {
-        alert(error.response.data.message)
+      return {
+        title,
+        subTitle,
+        coverPhotoUrl,
+        text: data
       }
     }
   }
