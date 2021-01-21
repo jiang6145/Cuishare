@@ -56,7 +56,7 @@
       v-if="type === 'password' && newPassword"
       v-slot="{ errors, valid, dirty }"
       ref="confirm-new-password-valid"
-      rules="required|confirmed:new-password-valid"
+      rules="required|confirmed:new-password"
       name="confirm-new-password"
       tag="div"
     )
@@ -113,6 +113,12 @@ export default {
       if (this.type === 'password') this.value = ''
     },
     onCancel () {
+      console.log(this.$refs)
+      if (this.type === 'password') {
+        this.newPassword = ''
+        this.confirmNewPassword = ''
+      }
+
       this.value = this.data
       this.$refs[this.inputname + '-valid'].reset()
       this.isDisabled = true
@@ -125,8 +131,14 @@ export default {
 
       try {
         const res = await this.axios.patch(process.env.VUE_APP_API + '/users/' + userId, data)
-        if (!res.data.success) return
+        const { success, result } = res.data
+        if (!success) return
 
+        const newData = {
+          [this.inputname]: result[this.inputname]
+        }
+
+        this.$store.commit('updateUser', newData)
         this.$refs[this.inputname + '-valid'].reset()
         this.isDisabled = true
       } catch (error) {
@@ -145,7 +157,7 @@ export default {
 
       const userId = this.$store.state.user.id
       const data = {
-        [this.inputname]: this.value,
+        password: this.value,
         newPassword: this.newPassword
       }
 
@@ -160,8 +172,8 @@ export default {
         this.isDisabled = true
       } catch (error) {
         this.$refs[this.inputname + '-valid'].reset()
-        this.$refs['new-password'].reset()
-        this.$refs['confirm-new-password'].reset()
+        this.$refs['new-password' + '-valid'].reset()
+        this.$refs['confirm-new-password' + '-valid'].reset()
         this.value = ''
         this.newPassword = ''
         this.confirmNewPassword = ''

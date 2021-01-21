@@ -9,13 +9,13 @@ export default class UploadAdapter {
   upload () {
     return this.loader.file.then(uploadFile => {
       return new Promise((resolve, reject) => {
-        const data = new FormData()
-        data.append('image', uploadFile)
+        const formData = new FormData()
+        formData.append('image', uploadFile)
 
         axios({
           url: process.env.VUE_APP_API + '/pictures/article',
           method: 'post',
-          data,
+          formData,
           headers: {
             'Content-Type': 'multipart/form-data;'
           },

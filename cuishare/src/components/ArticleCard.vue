@@ -3,7 +3,7 @@
     b-row(no-gutters)
       b-col.left(cols="8")
         b-card-body(:title="article.title" @click="toArticle(article._id)")
-          b-card-text.article-text {{ article.description }}
+          b-card-text.article-text {{ article.subTitle }}
           p.article-date {{ articleDate }}
         b-card-footer
           .author(@click="toUserBlog(article.author._id)")

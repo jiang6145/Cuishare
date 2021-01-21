@@ -76,7 +76,7 @@ export const logoutUser = async (req, res, next) => {
 export const updateUserInfo = async (req, res, next) => {
   try {
     if (!req.session.user) return res.status(401).send({ success: false, message: '未登入' })
-
+    console.log(req.body.photoUrl)
     // 禁止使用者更新不該更新的資料
     const excludeKeys = ['email', 'createDate', 'following', 'followers', 'articleCategory']
     const keys = Object.keys(req.body)

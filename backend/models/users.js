@@ -30,6 +30,7 @@ const userSchema = new Schema(
     },
     about: {
       type: String,
+      default: '',
       maxlength: 255
     },
     isAdmin: {

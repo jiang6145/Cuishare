@@ -34,7 +34,8 @@ const validate = (credentials, requiredFields = []) => {
         'string.max': '關於不能超過 255 個字'
       }),
     isAdmin: Joi.boolean(),
-    isBlocked: Joi.boolean()
+    isBlocked: Joi.boolean(),
+    photoUrl: Joi.string()
   })
 
   // 設定 required 選項

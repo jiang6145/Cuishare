@@ -12,13 +12,33 @@
         .settings
           .user-info
             .user-info__title 個人資料
+            b-form.user-info__photo(@submit.prevent="onSubmit" @reset.prevent="onCancel")
+              .user-info__photo
+                .header
+                  label 你的照片
+                  b-button-group
+                    b-button(type="submit" variant="outline-success" size="sm") 確認
+                    b-button(type="reset" variant="outline-danger" size="sm") 取消
+                img-inputer.mx-auto(
+                  ref="img-inputer"
+                  :img-src="this.$store.state.user.photoUrl"
+                  v-model="userPhoto"
+                  placeholder="請選擇照片"
+                  bottom-text="編輯你的照片"
+                  :max-size="1024"
+                  no-hover-effect
+                  exceedSizeText="檔案大小不能超過1MB"
+                  accept="image/*"
+                )
+
             SettingInput(
-              v-for="(item) in array"
+              v-for="item in settingInputDatas"
               :data="item.data"
               :fieldname="item.fieldname"
               :inputname="item.inputname"
               :type="item.type"
               :rules="item.rules"
+              :placeholder="item.placeholder"
             )
 
 </template>
@@ -36,28 +56,65 @@ export default {
   },
   data () {
     return {
-      isDisabled: true,
-      array: [
-        { data: 'Jiang', fieldname: '用戶名稱1', inputname: 'username1', rules: 'required|min:4|max:30|bannedName' },
-        { data: 'Milk', fieldname: '用戶名稱2', inputname: 'username2', rules: 'required|min:4|max:30|bannedName' }
+      userPhoto: null,
+      settingInputDatas: [
+        {
+          data: this.$store.state.user.username,
+          fieldname: '用戶名稱',
+          inputname: 'username',
+          type: 'text',
+          rules: 'required|min:4|max:30|bannedName',
+          placeholder: '請輸入用戶名稱'
+        },
+        {
+          data: this.$store.state.user.about,
+          fieldname: '關於你',
+          inputname: 'about',
+          type: 'text',
+          rules: 'max:255',
+          placeholder: '請輸入關於你的介紹'
+        },
+        {
+          data: '123456789',
+          fieldname: '密碼',
+          inputname: 'password',
+          type: 'password',
+          rules: 'required|alphaNum|min:6|max:30',
+          placeholder: '請輸入原本的密碼'
+        }
       ]
     }
   },
   computed: {
-    user () {
-      return this.$store.state.user
-    }
+    // oldUserPhoto () {
+    //   return this.$store.state.user.photoUrl
+    // }
   },
   methods: {
-    edit () {
-      this.isDisabled = !this.isDisabled
-      // 等待 DOM 元素更新完後, 對 username-1 input 執行 focus()
-      this.$nextTick(() => this.$refs['username-1'].focus())
+    async onSubmit () {
+      const userId = this.$store.state.user.id
+      const formData = new FormData()
+      formData.append('image', this.userPhoto)
+
+      try {
+        const updatePhoto = await this.axios.post(process.env.VUE_APP_API + '/pictures/user/', formData)
+
+        const photoData = {
+          photoUrl: process.env.VUE_APP_API + '/pictures/user/' + updatePhoto.data.filename
+        }
+        await this.axios.patch(process.env.VUE_APP_API + '/users/' + userId, photoData)
+
+        this.$store.commit('updateUser', photoData)
+        this.$router.go(0)
+        console.log('確認更改')
+      } catch (error) {
+        console.log(error)
+      }
     },
-    validState (errors, valid, dirty) {
-      if (errors[0] && !valid) return false
-      if (!errors[0] && dirty && valid) return true
-      return null
+    onCancel () {
+      this.$refs['img-inputer'].dataUrl = this.$store.state.user.photoUrl
+
+      console.log('取消更改')
     }
   }
 }

@@ -8,6 +8,7 @@
 
 <script>
 import '@/assets/scss/main.scss'
+import 'vue-img-inputer/dist/index.css'
 import Navbar from './components/Navbar'
 import NavbarUserModal from './components/NavbarUserModal'
 import CommentSidebar from './components/CommentSidebar'

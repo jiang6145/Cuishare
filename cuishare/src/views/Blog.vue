@@ -35,19 +35,6 @@ export default {
       return this.user.following.includes(this.author._id)
     }
   },
-  async mounted () {
-    try {
-      const res = await this.axios.get(process.env.VUE_APP_API + '/articles/author/' + this.$route.params.id)
-      const { success, result } = res.data
-
-      if (success) {
-        this.articles = result.map(article => article)
-        this.author = this.articles[0].author
-      }
-    } catch (error) {
-      alert(error.response.data.message)
-    }
-  },
   methods: {
     async follow () {
       try {
@@ -59,6 +46,19 @@ export default {
       } catch (error) {
         alert(error)
       }
+    }
+  },
+  async mounted () {
+    try {
+      const res = await this.axios.get(process.env.VUE_APP_API + '/articles/author/' + this.$route.params.id)
+      const { success, result } = res.data
+
+      if (success) {
+        this.articles = result.map(article => article)
+        this.author = this.articles[0].author
+      }
+    } catch (error) {
+      alert(error.response.data.message)
     }
   }
 }
