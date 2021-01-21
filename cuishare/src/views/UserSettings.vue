@@ -12,7 +12,7 @@
         .settings
           .user-info
             .user-info__title 個人資料
-            b-form.user-info__photo(@submit.prevent="onSubmit" @reset.prevent="onCancel")
+            b-form.user-info__photo(@submit.prevent="photoOnSubmit" @reset.prevent="photoOnCancel")
               .user-info__photo
                 .header
                   label 你的照片
@@ -20,13 +20,14 @@
                     b-button(type="submit" variant="outline-success" size="sm") 確認
                     b-button(type="reset" variant="outline-danger" size="sm") 取消
                 img-inputer.mx-auto(
-                  ref="img-inputer"
                   :img-src="this.$store.state.user.photoUrl"
+                  icon="img"
+                  ref="img-inputer"
                   v-model="userPhoto"
                   placeholder="請選擇照片"
                   bottom-text="編輯你的照片"
                   :max-size="1024"
-                  no-hover-effect
+                  no-multiple-text=true
                   exceedSizeText="檔案大小不能超過1MB"
                   accept="image/*"
                 )
@@ -86,35 +87,36 @@ export default {
     }
   },
   computed: {
-    // oldUserPhoto () {
-    //   return this.$store.state.user.photoUrl
-    // }
+    user () {
+      return this.$store.state.user
+    }
   },
   methods: {
-    async onSubmit () {
-      const userId = this.$store.state.user.id
+    async photoOnSubmit () {
+      const userId = this.user.id
+      const currentPhotoUrl = this.user.photoUrl.split('/')
+      const currentPhotoFilename = currentPhotoUrl[currentPhotoUrl.length - 1]
       const formData = new FormData()
       formData.append('image', this.userPhoto)
 
       try {
-        const updatePhoto = await this.axios.post(process.env.VUE_APP_API + '/pictures/user/', formData)
+        const newPhoto = await this.axios.post(process.env.VUE_APP_API + '/pictures/', formData)
 
         const photoData = {
-          photoUrl: process.env.VUE_APP_API + '/pictures/user/' + updatePhoto.data.filename
+          photoUrl: process.env.VUE_APP_API + '/pictures/' + newPhoto.data.filename
         }
         await this.axios.patch(process.env.VUE_APP_API + '/users/' + userId, photoData)
-
         this.$store.commit('updateUser', photoData)
-        this.$router.go(0)
+
+        await this.axios.delete(process.env.VUE_APP_API + '/pictures/' + currentPhotoFilename)
+
         console.log('確認更改')
       } catch (error) {
         console.log(error)
       }
     },
-    onCancel () {
+    photoOnCancel () {
       this.$refs['img-inputer'].dataUrl = this.$store.state.user.photoUrl
-
-      console.log('取消更改')
     }
   }
 }

@@ -1,7 +1,5 @@
 #navbar-user-menu{
   .dropdown{
-    width: 42px;
-    height: 42px;
 
     .dropdown-toggle{
       padding: 0;
@@ -10,12 +8,10 @@
     }
 
     .userPhoto{
-      width: 100%;
-      border-radius: 50%;
       transition: 0.5s;
 
       &:hover{
-        transform: scale(1.15)
+        transform: scale(1.1)
       }
     }
 

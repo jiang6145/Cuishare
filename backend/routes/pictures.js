@@ -2,18 +2,14 @@ import express from 'express'
 import formDataType from '../middlewares/formDataType.js'
 
 import {
-  articleImageUpload,
-  getArticleImage,
-  deleteArticleImage,
-  userPhotoUpload,
-  getUserPhoto
+  imageUpload,
+  getImage,
+  deleteImage
 } from '../controllers/pictures.js'
 
 const router = express.Router()
-router.post('/article', formDataType, articleImageUpload)
-router.get('/article/:filename', getArticleImage)
-router.delete('/article/:filename', deleteArticleImage)
-router.post('/user/', formDataType, userPhotoUpload)
-router.get('/user/:filename', getUserPhoto)
+router.post('/', formDataType, imageUpload)
+router.get('/:filename', getImage)
+router.delete('/:filename', deleteImage)
 
 export default router

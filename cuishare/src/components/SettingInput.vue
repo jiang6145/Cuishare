@@ -126,11 +126,10 @@ export default {
     async onSubmit (valid) {
       console.log('傳送')
       if (!this.$refs[this.inputname].state) return
-      const userId = this.$store.state.user.id
       const data = { [this.inputname]: this.value }
 
       try {
-        const res = await this.axios.patch(process.env.VUE_APP_API + '/users/' + userId, data)
+        const res = await this.axios.patch(process.env.VUE_APP_API + '/users/' + this.user.id, data)
         const { success, result } = res.data
         if (!success) return
 
@@ -155,14 +154,13 @@ export default {
           !this.$refs['confirm-new-password'].state
       ) return
 
-      const userId = this.$store.state.user.id
       const data = {
         password: this.value,
         newPassword: this.newPassword
       }
 
       try {
-        const res = await this.axios.patch(process.env.VUE_APP_API + '/users/' + userId, data)
+        const res = await this.axios.patch(process.env.VUE_APP_API + '/users/' + this.user.id, data)
         if (!res.data.success) return
 
         this.$refs[this.inputname + '-valid'].reset()

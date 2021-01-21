@@ -13,7 +13,7 @@ export default class UploadAdapter {
         formData.append('image', uploadFile)
 
         axios({
-          url: process.env.VUE_APP_API + '/pictures/article',
+          url: process.env.VUE_APP_API + '/pictures',
           method: 'post',
           formData,
           headers: {
@@ -23,7 +23,7 @@ export default class UploadAdapter {
         }).then(res => {
           if (res.data.success) {
             resolve({
-              default: process.env.VUE_APP_API + '/pictures/article/' + res.data.filename
+              default: process.env.VUE_APP_API + '/pictures/' + res.data.filename
             })
           } else {
             reject(res.data.message)

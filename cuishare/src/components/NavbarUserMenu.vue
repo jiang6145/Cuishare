@@ -2,7 +2,8 @@
 b-navbar-nav#navbar-user-menu
   b-dropdown(right no-caret)
     template(#button-content)
-      img.userPhoto(:src="user.photoUrl")
+      b-avatar.userPhoto(:src="user.photoUrl" size="md")
+      //- img.userPhoto(:src="user.photoUrl")
     b-dropdown-item(href='#') 我的首頁
     b-dropdown-divider
     b-dropdown-item(href='#' to="/new-article") 寫篇文章
