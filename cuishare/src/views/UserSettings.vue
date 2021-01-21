@@ -16,17 +16,18 @@
               .user-info__photo
                 .header
                   label 你的照片
-                  b-button-group
+                  b-button-group(v-if="isPhotChange")
                     b-button(type="submit" variant="outline-success" size="sm") 確認
                     b-button(type="reset" variant="outline-danger" size="sm") 取消
                 img-inputer.mx-auto(
                   :img-src="this.$store.state.user.photoUrl"
+                  :max-size="1024"
+                  @onChange="photOnChange"
                   icon="img"
                   ref="img-inputer"
                   v-model="userPhoto"
                   placeholder="請選擇照片"
                   bottom-text="編輯你的照片"
-                  :max-size="1024"
                   no-multiple-text=true
                   exceedSizeText="檔案大小不能超過1MB"
                   accept="image/*"
@@ -40,6 +41,7 @@
               :type="item.type"
               :rules="item.rules"
               :placeholder="item.placeholder"
+              :editable="item.editable"
             )
 
 </template>
@@ -58,10 +60,18 @@ export default {
   data () {
     return {
       userPhoto: null,
+      isPhotChange: false,
       settingInputDatas: [
         {
+          data: this.$store.state.user.email,
+          fieldname: '你的帳號',
+          inputname: 'email',
+          type: 'text',
+          editable: false
+        },
+        {
           data: this.$store.state.user.username,
-          fieldname: '用戶名稱',
+          fieldname: '你的名稱',
           inputname: 'username',
           type: 'text',
           rules: 'required|min:4|max:30|bannedName',
@@ -92,10 +102,14 @@ export default {
     }
   },
   methods: {
+    photOnChange () {
+      this.isPhotChange = true
+    },
     async photoOnSubmit () {
       const userId = this.user.id
       const currentPhotoUrl = this.user.photoUrl.split('/')
       const currentPhotoFilename = currentPhotoUrl[currentPhotoUrl.length - 1]
+
       const formData = new FormData()
       formData.append('image', this.userPhoto)
 
@@ -110,13 +124,16 @@ export default {
 
         await this.axios.delete(process.env.VUE_APP_API + '/pictures/' + currentPhotoFilename)
 
-        console.log('確認更改')
+        this.$refs['img-inputer'].fileName = ''
+        this.isPhotChange = false
       } catch (error) {
         console.log(error)
       }
     },
     photoOnCancel () {
       this.$refs['img-inputer'].dataUrl = this.$store.state.user.photoUrl
+      this.$refs['img-inputer'].fileName = ''
+      this.isPhotChange = false
     }
   }
 }

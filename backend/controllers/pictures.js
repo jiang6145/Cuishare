@@ -78,6 +78,7 @@ export const deleteImage = async (req, res, next) => {
       if (!exists) return res.status(404).send({ success: false, message: '找不到圖片' })
 
       fs.unlink('images/' + req.params.filename, () => {})
+      res.status(200).send({ success: true, message: '' })
     }
   } catch (error) {
     next(error)

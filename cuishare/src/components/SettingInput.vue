@@ -3,12 +3,12 @@
   .header
     label {{ fieldname }}
     font-awesome-icon(
-      v-if="isDisabled"
+      v-if="isDisabled && editable"
       @click="edit"
       :icon="['fas','pencil-alt']"
       fixed-width
     )
-    b-button-group(v-else)
+    b-button-group(v-if="!isDisabled && editable")
       b-button(variant="outline-success" size="sm" @click="type !== 'password'? onSubmit() : passwordOnSubmit()") 保存
       b-button(variant="outline-danger" size="sm" @click="onCancel") 取消
 
@@ -90,7 +90,11 @@ export default {
       default: 'text'
     },
     rules: String,
-    placeholder: String
+    placeholder: String,
+    editable: {
+      type: Boolean,
+      default: true
+    }
   },
   data () {
     return {
@@ -107,6 +111,7 @@ export default {
   },
   methods: {
     edit () {
+      if (!this.editable) return
       this.isDisabled = false
       this.$nextTick(() => this.$refs[this.inputname].focus())
 

@@ -48,7 +48,6 @@ export default new Vuex.Store({
       console.log(data)
       const key = Object.keys(data)
       state.user[key[0]] = data[key[0]]
-      console.log('更改store')
     },
     following (state, data) {
       state.user.following = data.following
