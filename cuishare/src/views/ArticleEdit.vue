@@ -2,7 +2,7 @@
 #article-edit
   b-container.editor-container
     #my-editor
-    b-button(@click="save") save
+    b-button(@click="publish") 發佈文章
 </template>
 
 <script>

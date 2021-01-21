@@ -18,7 +18,9 @@ import {
   faBookmark,
   faCommentDots,
   faQuestionCircle,
-  faEnvelope
+  faEnvelope,
+  faEye,
+  faEyeSlash
 } from '@fortawesome/free-regular-svg-icons'
 import {
   faHeart as fasHeart,
@@ -26,7 +28,7 @@ import {
   faPencilAlt as fasPencilAlt
 } from '@fortawesome/free-solid-svg-icons'
 
-library.add(faHeart, fasHeart, faBookmark, fasBookmark, faCommentDots, faQuestionCircle, faEnvelope, fasPencilAlt)
+library.add(faHeart, fasHeart, faBookmark, fasBookmark, faCommentDots, faQuestionCircle, faEnvelope, fasPencilAlt, faEye, faEyeSlash)
 Vue.component('font-awesome-icon', FontAwesomeIcon)
 
 axios.defaults.withCredentials = true

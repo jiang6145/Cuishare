@@ -15,15 +15,20 @@
           ArticleCard(:article="article")
       b-col(lg="4")
         .side
+
+  ArticlePublishModal
+  b-button(v-b-modal.article-publish-modal) ArticlePublishModal
 </template>
 
 <script>
 import ArticleCard from '../components/ArticleCard'
+import ArticlePublishModal from '../components/ArticlePublishModal'
 
 export default {
   name: 'Home',
   components: {
-    ArticleCard
+    ArticleCard,
+    ArticlePublishModal
   },
   data () {
     return {
