@@ -42,7 +42,7 @@ export default {
             }
           },
           autosave: {
-            waitingTime: 5000,
+            waitingTime: 2000,
             save (editor) {
               return autoSave(editor.getData())
             }

@@ -1,0 +1,63 @@
+.vue-select-image{
+  padding: 0;
+  overflow-x: scroll;
+  margin-bottom: 2.5rem;
+
+  &__wrapper{
+  display: flex;
+  align-items: center;
+  flex-wrap: nowrap;
+  }
+
+  &__item{
+    padding:0.5rem;
+  }
+
+  &__thumbnail--selected{
+    border: 2px solid orange;
+    box-shadow: 0 0 10px orange;
+  }
+
+  img{
+    object-fit: cover;
+    object-position: center center;
+  }
+}
+
+.vue-tags-input[data-v-61d92e31]{
+  max-width: 100%;
+  width: 100%;
+  margin-bottom: 2.5rem;
+}
+
+.modal-content{
+  border: none;
+}
+
+.modal-body{
+  padding-top: 3rem;
+  padding-bottom: 3rem;
+}
+
+.modal-backdrop{
+  background-color: #fff;
+  opacity:1;
+  transition:opacity .2s;
+}
+
+.modal-title{
+  font-size: 1.2rem;
+  font-weight: 900;
+}
+
+.text{
+  margin-bottom: 5px;
+  font-size: 0.9rem;
+  color: rgb(128, 128, 128);
+}
+
+.fa-eye,.fa-eye-slash{
+  margin-bottom: .2rem;
+  margin-left: 1rem;;
+  color: rgb(143, 143, 143);
+}

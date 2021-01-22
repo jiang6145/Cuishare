@@ -6,7 +6,7 @@
         AuthorCard(:author="author")
 
       b-col.mr-auto(cols="12" lg="6")
-        .article-item(v-for="(article, index) in articles" :key="article._id")
+        .article-item(v-for="article in blogArticles" :key="article._id")
           ArticleCard(:article="article" :direction="'vertical'")
 
 </template>
@@ -23,7 +23,7 @@ export default {
   },
   data () {
     return {
-      articles: [],
+      blogArticles: [],
       author: {}
     }
   },
@@ -54,8 +54,11 @@ export default {
       const { success, result } = res.data
 
       if (success) {
-        this.articles = result.map(article => article)
-        this.author = this.articles[0].author
+        this.blogArticles = result.filter(({ isPublish, isDraft, isBlocked, isUnlisted }) => {
+          return isPublish && !isDraft && !isBlocked && !isUnlisted
+        })
+
+        this.author = this.blogArticles[0].author
       }
     } catch (error) {
       alert(error.response.data.message)

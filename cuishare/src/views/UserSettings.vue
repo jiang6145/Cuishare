@@ -114,7 +114,7 @@ export default {
       formData.append('image', this.userPhoto)
 
       try {
-        const newPhoto = await this.axios.post(process.env.VUE_APP_API + '/pictures/', formData)
+        const newPhoto = await this.axios.post(process.env.VUE_APP_API + '/pictures', formData)
 
         const photoData = {
           photoUrl: process.env.VUE_APP_API + '/pictures/' + newPhoto.data.filename

@@ -1,52 +1,73 @@
 <template lang="pug">
-b-sidebar(
-  id="comment-sidebar"
-  @shown="showComment"
-  @hidden="hideComment"
-  right
-  shadow
-)
-  .comment-item(
-    v-for="(comment, index) in comments"
-    :key="comment._id"
+.comment-sidebar
+  b-sidebar(
+    id="comment-sidebar"
+    backdrop
+    right
+    shadow
   )
-    .comment-user(@click="toUserBlog(comment.byUser._id)")
-      b-avatar(:src="comment.byUser.photoUrl" size="sm")
-      span.username {{ comment.byUser.username }}
-    p.comment-text {{ comment.text }}
+    //- b-container
+    //-   b-row
+    //-     b-col(cols="12")
+    .comment-item(v-for="comment in comments" :key="comment._id")
+      .comment-item__avatar
+        b-avatar(:src="comment.byUser.photoUrl" size="md")
+        .comment-item__info
+          span.comment-item__info__username {{ comment.byUser.username }}
+          span.comment-item__info__create-at {{ comment.createDate }}
+      .comment-item__content
+        p {{ comment.text }}
 
-  b-form-textarea.commentarea
+    template(#header)
+      textarea.comment-textarea(
+        v-dynamic-height="{ disabled: false,minHeight: '20px' }"
+        ref="textarea"
+        placeholder="分享你的閱讀感想吧"
+        :value="value"
+        @input="onInput"
+      )
 </template>
 
 <script>
+import DynamicHeight from 'vue-dynamic-height'
+
 export default {
   name: 'CommentSidebar',
+  directives: {
+    DynamicHeight
+  },
+  props: {
+    articleId: String,
+    value: String
+  },
+  watch: {
+    value () {
+      this.triggerEventToDynamicHeight()
+    }
+  },
   data () {
     return {
       comments: []
     }
   },
-  computed: {
-    article () {
-      return this.$store.state.activeArticle
+  methods: {
+    triggerEventToDynamicHeight () {
+      this.$nextTick(() => {
+        this.$refs.textarea.dispatchEvent(new Event('input'))
+      })
+    },
+    onInput () {
+      this.$emit('input', event.target.value)
     }
   },
-  methods: {
-    async showComment () {
-      try {
-        const res = await this.axios.get(process.env.VUE_APP_API + '/comments/' + this.article._id)
-        const { success, result } = res.data
-        if (success) this.comments = result
-      } catch (error) {
-        console.log(error)
-      }
-      console.log(this.comment)
-    },
-    hideComment () {
-      this.comments = []
-    },
-    toUserBlog (userId) {
-      this.$router.push({ path: '/blog/' + userId })
+  async mounted () {
+    try {
+      const res = await this.axios.get(process.env.VUE_APP_API + '/comments/' + this.articleId)
+      const { success, result } = res.data
+      if (success) this.comments = result
+      console.log(this.comments)
+    } catch (error) {
+      console.log(error)
     }
   }
 }

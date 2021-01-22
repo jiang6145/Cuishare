@@ -2,15 +2,21 @@
 #article-edit
   b-container.editor-container
     #my-editor
-    b-button(@click="publish") 發佈文章
+    b-button(@click="onPublish") 發佈文章
+
+  ArticlePublishModal
 </template>
 
 <script>
 import ClassicEditor from '../ckeditor'
 import UploadAdapter from '../uploadAdapter'
+import ArticlePublishModal from '../components/ArticlePublishModal'
 
 export default {
   name: 'ArticleEdit',
+  components: {
+    ArticlePublishModal
+  },
   data () {
     return {
       editor: null,
@@ -89,7 +95,7 @@ export default {
         resolve()
       })
     },
-    dataHandler (data) {
+    editorDataHandler (data) {
       // 取得標題
       const TitlePlugin = this.editor.plugins.get('Title')
       const title = TitlePlugin.getTitle()
@@ -104,14 +110,24 @@ export default {
         }
       }
 
-      const image = document.querySelector('.ck-content img')
-      const coverPhotoUrl = image ? image.getAttribute('src') : ''
+      const images = document.querySelectorAll('.ck-content img')
+      const imagesSrc = []
+      if (images) {
+        images.forEach((image, index) => {
+          imagesSrc.push({
+            id: index,
+            src: image.getAttribute('src'),
+            alt: title + '文章的圖片' + (index + 1)
+          })
+        })
+      }
 
       return {
+        articleId: this.$route.params.id,
         title,
         subTitle,
-        coverPhotoUrl,
-        text: data
+        text: data,
+        imagesSrc
       }
     },
     async getArticle () {
@@ -123,16 +139,11 @@ export default {
         console.log(error)
       }
     },
-    async save () {
+    async onPublish () {
       try {
-        const articleId = this.$route.params.id
-        const articleData = this.dataHandler(this.editorData)
-        const res = await this.axios.patch(process.env.VUE_APP_API + '/articles/' + articleId, articleData)
-
-        if (res.data.success) {
-          this.$store.commit('editorStorage', { text: '', _id: '' })
-          // this.$router.push('/') 保存成功前往文章閱讀頁面
-        }
+        const editorData = this.editorDataHandler(this.editorData)
+        this.$store.commit('articleData', editorData)
+        this.$bvModal.show('article-publish-modal')
       } catch (error) {
         console.log(error)
       }

@@ -1,7 +1,7 @@
 <template lang="pug">
   b-card.author-card
     .user-photo
-      b-img.w-100.user-photo(:src="author.photoUrl")
+      b-avatar(:src="author.photoUrl" size="7rem")
 
     b-card-text
       p.username {{ author.username }}

@@ -46,10 +46,10 @@ export default {
   },
   methods: {
     toArticle (articleId) {
-      this.$router.push({ path: '/article/' + articleId })
+      this.$router.push('/article/' + articleId)
     },
     toUserBlog (userId) {
-      this.$router.push({ path: '/blog/' + userId })
+      this.$router.push('/blog/' + userId)
     }
   }
 }

@@ -4,20 +4,17 @@
     b-row.cuishare-article-container
       b-col(cols="12")
         .title
-          //- b-avatar(:src="cuishareArticles[0].author.photoUrl" size="md")
+          //- b-avatar(:src="officialArticles[0].author.photoUrl" size="md")
           //- h4 我們的文章
-        .article-item(v-for="article in cuishareArticles.slice(0,4)" :key="article._id")
+        .article-item(v-for="article in officialArticles.slice(0,4)" :key="article._id")
           ArticleCard(:article="article")
 
     b-row.user-article-container
       b-col(cols="12" lg="8")
-        .article-item(v-for="article in articles" :key="article._id")
+        .article-item(v-for="article in authorArticles" :key="article._id")
           ArticleCard(:article="article")
       b-col(lg="4")
         .side
-
-  ArticlePublishModal
-  b-button(v-b-modal.article-publish-modal) ArticlePublishModal
 </template>
 
 <script>
@@ -32,8 +29,8 @@ export default {
   },
   data () {
     return {
-      cuishareArticles: [],
-      articles: []
+      officialArticles: [],
+      authorArticles: []
     }
   },
   computed: {
@@ -47,11 +44,15 @@ export default {
       const { success, result } = res.data
 
       if (success) {
-        this.cuishareArticles = result.filter(article => article.author.username === 'Cuishare' && article.isPublish && !article.isBlocked)
-        this.articles = result.filter(article => article.author.username !== 'Cuishare' && article.isPublish && !article.isBlocked)
+        const showFilter = result.filter(({ isPublish, isDraft, isBlocked, isUnlisted }) => {
+          return isPublish && !isDraft && !isBlocked && !isUnlisted
+        })
+
+        this.officialArticles = showFilter.filter(article => article.author.username === 'Cuishare')
+        this.authorArticles = showFilter.filter(article => article.author.username !== 'Cuishare')
       }
     } catch (error) {
-      alert(error.response.data.message)
+      console.log(error.response.data.message)
     }
   }
 }

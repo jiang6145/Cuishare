@@ -27,6 +27,10 @@ const articleSchema = new Schema(
       type: Boolean,
       default: false
     },
+    isUnlisted: {
+      type: Boolean,
+      default: false
+    },
     isDraft: {
       type: Boolean,
       default: true

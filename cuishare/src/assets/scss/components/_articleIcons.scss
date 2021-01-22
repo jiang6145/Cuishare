@@ -1,14 +1,18 @@
 .article-icons{
-  width: 6rem;
   display: flex;
-  justify-content: space-between;
+
   .icon{
     cursor: pointer;
     transition: 0.5s;
     color: #aaa;
+
     &:hover{
       color: #555;
       transform: scale(1.05);
+    }
+
+    &~.icon{
+      margin-left: 1rem;
     }
   }
 

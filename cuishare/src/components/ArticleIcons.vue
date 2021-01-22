@@ -22,17 +22,17 @@
       @click="clikcFavorites(article)"
       fixed-width
     )
-  .icon(
-    v-b-tooltip.hover.bottomleft
-    v-b-toggle.comment-sidebar
-    @click="clikcComment(article)"
-    title="留言"
-  )
-    font-awesome-icon(
-      :icon="['far', 'comment-dots']"
-      :size="size"
-      fixed-width
-    )
+  //- .icon(
+  //-   v-b-tooltip.hover.bottomleft
+  //-   v-b-toggle.comment-sidebar
+  //-   @click="clikcComment(article)"
+  //-   title="留言"
+  //- )
+  //-   font-awesome-icon(
+  //-     :icon="['far', 'comment-dots']"
+  //-     :size="size"
+  //-     fixed-width
+  //-   )
 </template>
 
 <script>
@@ -100,9 +100,6 @@ export default {
       } catch (error) {
         alert(error.response.data.message)
       }
-    },
-    clikcComment (article) {
-      this.$store.commit('activeArticle', article)
     }
   }
 }

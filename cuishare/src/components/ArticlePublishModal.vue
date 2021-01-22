@@ -2,7 +2,7 @@
 b-modal#article-publish-modal(
   @hidden="resetModal"
   @ok="publish"
-  title="發布XXXX"
+  :title="articleData.title"
   size="md"
   button-size="sm"
   centered
@@ -56,45 +56,25 @@ export default {
     VueTagsInput,
     ToggleButton
   },
+  props: {
+
+  },
   data () {
     return {
       coverPhotoUrl: null,
       tag: '',
       tags: [],
       maxTags: 5,
-      isUnlisted: false,
-      dataImages: [{
-        id: '1',
-        src: 'https://unsplash.it/200?random',
-        alt: 'Alt Image 1'
-      }, {
-        id: '2',
-        src: 'https://unsplash.it/200?random',
-        alt: 'Alt Image 2'
-      }, {
-        id: '3',
-        src: 'https://unsplash.it/200?random',
-        alt: 'Alt Image 3'
-      }, {
-        id: '4',
-        src: 'https://unsplash.it/200?random',
-        alt: 'Alt Image 3'
-      }, {
-        id: '5',
-        src: 'https://unsplash.it/200?random',
-        alt: 'Alt Image 3'
-      }, {
-        id: '6',
-        src: 'https://unsplash.it/200?random',
-        alt: 'Alt Image 3'
-      }, {
-        id: '7',
-        src: 'https://unsplash.it/200?random',
-        alt: 'Alt Image 3'
-      }]
+      isUnlisted: false
     }
   },
   computed: {
+    dataImages () {
+      return this.articleData.imagesSrc
+    },
+    articleData () {
+      return this.$store.state.articleData
+    },
     isUnlistedIcon () {
       return this.isUnlisted ? ['far', 'eye-slash'] : ['far', 'eye']
     },
@@ -115,70 +95,29 @@ export default {
       this.tags = []
       this.isUnlisted = false
     },
-    publish () {
+    async publish () {
+      const articleId = this.articleData.articleId
+      const publishArticleData = {
+        title: this.articleData.title,
+        subTitle: this.articleData.subTitle,
+        text: this.articleData.text,
+        coverPhotoUrl: this.coverPhotoUrl || '',
+        tags: this.tags.map(tag => tag.text),
+        isPublish: true,
+        isDraft: false,
+        isUnlisted: this.isUnlisted
+      }
 
+      try {
+        const res = await this.axios.patch(process.env.VUE_APP_API + '/articles/' + articleId, publishArticleData)
+
+        if (!res.data.success) return
+        this.$store.commit('articleData', {})
+        this.$router.push('/article/' + articleId)
+      } catch (error) {
+        console.log(error)
+      }
     }
   }
 }
 </script>
-
-<style lang="scss">
-.vue-select-image{
-  padding: 0;
-  overflow-x: scroll;
-  margin-bottom: 2.5rem;
-
-  &__wrapper{
-  display: flex;
-  align-items: center;
-  flex-wrap: nowrap;
-  }
-
-  &__item{
-    padding:0.5rem;
-  }
-
-  &__thumbnail--selected{
-    border: 2px solid orange;
-    box-shadow: 0 0 10px orange;
-  }
-}
-
-.vue-tags-input[data-v-61d92e31]{
-  max-width: 100%;
-  width: 100%;
-  margin-bottom: 2.5rem;
-}
-
-.modal-content{
-  border: none;
-}
-
-.modal-body{
-  padding-top: 3rem;
-  padding-bottom: 3rem;
-}
-
-.modal-backdrop{
-  background-color: #fff;
-  opacity:1;
-  transition:opacity .2s;
-}
-
-.modal-title{
-  font-size: 1.2rem;
-  font-weight: 900;
-}
-
-.text{
-  margin-bottom: 5px;
-  font-size: 0.9rem;
-  color: rgb(128, 128, 128);
-}
-
-.fa-eye,.fa-eye-slash{
-  margin-bottom: .2rem;
-  margin-left: 1rem;;
-  color: rgb(143, 143, 143);
-}
-</style>

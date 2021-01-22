@@ -13,7 +13,9 @@ const validate = (credentials, requiredFields = []) => {
     coverPhotoUrl: Joi.string().allow(''),
     createDate: Joi.date(),
     isPublish: Joi.boolean(),
+    isUnlisted: Joi.boolean(),
     isDraft: Joi.boolean(),
+    isBlocked: Joi.boolean(),
     tags: Joi.array().items(Joi.string())
   })
 
