@@ -1,26 +1,18 @@
 import axios from 'axios'
-
 export default class UploadAdapter {
   constructor (loader) {
-    // The file loader instance to use during the upload.
     this.loader = loader
   }
 
   upload () {
     return this.loader.file.then(uploadFile => {
       return new Promise((resolve, reject) => {
+        console.log(uploadFile)
         const formData = new FormData()
         formData.append('image', uploadFile)
+        console.log(formData)
 
-        axios({
-          url: process.env.VUE_APP_API + '/pictures',
-          method: 'post',
-          formData,
-          headers: {
-            'Content-Type': 'multipart/form-data;'
-          },
-          withCredentials: true
-        }).then(res => {
+        axios.post(process.env.VUE_APP_API + '/pictures', formData).then(res => {
           if (res.data.success) {
             resolve({
               default: process.env.VUE_APP_API + '/pictures/' + res.data.filename
@@ -29,7 +21,6 @@ export default class UploadAdapter {
             reject(res.data.message)
           }
         }).catch(error => {
-          console.log(error)
           reject(error.response.data.message)
         })
       })
