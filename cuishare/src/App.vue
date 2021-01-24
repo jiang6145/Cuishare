@@ -1,7 +1,7 @@
 <template lang="pug">
 #app
   Navbar
-  NavbarUserModal
+  UserModal
   router-view
 </template>
 
@@ -9,22 +9,13 @@
 import '@/assets/scss/main.scss'
 import 'vue-img-inputer/dist/index.css'
 import Navbar from './components/Navbar'
-import NavbarUserModal from './components/NavbarUserModal'
+import UserModal from './components/UserModal'
 
 export default {
   name: 'App',
   components: {
     Navbar,
-    NavbarUserModal
-  },
-  data () {
-    return {
-      fieldname: '密碼',
-      inputname: 'password',
-      type: 'password',
-      rules: 'required|min:4|max:30|bannedName',
-      placeholder: '用戶名稱 (可以更改)'
-    }
+    UserModal
   },
   computed: {
     user () {

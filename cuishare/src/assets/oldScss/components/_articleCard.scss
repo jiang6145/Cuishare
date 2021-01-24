@@ -1,9 +1,8 @@
 .article-card{
   border: none;
   margin-bottom: 5rem;
-
+  
   .left{
-    padding-right: 1.2rem;
     display: flex;
     flex-direction: column;
   }
@@ -13,39 +12,48 @@
     cursor: pointer;
 
     .card-title{
-      @include text-overflow(2);
+      overflow:hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      white-space: normal;
+
+      font-size: 1.5rem;
       font-weight: 900;
-      margin-bottom: 0.5rem;
-      font-size: $text-font-lg !important;
-      
-      @include media-breakpoint-up(sm){
-        font-size: $heading-font-xs !important;
-        font-size: 1.5rem;
-        line-height: 1.8rem;
+      line-height: 1.8rem;
+      margin-bottom: 1rem;
+
+      @include sm{
+        font-size: 1.2rem;
+        line-height: 1.4rem;
       }
     }
 
     .article-text{
-      @include text-overflow(2);
-      font-size: $text-font-sm;
-      display:none;
-      margin-bottom: 0.3rem;
-      color: $color-secondary;
+      display: block;
+      overflow:hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      white-space: normal;
+      margin-bottom: 1rem;
+      color: #aaa;
 
-      @include media-breakpoint-up(sm){
-        display: block;
-        @include text-overflow(2);
+      @include sm{
+        display: none;
       }
     }
-
     .article-date{
-      font-size: $text-font-xs;
-      color: $color-secondary;
-      margin-bottom: 0.5rem;
+      font-size: 0.7rem;
+      color: #aaa;
+      text-align: right;
 
-      @include media-breakpoint-up(sm){
-        margin-bottom: 1rem;
-        text-align: right;
+      @include sm{
+        margin-bottom: 0;
       }
     }
   }
@@ -55,7 +63,7 @@
     justify-content: space-between;
     padding: 0;
     border: none;
-    background-color: $color-basic;
+    background-color: #fff;
 
     .author{
       cursor: pointer;
@@ -90,16 +98,14 @@
 
 .article-card.card-horizontal{
   .left{
-    height: 130px;
-    @include media-breakpoint-up(sm){
-      height: 180px;
-    }
+    max-height: 160px;
+    padding-right: 1.6rem;
   }
 
   .right{
-    height: 130px;
-    @include media-breakpoint-up(sm){
-      height: 180px;
+    max-height: 160px;
+    @include sm{
+      max-height: 120px;
     }
   }
 }

@@ -1,0 +1,28 @@
+#navbar{
+  position: fixed;
+  top: 0;
+  z-index: 9;
+  width: 100%;
+
+  .navbar{
+    min-height: 75px;
+  }
+
+  .navbar-nav{
+    flex-direction: row;
+    align-items: center;
+  }
+
+  .nav-item{
+    letter-spacing: 2px;
+  }
+
+  .nav-item ~ .nav-item{
+    margin-left: 10px;
+  }
+
+  .login-button{
+    letter-spacing: 0.8rem;
+    padding-left: 1.3rem;
+  }
+}

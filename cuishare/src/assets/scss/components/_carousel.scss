@@ -1,0 +1,77 @@
+.carousel{
+  margin-bottom: 10rem;
+
+  &__item{
+    position: relative;
+    height: 40vh;
+
+    @include media-breakpoint-up(md){
+      height: 60vh;
+    }
+
+    @include media-breakpoint-up(lg){
+      height: 92vh;
+    }
+
+    &::before{
+      content:'';
+      @include mask(0.7);
+    }
+  }
+
+  &__img{
+    @include img-fit;
+  }
+
+  .carousel-caption{
+    width: 70%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+  }
+
+  &__title{
+    position: relative;
+    cursor: pointer;
+    font-size: $heading-font-xs;
+    text-align: left;
+
+    @include media-breakpoint-up(md){
+      font-size: $heading-font-md;
+    }
+
+    @include media-breakpoint-up(lg){
+      font-size: $heading-font-xl;
+      margin-bottom: 10%;
+    }
+
+    &::before{
+      content:'';
+      width: 8%;
+      height: 2px;
+      position: absolute;
+      bottom: -3rem;
+      left: 50%;
+      transform: translateX(-50%);
+      background-color: $color-secondary-light;
+      transition: .3s;
+    }
+
+    &:hover::before{
+      width: 15%;
+      background-color: #fff;
+    }
+  }
+
+  &__text{
+    width: 50%;
+    margin: 0 auto;
+    color: $color-secondary-light;
+    display: none;
+
+    @include media-breakpoint-up(lg){
+      display: block;
+      @include text-overflow(3);
+    }
+  }
+}

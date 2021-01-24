@@ -1,15 +1,12 @@
 <template lang="pug">
 #home
-  b-container.main-container
-    b-row.cuishare-article-container
-      b-col(cols="12")
-        .title
-          //- b-avatar(:src="officialArticles[0].author.photoUrl" size="md")
-          //- h4 我們的文章
-        .article-item(v-for="article in officialArticles.slice(0,4)" :key="article._id")
-          ArticleCard(:article="article")
+  Carousel(:carouselData="carouselData")
 
-    b-row.user-article-container
+  b-container
+    b-row
+      b-col
+
+    b-row
       b-col(cols="12" lg="8")
         .article-item(v-for="article in authorArticles" :key="article._id")
           ArticleCard(:article="article")
@@ -20,22 +17,49 @@
 <script>
 import ArticleCard from '../components/ArticleCard'
 import ArticlePublishModal from '../components/ArticlePublishModal'
+import Carousel from '../components/Carousel'
+import dateFormat from '../dateFormat'
 
 export default {
   name: 'Home',
   components: {
     ArticleCard,
-    ArticlePublishModal
+    ArticlePublishModal,
+    Carousel
   },
   data () {
     return {
-      officialArticles: [],
-      authorArticles: []
+      articles: [],
+      slide: 0
     }
   },
   computed: {
     user () {
       return this.$store.state.user
+    },
+    carouselData () {
+      return this.articles.concat().sort((a, b) => {
+        const likesCountA = a.likes.length
+        const likesCountB = b.likes.length
+        return likesCountB - likesCountA
+      }).slice(0, 5)
+    },
+    officialArticles () {
+      return this.articles.filter(article => article.author.username === 'Cuishare').slice(0, 6)
+    },
+    authorArticles () {
+      return this.articles.filter(article => article.author.username !== 'Cuishare')
+    }
+  },
+  methods: {
+    filterPublished (result) {
+      return result.filter(({ isPublish, isDraft, isBlocked, isUnlisted }) => {
+        return isPublish && !isDraft && !isBlocked && !isUnlisted
+      }).map((article) => {
+        article.createDate = dateFormat(article.createDate)
+        console.log(article)
+        return article
+      })
     }
   },
   async mounted () {
@@ -44,12 +68,7 @@ export default {
       const { success, result } = res.data
 
       if (success) {
-        const showFilter = result.filter(({ isPublish, isDraft, isBlocked, isUnlisted }) => {
-          return isPublish && !isDraft && !isBlocked && !isUnlisted
-        })
-
-        this.officialArticles = showFilter.filter(article => article.author.username === 'Cuishare')
-        this.authorArticles = showFilter.filter(article => article.author.username !== 'Cuishare')
+        this.articles = this.filterPublished(result)
       }
     } catch (error) {
       console.log(error.response.data.message)

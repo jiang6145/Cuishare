@@ -9,8 +9,8 @@ import vueAxios from 'vue-axios'
 import App from './App.vue'
 import router from './router'
 import store from './store'
-
 import '../src/validation.js'
+
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import {

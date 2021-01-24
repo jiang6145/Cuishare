@@ -1,22 +1,26 @@
 <template lang="pug">
-#navbar
-  b-navbar(toggleable="sm" type="dark" variant="dark" fixed="true")
-    b-container.main-container
+  b-navbar(fixed="top")
+    b-container
       b-navbar-brand(href="#" to="/") LOGO
 
       //- v-if="!isLogin", 未登入時的導航列
       b-navbar-nav.ml-auto(v-if="!isLogin")
-        b-nav-item(href="#" v-b-modal="'navbar-user-modal'" @click.prevent="toggleModal(false)") 註冊會員
-        b-nav-item(href="#")
+        b-nav-item.navbar__item(
+          href="#"
+          v-b-modal="'user-modal'"
+          @click.prevent="toggleModal(false)"
+        ) 註冊會員
+        b-nav-item.navbar__item(href="#")
           font-awesome-icon(
             :icon="['far', 'question-circle']"
             :size="'lg'"
             fixed-width
           )
-        b-nav-item
-          b-button.login-button(
+        b-nav-item.navbar__item
+          b-button.btn.btn--login(
             size="sm"
-            v-b-modal="'navbar-user-modal'"
+            v-b-modal="'user-modal'"
+            variant="outline-dark"
             v-if="!isLogin"
             @click="toggleModal(true)"
           ) 登入

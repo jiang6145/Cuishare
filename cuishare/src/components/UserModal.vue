@@ -1,9 +1,12 @@
 <template lang="pug">
-b-modal#navbar-user-modal(
+b-modal#user-modal.user-modal(
   @hidden="resetModal"
   @show="resetModal"
+  size="md"
+  button-size="sm"
   centered
   hide-footer
+  no-close-on-backdrop
 )
 
   ValidationObserver(v-slot='{ handleSubmit }' ref="registerAndLoginForm" tag="div")
@@ -90,7 +93,7 @@ b-modal#navbar-user-modal(
 import { ValidationProvider, ValidationObserver } from 'vee-validate'
 
 export default {
-  name: 'NavbarUserModal',
+  name: 'UserModal',
   components: {
     ValidationProvider,
     ValidationObserver
@@ -139,7 +142,7 @@ export default {
           const res = await this.axios.post(process.env.VUE_APP_API + '/users', registerData)
           message = res.data.message
         }
-        this.$bvModal.hide('navbar-user-modal')
+        this.$bvModal.hide('user-modal')
         this.resMessageColor = 'green'
         this.resMessage = message
       } catch (error) {

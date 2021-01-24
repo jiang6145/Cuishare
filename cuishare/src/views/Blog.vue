@@ -14,6 +14,7 @@
 <script>
 import ArticleCard from '../components/ArticleCard'
 import AuthorCard from '../components/AuthorCard'
+import dateFormat from '../dateFormat'
 
 export default {
   name: 'Blog',
@@ -36,6 +37,15 @@ export default {
     }
   },
   methods: {
+    filterPublished (result) {
+      return result.filter(({ isPublish, isDraft, isBlocked, isUnlisted }) => {
+        return isPublish && !isDraft && !isBlocked && !isUnlisted
+      }).map((article) => {
+        article.createDate = dateFormat(article.createDate)
+        console.log(article)
+        return article
+      })
+    },
     async follow () {
       try {
         const res = await this.axios.patch(process.env.VUE_APP_API + '/users/follow/' + this.author._id)
@@ -54,9 +64,7 @@ export default {
       const { success, result } = res.data
 
       if (success) {
-        this.blogArticles = result.filter(({ isPublish, isDraft, isBlocked, isUnlisted }) => {
-          return isPublish && !isDraft && !isBlocked && !isUnlisted
-        })
+        this.blogArticles = this.filterPublished(result)
 
         this.author = this.blogArticles[0].author
       }

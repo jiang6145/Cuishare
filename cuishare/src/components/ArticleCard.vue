@@ -4,7 +4,7 @@
       b-col.left(cols="8")
         b-card-body(:title="article.title" @click="toArticle(article._id)")
           b-card-text.article-text {{ article.subTitle }}
-          p.article-date {{ articleDate }}
+          p.article-date {{ article.createDate }}
         b-card-footer
           .author(@click="toUserBlog(article.author._id)")
             b-avatar(:src="article.author.photoUrl" size="sm")

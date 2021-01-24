@@ -1,6 +1,6 @@
 <template lang="pug">
 .article-icons
-  .icon(
+  .article-icons__icon.article-icons__icon--like(
     v-b-tooltip.hover.bottomleft
     :title="likeCount"
   )
@@ -11,7 +11,7 @@
       @click="clikcLike(article)"
       fixed-width
     )
-  .icon(
+  .article-icons__icon.article-icons__icon--favorite(
     v-b-tooltip.hover.bottomleft
     :title="favoritesCount"
   )
@@ -22,17 +22,6 @@
       @click="clikcFavorites(article)"
       fixed-width
     )
-  //- .icon(
-  //-   v-b-tooltip.hover.bottomleft
-  //-   v-b-toggle.comment-sidebar
-  //-   @click="clikcComment(article)"
-  //-   title="留言"
-  //- )
-  //-   font-awesome-icon(
-  //-     :icon="['far', 'comment-dots']"
-  //-     :size="size"
-  //-     fixed-width
-  //-   )
 </template>
 
 <script>

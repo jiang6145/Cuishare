@@ -1,28 +1,15 @@
-#navbar{
-  position: fixed;
-  top: 0;
-  z-index: 9;
-  width: 100%;
+.navbar{
+  min-height: 80px;
+  background-color: $color-primary;
+  border-bottom: 1px solid $color-secondary;
 
-  .navbar{
-    min-height: 75px;
-  }
-
-  .navbar-nav{
-    flex-direction: row;
+  &__item{
+    display: flex;
     align-items: center;
-  }
+    font-weight: 900;
 
-  .nav-item{
-    letter-spacing: 2px;
-  }
-
-  .nav-item ~ .nav-item{
-    margin-left: 10px;
-  }
-
-  .login-button{
-    letter-spacing: 0.8rem;
-    padding-left: 1.3rem;
+    &~.navbar__item{
+      margin-left: 0.5rem;
+    }
   }
 }

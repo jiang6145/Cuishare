@@ -1,11 +1,8 @@
 .b-sidebar {
-  @include media-breakpoint-up(md){
-    min-width: 450px;
-  }
+  min-width: 450px;
 
   &-body{
     padding: 2rem;
-    background-color: $color-basic;
   }
 
   .btn--close{

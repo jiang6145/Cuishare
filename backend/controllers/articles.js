@@ -85,6 +85,7 @@ export const changeArticleCategory = async (req, res, next) => {
 export const getArticleAll = async (req, res, next) => {
   // 管理者取得除了草稿的所有文章, 使用者取得已發佈的公開未被封鎖文章
   const isAdmin = req.session.user.isAdmin
+  console.log(isAdmin)
   const query = isAdmin
     ? { isDraft: false }
     : { isPublish: true, isDraft: false, isBlocked: false, isUnlisted: false }

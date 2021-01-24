@@ -1,23 +1,26 @@
-@mixin sm{
-  @media(max-width: 576px){
-    @content;
-  }
+@mixin mask($opacity){
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  background-color: rgba(0,0,0);
+  opacity: $opacity;
 }
 
-@mixin md{
-  @media(max-width: 768px){
-    @content;
-  }
+@mixin img-fit{
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center center;
 }
 
-@mixin lg{
-  @media(max-width: 992px){
-    @content;
-  }
-}
-
-@mixin xl{
-  @media(max-width: 1200px){
-    @content;
-  }
+@mixin text-overflow($line-clamp){
+  overflow:hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: $line-clamp;
+  -webkit-box-orient: vertical;
+  white-space: normal;
 }

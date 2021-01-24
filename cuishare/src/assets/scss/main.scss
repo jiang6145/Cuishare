@@ -1,27 +1,23 @@
+// 引用 bootstrap 的 @include media-breakpoint 方法
+@import "node_modules/bootstrap/scss/_functions";
+@import "node_modules/bootstrap/scss/_variables";
+@import "node_modules/bootstrap/scss/mixins/_breakpoints";
+
 // utils
 @import 'utils/variables';
 @import 'utils/mixin';
 
 // base
-@import 'base/reset';
+@import 'base/basic';
 
 // components
-// @import 'components/navbar';
-// @import 'components/navbarUserModal';
-// @import 'components/navbarUserMenu';
-// @import 'components/articleCard';
-// @import 'components/articleIcons';
-// @import 'components/editor';
-// @import 'components/followButton';
-// @import 'components/authorCard';
+@import 'components/navbar';
+@import 'components/carousel';
+@import 'components/articleCard';
+@import 'components/articleIcons';
 @import 'components/commentSidebar';
-// @import 'components/settingInput';
-// @import 'components/articlePublishModal';
+
 
 
 // views
-// @import 'views/home';
-// @import 'views/newArticle';
-// @import 'views/article';
-// @import 'views/blog';
-// @import 'views/userSettings';
+

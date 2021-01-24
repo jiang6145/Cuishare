@@ -17,11 +17,11 @@ export const cerateComment = async (req, res, next) => {
     req.body.byArticle = article._id
     req.body.articleAuthor = article.author
 
-    const result = await comments.create(req.body)
-    // result = await result
-    //   .populate('byUser', ['username', 'photoUrl'])
-    //   .populate('byArticle')
-    //   .execPopulate()
+    const comment = await comments.create(req.body)
+    const result = await comment
+      .populate('byUser', ['username', 'photoUrl'])
+      .execPopulate()
+    console.log(result)
 
     res.status(200).send({ success: true, message: '留言', result })
   } catch (error) {

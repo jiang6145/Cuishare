@@ -1,11 +1,8 @@
-$color-basic: #FFFFFD;
 $color-primary:#FFC017;
-$color-secondary:#939597;
-$color-danger: #BC243C;
-
 $color-primary-dark:darken($color-primary, 6%);
+$color-secondary:#939597;
 $color-secondary-dark:darken($color-secondary, 40%);
-$color-secondary-light:lighten($color-secondary, 20%);
+$color-secondary-light:lighten($color-secondary, 30%);
 
 $text-font-xs: 0.8125rem;
 $text-font-sm: 0.9375rem;
@@ -16,7 +13,6 @@ $heading-font-xs: 1.375rem;
 $heading-font-sm: 1.6rem;
 $heading-font-md: 2rem;
 $heading-font-lg: 2.2rem;
-$heading-font-xl: 3rem;
 
 
 $line-height-sm: 1.4;
