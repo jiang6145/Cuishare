@@ -2,24 +2,27 @@
 #blog
   b-container.main-container
     b-row
-      b-col(cols="12" lg="3")
+      b-col(cols="12" md="3")
         AuthorCard(:author="author")
 
-      b-col.mr-auto(cols="12" lg="6")
-        .article-item(v-for="article in blogArticles" :key="article._id")
-          ArticleCard(:article="article" :direction="'vertical'")
+      b-col.mr-auto(cols="12" md="6")
+        .article-item(
+          v-for="article in blogArticles"
+          :key="article._id"
+        )
+          VerticalArticleCard(:article="article")
 
 </template>
 
 <script>
-import ArticleCard from '../components/ArticleCard'
+import VerticalArticleCard from '../components/VerticalArticleCard'
 import AuthorCard from '../components/AuthorCard'
 import dateFormat from '../dateFormat'
 
 export default {
   name: 'Blog',
   components: {
-    ArticleCard,
+    VerticalArticleCard,
     AuthorCard
   },
   data () {

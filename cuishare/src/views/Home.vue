@@ -1,43 +1,48 @@
 <template lang="pug">
 #home
-  Carousel(:carouselData="carouselData")
+  Carousel(:carouselArticles="carouselArticles")
 
-  b-container
-    b-row
-      b-col
+  b-container.main
+    b-row.official-articles
+      b-col(cols="12")
+        HorizontalArticleCard(v-if="authorArticles[0]" :article="authorArticles[0]")
+      b-col(
+        cols="3"
+        v-for="article in authorArticles.slice(1,5)"
+        :key="article._id"
+      )
+        VerticalArticleCard(:article="article")
 
     b-row
-      b-col(cols="12" lg="8")
+      b-col(cols="12" md="8")
         .article-item(v-for="article in authorArticles" :key="article._id")
-          ArticleCard(:article="article")
-      b-col(lg="4")
-        .side
+          HorizontalArticleCard(:article="article")
+
 </template>
 
 <script>
-import ArticleCard from '../components/ArticleCard'
-import ArticlePublishModal from '../components/ArticlePublishModal'
 import Carousel from '../components/Carousel'
+import HorizontalArticleCard from '../components/HorizontalArticleCard'
+import VerticalArticleCard from '../components/VerticalArticleCard'
 import dateFormat from '../dateFormat'
 
 export default {
   name: 'Home',
   components: {
-    ArticleCard,
-    ArticlePublishModal,
-    Carousel
+    Carousel,
+    HorizontalArticleCard,
+    VerticalArticleCard
   },
   data () {
     return {
-      articles: [],
-      slide: 0
+      articles: []
     }
   },
   computed: {
     user () {
       return this.$store.state.user
     },
-    carouselData () {
+    carouselArticles () {
       return this.articles.concat().sort((a, b) => {
         const likesCountA = a.likes.length
         const likesCountB = b.likes.length
@@ -57,7 +62,6 @@ export default {
         return isPublish && !isDraft && !isBlocked && !isUnlisted
       }).map((article) => {
         article.createDate = dateFormat(article.createDate)
-        console.log(article)
         return article
       })
     }
