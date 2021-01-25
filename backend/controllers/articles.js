@@ -116,7 +116,7 @@ export const getAuthorArticles = async (req, res, next) => {
 
   try {
     const result = await articles.find(query)
-      .populate('author', ['username', 'photoUrl'])
+      .populate('author', ['username', 'photoUrl', 'about'])
       .sort('-createDate')
 
     if (result.length === 0) return res.status(404).send({ success: false, message: '找不到文章' })
@@ -140,7 +140,7 @@ export const getArticle = async (req, res, next) => {
           : { _id: req.params.articleId, isPublish: true, isDraft: false, isBlocked: false, isUnlisted: false })
 
     const result = await articles.findOne(query)
-      .populate('author', ['username', 'photoUrl'])
+      .populate('author', ['username', 'photoUrl', 'about'])
 
     if (!result) return res.status(404).send({ success: false, message: '找不到文章' })
     res.status(200).send({ success: true, message: '', result })

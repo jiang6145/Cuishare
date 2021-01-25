@@ -34,7 +34,11 @@
           ) 留言
 
       .comment__item(v-for="comment in comments" :key="comment._id")
-        b-avatar.comment__user-avatar(:src="comment.byUser.photoUrl" size="md")
+        b-avatar.comment__user-avatar(
+          :to="'/blog/' + comment.byUser._id"
+          :src="comment.byUser.photoUrl"
+          size="md"
+        )
         .comment__info
           span.comment__username {{ comment.byUser.username }}
           span.comment__create-at {{ comment.createDate }}
@@ -98,7 +102,7 @@ export default {
         const { success, result } = res.data
 
         if (success) {
-          result.createDate = dateFormat(result.createDate)
+          result.createDate = dateFormat(result.createDate, false)
           this.comments.unshift(result)
           this.resetInputTextarea(event)
         }

@@ -1,29 +1,38 @@
 <template lang="pug">
-#blog
-  b-container.main-container
-    b-row
-      b-col(cols="12" md="3")
-        AuthorCard(:author="author")
-
-      b-col.mr-auto(cols="12" md="6")
-        .article-item(
-          v-for="article in blogArticles"
-          :key="article._id"
-        )
-          VerticalArticleCard(:article="article")
-
+  .blog
+    b-container
+      b-row
+        b-col(cols="12" md="3")
+          b-card(no-body).author-card
+            b-card-header.author-card__header
+              b-avatar.author-card__avatar(
+                :src="author.photoUrl"
+                size="7rem"
+                rounded="sm"
+              )
+            b-card-body.author-card__body
+              p.author-card__username {{ author.username }}
+              p.author-card__about {{ author.about }}
+            b-card-footer.author-card__footer
+              FollowButton(:author="author")
+        b-col.mr-auto(cols="12" md="7")
+          .article-item(
+            v-for="article in blogArticles"
+            :key="article._id"
+          )
+            VerticalArticleCard(:article="article")
 </template>
 
 <script>
 import VerticalArticleCard from '../components/VerticalArticleCard'
-import AuthorCard from '../components/AuthorCard'
+import FollowButton from '../components/FollowButton'
 import dateFormat from '../dateFormat'
 
 export default {
   name: 'Blog',
   components: {
     VerticalArticleCard,
-    AuthorCard
+    FollowButton
   },
   data () {
     return {
@@ -44,21 +53,9 @@ export default {
       return result.filter(({ isPublish, isDraft, isBlocked, isUnlisted }) => {
         return isPublish && !isDraft && !isBlocked && !isUnlisted
       }).map((article) => {
-        article.createDate = dateFormat(article.createDate)
-        console.log(article)
+        article.createDate = dateFormat(article.createDate, true)
         return article
       })
-    },
-    async follow () {
-      try {
-        const res = await this.axios.patch(process.env.VUE_APP_API + '/users/follow/' + this.author._id)
-        const { success, message, result } = res.data
-        console.log(success, message, result)
-
-        if (success) this.$store.commit('following', result)
-      } catch (error) {
-        alert(error)
-      }
     }
   },
   async mounted () {
@@ -70,6 +67,7 @@ export default {
         this.blogArticles = this.filterPublished(result)
 
         this.author = this.blogArticles[0].author
+        console.log(this.author)
       }
     } catch (error) {
       alert(error.response.data.message)

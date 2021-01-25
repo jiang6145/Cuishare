@@ -26,17 +26,16 @@
           ) 登入
 
       //- 登入後顯示使用者頭像選單
-      b-navbar-nav.ml-auto(v-else)
-        NavbarUserMenu
+      UserMenu(v-else)
 </template>
 
 <script>
-import NavbarUserMenu from '../components/NavbarUserMenu'
+import UserMenu from '../components/UserMenu'
 
 export default {
   name: 'Navbar',
   components: {
-    NavbarUserMenu
+    UserMenu
   },
   computed: {
     user () {

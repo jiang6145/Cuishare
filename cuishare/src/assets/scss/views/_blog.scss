@@ -1,0 +1,50 @@
+.blog{
+  padding-top: 5rem;
+
+  ul,li{
+    list-style: none;
+  }
+}
+
+.author-card{
+  position: sticky;
+  top: 100px;
+  padding-right: 0.3rem;
+  letter-spacing: 0;
+  background-color: inherit;
+  border: none;
+
+  &__header{
+    padding: 0;
+    background-color: inherit;
+    border-bottom: none;
+    margin-bottom: 1rem;
+  }
+
+  &__body{
+    padding: 0;
+  }
+
+  &__username{
+    font-size: $text-font-lg;
+    font-weight: 900;
+    margin-bottom: 0.2rem;
+  }
+
+  &__about{
+    font-size: $text-font-sm;
+    color: $color-secondary;
+  }
+
+  &__footer{
+    padding: 0;
+    padding-top: 1rem;
+    background-color: inherit;
+  }
+}
+
+.article-card--vertical{
+  .article-card__header{
+    display: none;
+  }
+}

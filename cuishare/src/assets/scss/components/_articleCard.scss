@@ -4,7 +4,7 @@
 
 // article-card 共用
 .article-card{
-  background-color: $color-basic;
+  background-color: inherit;
   border: none;
   padding-bottom: 3rem;
 
@@ -26,10 +26,10 @@
     padding-top: 0;
     padding-left: 0;
     padding-bottom: 0.3rem;
-    padding-right: 0.5rem;
+    padding-right: 1rem;
     display: flex;
     align-items: center;
-    background-color: $color-basic;
+    background-color: inherit;
     border: none;
   }
 
@@ -39,7 +39,7 @@
 
   &__content{
     padding: 0;
-    padding-right: 0.5rem;
+    padding-right: 1rem;
   }
 
   &__title{
@@ -65,11 +65,13 @@
 
   &__footer{
     padding: 0;
-    padding-right: 0.5rem;
-    background-color: $color-basic;
+    padding-right: 1rem;
+    background-color: inherit;
     font-size: $text-font-xs;
     color: $color-secondary;
     border: none;
+    display: flex;
+    justify-content: space-between;
   }
 
   &__cover-photo{
@@ -91,7 +93,7 @@
     }
 
     &::after{
-      content:'繼續閱讀...';
+      content:'繼續閱讀';
       transition: .4s;
       position: absolute;
       top: 50%;
@@ -100,6 +102,11 @@
       z-index: 1;
       color: $color-basic;
       opacity: 0;
+      font-size: $text-font-xs;
+
+      @include media-breakpoint-up(md){
+        font-size: $text-font-md;
+      }
     }
 
     &:hover{
@@ -126,7 +133,7 @@
 
 // article-card--vertical
 .article-card--vertical{
-
+  height: 100%;
   .article-card__cover-photo {
     @include img-fit;
     height: 26vh;
@@ -139,6 +146,11 @@
 
   .article-card__content{
     margin-bottom: 1.2rem;
+    padding-right: 0;
+  }
+
+  .article-card__footer{
+    padding-right: 0;
   }
 
   .article-card__sub-title{

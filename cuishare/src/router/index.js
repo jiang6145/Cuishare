@@ -16,8 +16,8 @@ const routes = [
   },
   {
     path: '/article/:id',
-    name: 'Article',
-    component: () => import(/* webpackChunkName: "article" */ '../views/Article.vue'),
+    name: 'ArticleRead',
+    component: () => import(/* webpackChunkName: "article" */ '../views/ArticleRead.vue'),
     meta: { isLogin: false }
   },
   {

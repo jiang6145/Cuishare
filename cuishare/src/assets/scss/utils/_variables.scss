@@ -6,6 +6,7 @@ $color-danger: #BC243C;
 $color-primary-dark:darken($color-primary, 6%);
 $color-secondary-dark:darken($color-secondary, 40%);
 $color-secondary-light:lighten($color-secondary, 20%);
+$color-danger-light:lighten($color-danger, 10%);
 
 $text-font-xs: 0.8125rem;
 $text-font-sm: 0.9375rem;

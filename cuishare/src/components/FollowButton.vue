@@ -1,6 +1,6 @@
 <template lang="pug">
-.follow-button-wrap
-  b-button.follow-button(
+  b-button.btn.btn--follow(
+    variant="outline-warning"
     size="sm"
     @click="follow"
   ) {{ isFollow ? '追蹤中': '追蹤' }}
@@ -24,8 +24,7 @@ export default {
     async follow () {
       try {
         const res = await this.axios.patch(process.env.VUE_APP_API + '/users/follow/' + this.author._id)
-        const { success, message, result } = res.data
-        console.log(success, message, result)
+        const { success, result } = res.data
 
         if (success) this.$store.commit('following', result)
       } catch (error) {

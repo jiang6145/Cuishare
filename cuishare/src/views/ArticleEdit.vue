@@ -1,10 +1,18 @@
 <template lang="pug">
-#article-edit
-  b-container.editor-container
-    #my-editor
-    b-button(@click="onPublish") 發佈文章
+  .article.article--editor-edit
+    b-container
+      b-row
+        b-col.mx-auto(cols="12" lg="10")
+          #editor-edit
 
-  ArticlePublishModal
+          .article__button-group
+            b-button.btn.btn--publish(
+              @click="onPublish"
+              variant="outline-warning"
+              size="sm"
+            ) 發佈文章
+
+    ArticlePublishModal
 </template>
 
 <script>
@@ -37,7 +45,7 @@ export default {
 
       // 創建 CkEditor
       ClassicEditor
-        .create(document.querySelector('#my-editor'), {
+        .create(document.querySelector('#editor-edit'), {
           // 插入自定義 UploadAdapter
           extraPlugins: [this.UploadAdapterPlugin],
           imageRemoveEvent: {

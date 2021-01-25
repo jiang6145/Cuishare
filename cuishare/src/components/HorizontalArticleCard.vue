@@ -4,6 +4,7 @@
       b-col.article-card__col(cols="8")
         b-card-header.article-card__header
           b-avatar.article-card__avatar(
+            :src="article.author.photoUrl"
             size="1.6rem"
             rounded="sm"
             :to="'/blog/'+article.author._id"
@@ -16,6 +17,7 @@
 
         b-card-footer.article-card__footer
           span.article-card__create-at {{ article.createDate }}
+          ArticleInteractive(:article="article" :size="'lg'")
 
       b-col.article-card__col(cols="4")
         .article-card__cover-photo(
@@ -29,10 +31,12 @@
 </template>
 
 <script>
+import ArticleInteractive from './ArticleInteractive'
 
 export default {
   name: 'HorizontalArticleCard',
   components: {
+    ArticleInteractive
   },
   props: {
     article: Object

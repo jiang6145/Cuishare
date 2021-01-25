@@ -1,4 +1,4 @@
-.article-icons{
+.article-interactive{
   display: flex;
 
   &__icon{
@@ -6,8 +6,12 @@
     transition: 0.2s;
     color: $color-secondary;
 
-    &~.article-icons__icon{
+    &~.article-interactive__icon{
       margin-left: 0.5rem;
+    }
+
+    &--comment:hover{
+      color: $color-secondary-dark;
     }
 
     &--like:hover{

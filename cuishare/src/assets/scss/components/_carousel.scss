@@ -23,10 +23,15 @@
   }
 
   .carousel-caption{
+    height: 100%;
     width: 70%;
-    top: 50%;
+    top: 0;
     left: 50%;
-    transform: translate(-50%,-50%);
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
   }
 
   &__title{
@@ -46,7 +51,7 @@
 
     &::before{
       content:'';
-      width: 8%;
+      width: 50px;
       height: 2px;
       position: absolute;
       bottom: -3rem;
@@ -57,7 +62,7 @@
     }
 
     &:hover::before{
-      width: 15%;
+      width: 120px;
       background-color: #fff;
     }
   }

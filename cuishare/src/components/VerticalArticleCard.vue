@@ -12,6 +12,7 @@
       )
     b-card-header.article-card__header
       b-avatar.article-card__avatar(
+        :src="article.author.photoUrl"
         size="1.6rem"
         rounded="sm"
       )
@@ -23,13 +24,15 @@
 
     b-card-footer.article-card__footer
       span.article-card__create-at {{ article.createDate }}
+      ArticleInteractive(:article="article" :size="'lg'")
 </template>
 
 <script>
-
+import ArticleInteractive from './ArticleInteractive'
 export default {
   name: 'VerticalArticleCard',
   components: {
+    ArticleInteractive
   },
   props: {
     article: Object
@@ -41,9 +44,6 @@ export default {
     toAuthorBlog (authorId) {
       this.$router.push('/blog/' + authorId)
     }
-  },
-  mounted () {
-    console.log(this.article)
   }
 }
 </script>

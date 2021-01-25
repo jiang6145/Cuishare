@@ -1,48 +1,42 @@
 <template lang="pug">
-#user-settings
-  b-container
-    b-row
-      b-col.side(cols="12" lg="3")
-        .menu
-          .menu__title 設定
-          ul.menu__list
-            li.menu__list__item 個人資料
+  .user-settings
+    b-container
+      b-row
+        b-col.content.mx-auto(cols="12" lg="8")
+          .settings
+            .user-info
+              .user-info__title 個人資料
+              b-form.user-info__photo(@submit.prevent="photoOnSubmit" @reset.prevent="photoOnCancel")
+                .user-info__photo
+                  .header
+                    label 你的照片
+                    b-button-group(v-if="isPhotChange")
+                      b-button(type="submit" variant="outline-success" size="sm") 確認
+                      b-button(type="reset" variant="outline-danger" size="sm") 取消
+                  img-inputer.mx-auto(
+                    :img-src="this.$store.state.user.photoUrl"
+                    :max-size="1024"
+                    @onChange="photOnChange"
+                    icon="img"
+                    ref="img-inputer"
+                    v-model="userPhoto"
+                    placeholder="請選擇照片"
+                    bottom-text="編輯你的照片"
+                    no-multiple-text=true
+                    exceedSizeText="檔案大小不能超過1MB"
+                    accept="image/*"
+                  )
 
-      b-col.content(cols="12" lg="9")
-        .settings
-          .user-info
-            .user-info__title 個人資料
-            b-form.user-info__photo(@submit.prevent="photoOnSubmit" @reset.prevent="photoOnCancel")
-              .user-info__photo
-                .header
-                  label 你的照片
-                  b-button-group(v-if="isPhotChange")
-                    b-button(type="submit" variant="outline-success" size="sm") 確認
-                    b-button(type="reset" variant="outline-danger" size="sm") 取消
-                img-inputer.mx-auto(
-                  :img-src="this.$store.state.user.photoUrl"
-                  :max-size="1024"
-                  @onChange="photOnChange"
-                  icon="img"
-                  ref="img-inputer"
-                  v-model="userPhoto"
-                  placeholder="請選擇照片"
-                  bottom-text="編輯你的照片"
-                  no-multiple-text=true
-                  exceedSizeText="檔案大小不能超過1MB"
-                  accept="image/*"
-                )
-
-            SettingInput(
-              v-for="item in settingInputDatas"
-              :data="item.data"
-              :fieldname="item.fieldname"
-              :inputname="item.inputname"
-              :type="item.type"
-              :rules="item.rules"
-              :placeholder="item.placeholder"
-              :editable="item.editable"
-            )
+              SettingInput(
+                v-for="item in settingInputDatas"
+                :data="item.data"
+                :fieldname="item.fieldname"
+                :inputname="item.inputname"
+                :type="item.type"
+                :rules="item.rules"
+                :placeholder="item.placeholder"
+                :editable="item.editable"
+              )
 
 </template>
 
@@ -110,6 +104,7 @@ export default {
       const currentPhotoUrl = this.user.photoUrl.split('/')
       const currentPhotoFilename = currentPhotoUrl[currentPhotoUrl.length - 1]
 
+      console.log(currentPhotoFilename)
       const formData = new FormData()
       formData.append('image', this.userPhoto)
 

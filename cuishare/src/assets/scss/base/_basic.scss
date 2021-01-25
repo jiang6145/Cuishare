@@ -9,8 +9,31 @@ html,body{
   padding-top: 80px;
 }
 
-.main{
-  padding-top: 10rem;
+.container{
+  position: relative;
+}
+
+.modal{
+  &-backdrop{
+    background-color: $color-basic;
+    opacity:1;
+    transition:opacity .2s;
+  }
+
+  &-content{
+    border: none;
+    background-color: inherit;
+  }
+
+  &-body{
+    padding-top: 3rem;
+    padding-bottom: 3rem;
+  }
+
+  &-title{
+    font-size: $heading-font-sm;
+    font-weight: 900;
+  }
 }
 
 .btn{

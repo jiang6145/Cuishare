@@ -9,7 +9,7 @@ b-modal#article-publish-modal(
   no-close-on-backdrop
 )
 
-  p.text 選擇一張好看的封面圖片
+  p.publish-modal__text 選擇一張好看的封面圖片
   vue-select-image(
     :dataImages="dataImages"
     :w="'80'"
@@ -17,7 +17,7 @@ b-modal#article-publish-modal(
     :limit="2"
     @onselectimage="onSelectImage")
 
-  p.text 最多添加 5 個標籤
+  p.publish-modal__text 最多添加 5 個標籤
   vue-tags-input(
     v-model="tag"
     :tags="tags"
@@ -26,7 +26,7 @@ b-modal#article-publish-modal(
     @tags-changed="newTags => tags = newTags"
   )
 
-  p.text 設置文章是否公開發佈，設置不公開就只有你看得到這篇文章
+  p.publish-modal__text 設置文章是否公開發佈，設置不公開就只有你看得到這篇文章
 
   toggle-button(
     :value="isUnlisted"
@@ -55,9 +55,6 @@ export default {
     VueSelectImage,
     VueTagsInput,
     ToggleButton
-  },
-  props: {
-
   },
   data () {
     return {
@@ -101,7 +98,7 @@ export default {
         title: this.articleData.title,
         subTitle: this.articleData.subTitle,
         text: this.articleData.text,
-        coverPhotoUrl: this.coverPhotoUrl || '',
+        coverPhotoUrl: this.coverPhotoUrl || this.dataImages[0].src,
         tags: this.tags.map(tag => tag.text),
         isPublish: true,
         isDraft: false,

@@ -1,8 +1,10 @@
 <template lang="pug">
-#new-article
-  b-container.editor-container
-    #my-editor
-    b-button save
+.article.article--editor-new
+  b-container
+    b-row
+      b-col.mx-auto(cols="12" lg="10")
+        #editor-new
+    //- b-button save
 </template>
 
 <script>
@@ -28,7 +30,7 @@ export default {
 
       // 創建 CkEditor
       ClassicEditor
-        .create(document.querySelector('#my-editor'), {
+        .create(document.querySelector('#editor-new'), {
           // 插入自定義 UploadAdapter
           extraPlugins: [this.UploadAdapterPlugin],
           imageRemoveEvent: {

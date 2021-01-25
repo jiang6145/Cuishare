@@ -1,29 +1,41 @@
 <template lang="pug">
-#article
-  b-container.editor-container
-    #show-editor
-    .article-footer
-      ArticleIcons(v-if="article" :article="article" :size="'lg'")
-      FollowButton(v-if="article" :author="article.author")
-      br
-      b-button(
-        v-b-toggle.comment-sidebar
-        size="sm"
-      ) 留言
+.article.article--editor-read
+  b-container
+    b-row
+      b-col.mx-auto(cols="12" lg="10")
+        #editor-read
+        .article--editor-read__interactive
+          ArticleInteractive(
+            v-if="article"
+            :article="article"
+            :size="'lg'"
+            :isShowComment="true"
+          )
+
+        .article--editor-read__author(v-if="article")
+          b-avatar.article__avatar(
+            :src="article.author.photoUrl"
+            :to="'/blog/'+article.author._id"
+            size="5rem"
+          )
+          .article__info
+            span.article__author-name {{ article.author.username }}
+            p.article__author-about {{ article.author.about }}
+          FollowButton(:author="article.author")
 
   CommentSidebar(v-if="article" :articleId="article._id")
 </template>
 
 <script>
 import ClassicEditor from '../ckeditor'
-import ArticleIcons from '../components/ArticleIcons'
+import ArticleInteractive from '../components/ArticleInteractive'
 import FollowButton from '../components/FollowButton'
 import CommentSidebar from '../components/CommentSidebar'
 
 export default {
-  name: 'Article',
+  name: 'ArticleRead',
   components: {
-    ArticleIcons,
+    ArticleInteractive,
     FollowButton,
     CommentSidebar
   },
@@ -35,7 +47,7 @@ export default {
   methods: {
     initEditor () {
       ClassicEditor
-        .create(document.querySelector('#show-editor'), {
+        .create(document.querySelector('#editor-read'), {
           toolbar: []
         })
         .then(editor => {

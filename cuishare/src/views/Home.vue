@@ -1,22 +1,36 @@
 <template lang="pug">
-#home
-  Carousel(:carouselArticles="carouselArticles")
+  .home
+    Carousel(:carouselArticles="carouselArticles")
 
-  b-container.main
-    b-row.official-articles
-      b-col(cols="12")
-        HorizontalArticleCard(v-if="authorArticles[0]" :article="authorArticles[0]")
-      b-col(
-        cols="3"
-        v-for="article in authorArticles.slice(1,5)"
-        :key="article._id"
-      )
-        VerticalArticleCard(:article="article")
+    .official-articles
+      b-container
+        //- Cuishare 官方文章區塊
+        b-row.official-articles__row
+          b-col.mb-4(cols="12").official-articles__header
+            b-avatar.official-articles__avatar.mr-3(
+              button
+              @click="toOfficialBlog"
+              :src="officialPhotoUrl"
+              size="2.4rem"
+            )
+            span(@click="toOfficialBlog").official-articles__name {{ officialName }}
+          b-col.article-item(
+            cols="12"
+            md="4"
+            v-for="article in officialArticles"
+            :key="article._id"
+          )
+            VerticalArticleCard(:article="article")
+          b-col(cols="12")
+            p(@click="toOfficialBlog").official-articles__text 閱讀更多我們的文章
 
-    b-row
-      b-col(cols="12" md="8")
-        .article-item(v-for="article in authorArticles" :key="article._id")
-          HorizontalArticleCard(:article="article")
+    //- 各作者文章區塊
+    .author-articles
+      b-container
+        b-row.author-articles__row
+          b-col(cols="12" md="8")
+            .article-item(v-for="article in authorArticles" :key="article._id")
+              HorizontalArticleCard(:article="article")
 
 </template>
 
@@ -54,6 +68,15 @@ export default {
     },
     authorArticles () {
       return this.articles.filter(article => article.author.username !== 'Cuishare')
+    },
+    officialPhotoUrl () {
+      return this.officialArticles.length > 0 ? this.officialArticles[0].author.photoUrl : ''
+    },
+    officialName () {
+      return this.officialArticles.length > 0 ? this.officialArticles[0].author.username : ''
+    },
+    officialId () {
+      return this.officialArticles.length > 0 ? this.officialArticles[0].author._id : ''
     }
   },
   methods: {
@@ -61,9 +84,12 @@ export default {
       return result.filter(({ isPublish, isDraft, isBlocked, isUnlisted }) => {
         return isPublish && !isDraft && !isBlocked && !isUnlisted
       }).map((article) => {
-        article.createDate = dateFormat(article.createDate)
+        article.createDate = dateFormat(article.createDate, true)
         return article
       })
+    },
+    toOfficialBlog () {
+      this.$router.push('/blog/' + this.officialId)
     }
   },
   async mounted () {

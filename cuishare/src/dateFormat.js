@@ -1,4 +1,4 @@
-const dateFormat = (date) => {
+const dateFormat = (date, onlyDate) => {
   const now = new Date(date)
 
   let year = now.getFullYear()// 年
@@ -16,7 +16,9 @@ const dateFormat = (date) => {
   let minute = now.getMinutes()// 分鐘
   if (minute < 10) minute = '0' + minute
 
-  return year + '/' + month + '/' + day + ' ' + hour + ':' + minute
+  return onlyDate
+    ? year + '/' + month + '/' + day
+    : year + '/' + month + '/' + day + ' ' + hour + ':' + minute
 }
 
 export default dateFormat

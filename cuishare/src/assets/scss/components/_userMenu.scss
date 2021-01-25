@@ -1,0 +1,56 @@
+.user-menu{
+
+  &__avatar{
+      transition: 0.2s;
+
+      &:hover{
+        transform: scale(1.1)
+      }
+  }
+
+  &__about{
+    a{
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    svg{
+      color: $color-secondary
+    }
+  }
+
+  &__logout{
+    a {
+      color: $color-danger-light !important;
+    }
+  }
+
+  .dropdown{
+
+    &-toggle{
+      padding: 0;
+      overflow: hidden;
+      border-radius: 50%;
+    }
+
+    &-menu {
+      min-width: 230px;
+      border: 1px solid rgb(231, 230, 230);
+      box-shadow: 0 0 5px rgba(0,0,0,0.1);
+      background-color: $color-basic;
+    }
+
+    &-item{
+      font-size: $text-font-sm;
+      letter-spacing: $letter-spacing-sm;
+      line-height: $line-height-lg;
+      transition: .3s;
+      color: #000;
+
+      &:active{
+        background-color: transparent;
+      }
+    }
+  }
+}

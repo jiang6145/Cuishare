@@ -1,20 +1,25 @@
 <template lang="pug">
-b-navbar-nav#navbar-user-menu
+b-navbar-nav.user-menu
   b-dropdown(right no-caret)
     template(#button-content)
-      b-avatar.userPhoto(:src="user.photoUrl" size="md")
+      b-avatar.user-menu__avatar(:src="user.photoUrl" size="2.6rem")
 
-    b-dropdown-item(href='#') 我的首頁
+    b-dropdown-item(href='#' :to="'/blog/' + user.id") 我的首頁
     b-dropdown-divider
     b-dropdown-item(href='#' to="/new-article") 寫篇文章
     b-dropdown-item(href='#' to="/user-settings") 設定
     b-dropdown-divider
-    b-dropdown-item(href='#') 關於Cuishare
-    b-dropdown-item(@click="logout") 登出
+    b-dropdown-item.user-menu__about(href='#') 關於Cuishare
+      font-awesome-icon(
+        :icon="['far', 'question-circle']"
+        :size="'lg'"
+        fixed-width
+      )
+    b-dropdown-item.user-menu__logout(@click="logout") 登出
 </template>
 <script>
 export default {
-  name: 'NavbarUserMenu',
+  name: 'UserMenu',
   computed: {
     user () {
       return this.$store.state.user

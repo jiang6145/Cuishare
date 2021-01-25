@@ -1,6 +1,17 @@
 <template lang="pug">
-.article-icons
-  .article-icons__icon.article-icons__icon--like(
+.article-interactive
+  .article-interactive__icon.article-interactive__icon--comment(
+    v-if="isShowComment"
+    v-b-toggle.comment-sidebar
+    v-b-tooltip.hover.bottomleft
+    title="留言"
+  )
+    font-awesome-icon(
+      :icon="['far','comment-dots']"
+      :size="size"
+      fixed-width
+    )
+  .article-interactive__icon.article-interactive__icon--like(
     v-b-tooltip.hover.bottomleft
     :title="likeCount"
   )
@@ -11,7 +22,7 @@
       @click="clikcLike(article)"
       fixed-width
     )
-  .article-icons__icon.article-icons__icon--favorite(
+  .article-interactive__icon.article-interactive__icon--favorite(
     v-b-tooltip.hover.bottomleft
     :title="favoritesCount"
   )
@@ -27,10 +38,14 @@
 <script>
 
 export default {
-  name: 'ArticleIcons',
+  name: 'ArticleInteractive',
   props: {
     article: Object,
-    size: String
+    size: String,
+    isShowComment: {
+      type: Boolean,
+      default: false
+    }
   },
   computed: {
     user () {
