@@ -13,6 +13,35 @@ html,body{
   position: relative;
 }
 
+.form-control{
+  background-color: inherit;
+  border-radius: 0;
+  border: none;
+  border-bottom: 1px solid $color-secondary-light;
+
+  &[disabled]{
+    border: none;
+  }
+
+  &:focus{
+    background-color: inherit;
+    box-shadow: none;
+    border-color: $color-secondary-light;
+  }
+
+  &.is-invalid{
+    &:focus{
+      box-shadow: none;
+    }
+  }
+
+  &.is-valid{
+    &:focus{
+      box-shadow: none;
+    }
+  }
+}
+
 .modal{
   &-backdrop{
     background-color: $color-basic;
@@ -59,16 +88,30 @@ html,body{
     font-size: $heading-font-md;
   }
 
-  &--cancel{
-    // color: $color-primary;
-  }
-
   &--submit{
     color: $color-secondary-dark;
-    border-color: $color-primary;
+    border-color: $color-primary-dark;
+  }
+
+  &--follow{
+    width: 112px;
+    color: $color-secondary-dark;
+    border-color: $color-primary-dark;
+
+    &.btn--following{
+      background-color: $color-primary;
+    }
   }
 
   &--login{
     font-weight: 900;
   }
+}
+
+.validate-message{
+  font-size: $text-font-xs; 
+  color: $color-danger-light;
+  text-align: right;
+  line-height: $line-height-lg;
+  height: 1rem;
 }

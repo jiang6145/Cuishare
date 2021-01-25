@@ -1,11 +1,11 @@
-$color-basic: #FFFFFD;
+$color-basic: #f6fff8;
 $color-primary:#FFC017;
 $color-secondary:#939597;
 $color-danger: #BC243C;
 
 $color-primary-dark:darken($color-primary, 6%);
 $color-secondary-dark:darken($color-secondary, 40%);
-$color-secondary-light:lighten($color-secondary, 20%);
+$color-secondary-light:lighten($color-secondary, 25%);
 $color-danger-light:lighten($color-danger, 10%);
 
 $text-font-xs: 0.8125rem;

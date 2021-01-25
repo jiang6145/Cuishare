@@ -2,41 +2,49 @@
   .user-settings
     b-container
       b-row
-        b-col.content.mx-auto(cols="12" lg="8")
-          .settings
-            .user-info
-              .user-info__title 個人資料
-              b-form.user-info__photo(@submit.prevent="photoOnSubmit" @reset.prevent="photoOnCancel")
-                .user-info__photo
-                  .header
-                    label 你的照片
-                    b-button-group(v-if="isPhotChange")
-                      b-button(type="submit" variant="outline-success" size="sm") 確認
-                      b-button(type="reset" variant="outline-danger" size="sm") 取消
-                  img-inputer.mx-auto(
-                    :img-src="this.$store.state.user.photoUrl"
-                    :max-size="1024"
-                    @onChange="photOnChange"
-                    icon="img"
-                    ref="img-inputer"
-                    v-model="userPhoto"
-                    placeholder="請選擇照片"
-                    bottom-text="編輯你的照片"
-                    no-multiple-text=true
-                    exceedSizeText="檔案大小不能超過1MB"
-                    accept="image/*"
-                  )
+        b-col.mx-auto(cols="12" lg="8")
+          .user-settings__title 個人資料
+          b-form.user-settings-photo(
+            @submit.prevent="photoOnSubmit"
+            @reset.prevent="photoOnCancel"
+          )
+            .input-header
+              label.label-text 你的照片
+              .user-settings__button-group(v-if="isPhotChange")
+                b-button.btn.btn--submit.mr-2(
+                  type="submit"
+                  variant="outline-warning"
+                  size="sm"
+                ) 保存
+                b-button.btn.btn--cancel(
+                  type="reset"
+                  variant="light"
+                  size="sm"
+                ) 取消
+            img-inputer.mx-auto(
+              :img-src="this.$store.state.user.photoUrl"
+              :max-size="1024"
+              @onChange="photOnChange"
+              icon="img"
+              ref="img-inputer"
+              v-model="userPhoto"
+              placeholder="請選擇照片"
+              bottom-text="變更你的照片"
+              no-multiple-text=true
+              exceedSizeText="檔案大小不能超過1MB"
+              accept="image/*"
+            )
 
-              SettingInput(
-                v-for="item in settingInputDatas"
-                :data="item.data"
-                :fieldname="item.fieldname"
-                :inputname="item.inputname"
-                :type="item.type"
-                :rules="item.rules"
-                :placeholder="item.placeholder"
-                :editable="item.editable"
-              )
+          SettingInput(
+            v-for="item in settingInputDatas"
+            :data="item.data"
+            :fieldname="item.fieldname"
+            :inputname="item.inputname"
+            :type="item.type"
+            :rules="item.rules"
+            :placeholder="item.placeholder"
+            :editable="item.editable"
+          )
 
 </template>
 
@@ -64,12 +72,20 @@ export default {
           editable: false
         },
         {
+          data: '123456789',
+          fieldname: '密碼',
+          inputname: 'password',
+          type: 'password',
+          rules: 'required|alphaNum|min:6|max:30',
+          placeholder: '請輸入原本的密碼'
+        },
+        {
           data: this.$store.state.user.username,
-          fieldname: '你的名稱',
+          fieldname: '你的暱稱',
           inputname: 'username',
           type: 'text',
           rules: 'required|min:4|max:30|bannedName',
-          placeholder: '請輸入用戶名稱'
+          placeholder: '請輸入暱稱'
         },
         {
           data: this.$store.state.user.about,
@@ -78,14 +94,6 @@ export default {
           type: 'text',
           rules: 'max:255',
           placeholder: '請輸入關於你的介紹'
-        },
-        {
-          data: '123456789',
-          fieldname: '密碼',
-          inputname: 'password',
-          type: 'password',
-          rules: 'required|alphaNum|min:6|max:30',
-          placeholder: '請輸入原本的密碼'
         }
       ]
     }
@@ -104,7 +112,6 @@ export default {
       const currentPhotoUrl = this.user.photoUrl.split('/')
       const currentPhotoFilename = currentPhotoUrl[currentPhotoUrl.length - 1]
 
-      console.log(currentPhotoFilename)
       const formData = new FormData()
       formData.append('image', this.userPhoto)
 
@@ -114,10 +121,11 @@ export default {
         const photoData = {
           photoUrl: process.env.VUE_APP_API + '/pictures/' + newPhoto.data.filename
         }
+
         await this.axios.patch(process.env.VUE_APP_API + '/users/' + userId, photoData)
         this.$store.commit('updateUser', photoData)
 
-        await this.axios.delete(process.env.VUE_APP_API + '/pictures/' + currentPhotoFilename)
+        if (currentPhotoFilename) await this.axios.delete(process.env.VUE_APP_API + '/pictures/' + currentPhotoFilename)
 
         this.$refs['img-inputer'].fileName = ''
         this.isPhotChange = false

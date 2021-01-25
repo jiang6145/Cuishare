@@ -1,18 +1,27 @@
 <template lang="pug">
-.setting-input-item
-  .header
-    label {{ fieldname }}
-    font-awesome-icon(
+.user-settings-input
+  .input-header
+    label.label-text {{ fieldname }}
+    font-awesome-icon.user-settings-input__icon(
       v-if="isDisabled && editable"
       @click="edit"
       :icon="['fas','pencil-alt']"
+      size="lg"
       fixed-width
     )
-    b-button-group(v-if="!isDisabled && editable")
-      b-button(variant="outline-success" size="sm" @click="type !== 'password'? onSubmit() : passwordOnSubmit()") 保存
-      b-button(variant="outline-danger" size="sm" @click="onCancel") 取消
+    .button-group(v-if="!isDisabled && editable")
+      b-button.btn.btn--submit.mr-2(
+        variant="outline-warning"
+        size="sm"
+        @click="type !== 'password'? onSubmit() : passwordOnSubmit()"
+      ) 保存
+      b-button.btn.btn--cancel(
+        variant="light"
+        size="sm"
+        @click="onCancel"
+      ) 取消
 
-  .content
+  .input-content
     ValidationProvider(
       v-slot="{ errors, valid, dirty }"
       :rules="rules"
@@ -20,7 +29,7 @@
       :name="inputname"
       tag="div"
     )
-      b-form-input.setting-input(
+      b-form-input(
         v-model="value"
         :name="inputname"
         :ref="inputname"
@@ -40,7 +49,7 @@
       name="new-password"
       tag="div"
     )
-      b-form-input.setting-input(
+      b-form-input(
         v-model="newPassword"
         :type="type"
         :state="validState(errors, valid, dirty)"
@@ -60,7 +69,7 @@
       name="confirm-new-password"
       tag="div"
     )
-      b-form-input.setting-input(
+      b-form-input(
         v-model="confirmNewPassword"
         :type="type"
         :state="validState(errors, valid, dirty)"

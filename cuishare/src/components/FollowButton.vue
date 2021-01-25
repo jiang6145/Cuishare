@@ -3,6 +3,7 @@
     variant="outline-warning"
     size="sm"
     @click="follow"
+    :class="isFollow? 'btn--following' :''"
   ) {{ isFollow ? '追蹤中': '追蹤' }}
 </template>
 

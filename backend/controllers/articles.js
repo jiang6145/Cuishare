@@ -83,14 +83,19 @@ export const changeArticleCategory = async (req, res, next) => {
 
 // 取得全部的文章
 export const getArticleAll = async (req, res, next) => {
-  // 管理者取得除了草稿的所有文章, 使用者取得已發佈的公開未被封鎖文章
-  const isAdmin = req.session.user.isAdmin
-  console.log(isAdmin)
-  const query = isAdmin
-    ? { isDraft: false }
-    : { isPublish: true, isDraft: false, isBlocked: false, isUnlisted: false }
-
   try {
+    // 管理者取得除了草稿的所有文章, 使用者取得已發佈的公開未被封鎖文章
+    let query = {}
+
+    if (req.session.user === undefined) {
+      query = { isPublish: true, isDraft: false, isBlocked: false, isUnlisted: false }
+    } else {
+      const isAdmin = req.session.user.isAdmin
+      query = isAdmin
+        ? { isDraft: false }
+        : { isPublish: true, isDraft: false, isBlocked: false, isUnlisted: false }
+    }
+
     const result = await articles
       .find(query)
       .populate('author', ['username', 'photoUrl'])
@@ -105,16 +110,21 @@ export const getArticleAll = async (req, res, next) => {
 
 // 取得指定作者的全部文章
 export const getAuthorArticles = async (req, res, next) => {
-  const isAuthor = req.session.user._id === req.params.authorId
-  const isAdmin = req.session.user.isAdmin
-
-  const query = isAuthor
-    ? { author: req.params.authorId }
-    : (isAdmin
-        ? { author: req.params.authorId, isDraft: false }
-        : { author: req.params.authorId, isPublish: true, isDraft: false, isBlocked: false, isUnlisted: false })
-
   try {
+    let query = {}
+
+    if (req.session.user === undefined) {
+      query = { author: req.params.authorId, isPublish: true, isDraft: false, isBlocked: false, isUnlisted: false }
+    } else {
+      const isAuthor = req.session.user._id === req.params.authorId
+      const isAdmin = req.session.user.isAdmin
+      query = isAuthor
+        ? { author: req.params.authorId }
+        : (isAdmin
+            ? { author: req.params.authorId, isDraft: false }
+            : { author: req.params.authorId, isPublish: true, isDraft: false, isBlocked: false, isUnlisted: false })
+    }
+
     const result = await articles.find(query)
       .populate('author', ['username', 'photoUrl', 'about'])
       .sort('-createDate')
@@ -129,15 +139,21 @@ export const getAuthorArticles = async (req, res, next) => {
 // 取得指定文章
 export const getArticle = async (req, res, next) => {
   try {
-    const { author } = await articles.findById(req.params.articleId, 'author -_id')
-    const isAuthor = author.equals(req.session.user._id)
-    const isAdmin = req.session.user.isAdmin
+    let query = {}
 
-    const query = isAuthor
-      ? { _id: req.params.articleId }
-      : (isAdmin
-          ? { _id: req.params.articleId, isDraft: false }
-          : { _id: req.params.articleId, isPublish: true, isDraft: false, isBlocked: false, isUnlisted: false })
+    if (req.session.user === undefined) {
+      query = { _id: req.params.articleId, isPublish: true, isDraft: false, isBlocked: false, isUnlisted: false }
+    } else {
+      const { author } = await articles.findById(req.params.articleId, 'author -_id')
+      const isAuthor = author.equals(req.session.user._id)
+      const isAdmin = req.session.user.isAdmin
+
+      query = isAuthor
+        ? { _id: req.params.articleId }
+        : (isAdmin
+            ? { _id: req.params.articleId, isDraft: false }
+            : { _id: req.params.articleId, isPublish: true, isDraft: false, isBlocked: false, isUnlisted: false })
+    }
 
     const result = await articles.findOne(query)
       .populate('author', ['username', 'photoUrl', 'about'])

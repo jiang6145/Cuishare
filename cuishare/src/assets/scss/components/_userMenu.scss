@@ -21,8 +21,8 @@
   }
 
   &__logout{
-    a {
-      color: $color-danger-light !important;
+    a.dropdown-item {
+      color: $color-danger-light ;
     }
   }
 
@@ -36,13 +36,11 @@
 
     &-menu {
       min-width: 230px;
-      border: 1px solid rgb(231, 230, 230);
       box-shadow: 0 0 5px rgba(0,0,0,0.1);
-      background-color: $color-basic;
     }
 
     &-item{
-      font-size: $text-font-sm;
+      font-size: $text-font-md;
       letter-spacing: $letter-spacing-sm;
       line-height: $line-height-lg;
       transition: .3s;

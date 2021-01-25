@@ -2,8 +2,6 @@
 b-modal#user-modal.user-modal(
   @hidden="resetModal"
   @show="resetModal"
-  size="md"
-  button-size="sm"
   centered
   hide-footer
   no-close-on-backdrop
@@ -24,10 +22,10 @@ b-modal#user-modal.user-modal(
             name="username"
             type="text"
             v-model="form.username"
-            placeholder="用戶名稱 (可以更改)"
+            placeholder="你的暱稱 (可以更改)"
             :state="validState(errors, valid, dirty)"
           )
-          p.validation-error-message {{ errors[0] }}
+          p.validate-message {{ errors[0] }}
 
       //- Email
       ValidationProvider(
@@ -45,7 +43,7 @@ b-modal#user-modal.user-modal(
             placeholder="Email"
             :state="validState(errors, valid, dirty)"
           )
-          p.validation-error-message {{ errors[0] }}
+          p.validate-message {{ errors[0] }}
 
       //- Password
       ValidationProvider(
@@ -62,7 +60,7 @@ b-modal#user-modal.user-modal(
             placeholder="密碼"
             :state="validState(errors, valid, dirty)"
           )
-          p.validation-error-message {{ errors[0] }}
+          p.validate-message {{ errors[0] }}
 
       //- 確認 Password
       ValidationProvider(
@@ -79,12 +77,16 @@ b-modal#user-modal.user-modal(
             placeholder="確認密碼"
             :state="validState(errors, valid, dirty)"
           )
-          p.validation-error-message {{ errors[0] }}
+          p.validate-message {{ errors[0] }}
 
       p.res-message(:style="{color: resMessageColor}") {{ resMessage }}
-      b-button.submit-button(type='submit') {{ isLoginModal ? '登入' : '註冊' }}
+      b-button.btn.btn--submit.user-modal__btn-submit(
+        type='submit'
+        variant="outline-warning"
+        size="sm"
+      ) {{ isLoginModal ? '登入' : '註冊' }}
 
-    .modal-footer-text
+    .user-modal__footer
       p {{ isLoginModal ? '還沒有帳號嗎?' : '已有Cuishare帳號!' }}
         a(href="#" @click.prevent="toggleModal") {{ isLoginModal ? '註冊' : '登入' }}
 </template>

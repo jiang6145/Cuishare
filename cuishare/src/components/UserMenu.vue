@@ -4,10 +4,11 @@ b-navbar-nav.user-menu
     template(#button-content)
       b-avatar.user-menu__avatar(:src="user.photoUrl" size="2.6rem")
 
-    b-dropdown-item(href='#' :to="'/blog/' + user.id") 我的首頁
+    b-dropdown-item(href='#' :to="'/blog/' + user.id") 你的首頁
     b-dropdown-divider
     b-dropdown-item(href='#' to="/new-article") 寫篇文章
-    b-dropdown-item(href='#' to="/user-settings") 設定
+    b-dropdown-item(href='#' to="/user-settings") 個人設定
+    b-dropdown-item(href='#' to="/user-settings") 你的文章
     b-dropdown-divider
     b-dropdown-item.user-menu__about(href='#') 關於Cuishare
       font-awesome-icon(
