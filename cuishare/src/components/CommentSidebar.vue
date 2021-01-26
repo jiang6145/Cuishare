@@ -14,22 +14,21 @@
         b-button-close.btn.btn--close(@click="hide")
         h4.comment__title 留言
         textarea.comment__input-textarea(
-          @input="onInput"
           @focus="onFocus"
-          @blur="resetInputTextarea"
-          :v-model="value"
-          v-dynamic-height="{ disabled: false, minHeight: '42px' }"
+          @blur="onBlur"
+          v-model="commentText"
+          v-dynamic-height="{ minHeight: '42px' }"
           ref="textarea"
           placeholder="分享你的想法吧"
         )
-        .comment__button-group
+        .comment__button-group(v-if="isShowButton")
           b-button.mr-2.btn.btn--cancel(
-            @click="resetInputTextarea"
+            @click="onCancel"
             variant="light"
             size="sm"
           ) 取消
           b-button.btn.btn--submit(
-            @click="submit"
+            @click="onSubmit"
             :disabled="isDisabled"
             variant="outline-warning"
             size="sm"
@@ -49,6 +48,7 @@
 </template>
 
 <script>
+// import TextareaComponent from './TextareaComponent'
 import DynamicHeight from 'vue-dynamic-height'
 import dateFormat from '../dateFormat'
 
@@ -58,14 +58,23 @@ export default {
     DynamicHeight
   },
   props: {
-    articleId: String,
-    value: String
+    articleId: String
   },
   data () {
     return {
+      commentText: '',
       comments: [],
       isDisabled: true,
       isShowButton: false
+    }
+  },
+  watch: {
+    commentText () {
+      if (this.commentText.trim()) {
+        this.isDisabled = false
+      } else {
+        this.isDisabled = true
+      }
     }
   },
   computed: {
@@ -73,45 +82,30 @@ export default {
       return this.$store.state.user
     }
   },
-  watch: {
-    value () {
-      this.triggerEventToDynamicHeight()
-    }
-  },
   methods: {
-    triggerEventToDynamicHeight () {
-      this.$nextTick(() => {
-        this.$refs.textarea.dispatchEvent(new Event('input'))
-      })
-    },
-    onInput (event) {
-      this.$emit('input', event.target.value)
-      event.target.value.trim() ? this.isDisabled = false : this.isDisabled = true
-    },
     onFocus (event) {
-      this.isShowButton = true
       event.target.style['min-height'] = '84px'
+      this.isShowButton = true
     },
-    resetInputTextarea (event) {
-      if (event.type === 'blur' && this.$refs.textarea.value.trim()) return
-      this.$refs.textarea.value = ''
-      this.$refs.textarea.style['min-height'] = '42px'
-      this.$refs.textarea.style.height = '42px'
-      this.isDisabled = true
-      this.isShowButton = false
+    onBlur () {
+      if (this.commentText.trim()) return
+      this.resetTextarea()
     },
-    async submit (event) {
-      if (!this.$refs.textarea.value.trim()) return
+    onCancel () {
+      this.resetTextarea()
+    },
+    async onSubmit (event) {
+      if (!this.commentText.trim()) return
 
       try {
-        const data = { text: this.$refs.textarea.value }
+        const data = { text: this.commentText }
         const res = await this.axios.post(process.env.VUE_APP_API + '/comments/' + this.articleId, data)
         const { success, result } = res.data
 
         if (success) {
           result.createDate = dateFormat(result.createDate, false)
           this.comments.unshift(result)
-          this.resetInputTextarea(event)
+          this.resetTextarea()
         }
       } catch (error) {
         console.log(error)
@@ -121,6 +115,12 @@ export default {
       if (this.user.id) return
       this.$refs.commentSidebar.hide()
       this.$bvModal.show('user-modal')
+    },
+    resetTextarea () {
+      this.commentText = ''
+      this.isShowButton = false
+      this.$refs.textarea.style['min-height'] = '42px'
+      this.$refs.textarea.style.height = '42px'
     }
   },
   async mounted () {
