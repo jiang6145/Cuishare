@@ -16,16 +16,6 @@
 
   &-input{
     margin-bottom: 2rem;
-
-    &__icon{
-      cursor: pointer;
-      transition: .2s;
-      color: $color-secondary;
-
-      &:hover{
-        color: $color-secondary-dark;
-      }
-    }
   }
 
   .input-header{
@@ -38,6 +28,10 @@
   .label-text{
     font-weight: 900;
     margin-bottom: 0;
+  }
+
+  .textarea{
+    width: 100%;
   }
 
   .img-inputer{

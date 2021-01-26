@@ -42,6 +42,7 @@ extend('max', {
     if (fieldName === 'password') fieldName = '密碼'
     if (fieldName === 'new-password') fieldName = '新密碼'
     if (fieldName === 'username') fieldName = '用戶名稱'
+    if (fieldName === 'about') fieldName = '關於介紹'
     return `${fieldName}不得超過${placeholders.length}個字`
   }
 })

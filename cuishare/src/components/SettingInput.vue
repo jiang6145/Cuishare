@@ -2,7 +2,7 @@
 .user-settings-input
   .input-header
     label.label-text {{ fieldname }}
-    font-awesome-icon.user-settings-input__icon(
+    font-awesome-icon.icon(
       v-if="isDisabled && editable"
       @click="edit"
       :icon="['fas','pencil-alt']"

@@ -20,7 +20,7 @@
                 :key="article._id"
               )
                 h2.articles-list__title(@click="toArticle(article._id)") {{ article.title }}
-                span.articles-list__info {{ article.info }}
+                span.articles-list__info {{ '創建於 ' + article.createDate }}
                 b-dropdown.articles-list__dropdown(
                   size="lg"
                   variant="link"
@@ -62,7 +62,7 @@
                 :key="article._id"
               )
                 h2.articles-list__title(@click="toArticle(article._id)") {{ article.title }}
-                span.articles-list__info {{ article.info }}
+                span.articles-list__info {{ '創建於 ' + article.createDate }}
                 b-dropdown.articles-list__dropdown(
                   size="lg"
                   variant="link"
@@ -104,7 +104,7 @@ export default {
         return !isDraft && isPublish && !isUnlisted && !isBlocked
       }).map(article => {
         const likesCountText = article.likes.length > 0 ? `，有 ${article.likes.length} 人喜歡` : ''
-        const favoritesCountText = article.favorites.length > 0 ? ` ，${article.favorites.length} 人收藏` : ''
+        const favoritesCountText = article.favorites.length > 0 ? ` ，有 ${article.favorites.length} 人收藏` : ''
         article.info = `創建於 ${article.createDate}${likesCountText}${favoritesCountText}`
         return article
       })
