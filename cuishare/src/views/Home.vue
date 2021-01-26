@@ -85,6 +85,7 @@ export default {
         return isPublish && !isDraft && !isBlocked && !isUnlisted
       }).map((article) => {
         article.createDate = dateFormat(article.createDate, true)
+        article.title = article.title ? article.title : 'Untitled'
         return article
       })
     },
@@ -97,9 +98,7 @@ export default {
       const res = await this.axios.get(process.env.VUE_APP_API + '/articles')
       const { success, result } = res.data
 
-      if (success) {
-        this.articles = this.filterPublished(result)
-      }
+      if (success) this.articles = this.filterPublished(result)
     } catch (error) {
       console.log(error.response.data.message)
     }

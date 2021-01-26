@@ -84,7 +84,7 @@ export default {
   },
   methods: {
     async clikcLike (article) {
-      if (!this.user.id) return this.$bvModal.show('navbar-user-modal')
+      if (!this.user.id) return this.$bvModal.show('user-modal')
 
       try {
         const res = await this.axios.patch(process.env.VUE_APP_API + '/articles/likes/' + article._id)
@@ -95,7 +95,7 @@ export default {
       }
     },
     async clikcFavorites (article) {
-      if (!this.user.id) return this.$bvModal.show('navbar-user-modal')
+      if (!this.user.id) return this.$bvModal.show('user-modal')
 
       try {
         const res = await this.axios.patch(process.env.VUE_APP_API + '/articles/favorites/' + article._id)

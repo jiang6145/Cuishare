@@ -1,10 +1,12 @@
 <template lang="pug">
-  b-button.btn.btn--follow(
-    variant="outline-warning"
-    size="sm"
-    @click="follow"
-    :class="isFollow? 'btn--following' :''"
-  ) {{ isFollow ? '追蹤中': '追蹤' }}
+  div
+    b-button.btn.btn--follow(
+      v-if="!isMyself"
+      variant="outline-warning"
+      size="sm"
+      @click="follow"
+      :class="isFollow? 'btn--following' :''"
+    ) {{ isFollow ? '追蹤中': '追蹤' }}
 </template>
 
 <script>
@@ -14,11 +16,14 @@ export default {
     author: Object
   },
   computed: {
-    following () {
-      return this.$store.state.user.following
+    user () {
+      return this.$store.state.user
     },
     isFollow () {
-      return this.following.includes(this.author._id)
+      return this.user.following.includes(this.author._id)
+    },
+    isMyself () {
+      return this.author._id === this.user.id
     }
   },
   methods: {

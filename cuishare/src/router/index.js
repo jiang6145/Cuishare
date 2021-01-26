@@ -43,6 +43,18 @@ const routes = [
     name: 'UserSettings',
     component: () => import(/* webpackChunkName: "user-settings" */ '../views/UserSettings.vue'),
     meta: { isLogin: true }
+  },
+  {
+    path: '/my-article',
+    name: 'MyArticle',
+    component: () => import(/* webpackChunkName: "my-article" */ '../views/MyArticle.vue'),
+    meta: { isLogin: true }
+  },
+  {
+    path: '/my-favorites',
+    name: 'MyFavorites',
+    component: () => import(/* webpackChunkName: "my-favorites" */ '../views/MyFavorites.vue'),
+    meta: { isLogin: true }
   }
 ]
 

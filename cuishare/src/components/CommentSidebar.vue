@@ -1,6 +1,8 @@
 <template lang="pug">
   b-sidebar.comment.comment--sidebar(
     id="comment-sidebar"
+    ref="commentSidebar"
+    @change="onChange"
     no-close-on-route-change
     backdrop
     right
@@ -66,6 +68,11 @@ export default {
       isShowButton: false
     }
   },
+  computed: {
+    user () {
+      return this.$store.state.user
+    }
+  },
   watch: {
     value () {
       this.triggerEventToDynamicHeight()
@@ -109,6 +116,11 @@ export default {
       } catch (error) {
         console.log(error)
       }
+    },
+    onChange () {
+      if (this.user.id) return
+      this.$refs.commentSidebar.hide()
+      this.$bvModal.show('user-modal')
     }
   },
   async mounted () {

@@ -120,7 +120,7 @@ export default {
 
       const images = document.querySelectorAll('.ck-content img')
       const imagesSrc = []
-      if (images) {
+      if (images.length > 0) {
         images.forEach((image, index) => {
           imagesSrc.push({
             id: index,
