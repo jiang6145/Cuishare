@@ -66,11 +66,11 @@ export default {
     }
   },
   computed: {
-    dataImages () {
-      return this.articleData.imagesSrc
-    },
     articleData () {
       return this.$store.state.articleData
+    },
+    dataImages () {
+      return this.articleData.imagesSrc
     },
     isUnlistedIcon () {
       return this.isUnlisted ? ['far', 'eye-slash'] : ['far', 'eye']
@@ -94,11 +94,12 @@ export default {
     },
     async publish () {
       const articleId = this.articleData.articleId
+
       const publishArticleData = {
         title: this.articleData.title,
         subTitle: this.articleData.subTitle,
         text: this.articleData.text,
-        coverPhotoUrl: this.coverPhotoUrl || this.dataImages[0].src,
+        coverPhotoUrl: this.coverPhotoUrl ? this.coverPhotoUrl : (this.dataImages.length > 0 ? this.dataImages[0].src : ''),
         tags: this.tags.map(tag => tag.text),
         isPublish: true,
         isDraft: false,
