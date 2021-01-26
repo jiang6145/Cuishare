@@ -35,7 +35,6 @@
     border: 1px solid $color-secondary-light;
     resize: none;
     outline: none;
-    
     &:focus{
       padding-bottom: 1.5rem;
     }
@@ -81,5 +80,6 @@
     padding-top: 1rem;
     font-size: $text-font-sm;
     line-height: $line-height-md;
+    white-space: pre-wrap;
   }
 }
