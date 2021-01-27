@@ -80,7 +80,7 @@ b-modal#user-modal.user-modal(
           p.validate-message {{ errors[0] }}
 
       p.res-message(:style="{color: resMessageColor}") {{ resMessage }}
-      b-button.btn.btn--submit.user-modal__btn-submit(
+      b-button.custom-btn.user-modal__btn-submit(
         type='submit'
         variant="outline-warning"
         size="sm"

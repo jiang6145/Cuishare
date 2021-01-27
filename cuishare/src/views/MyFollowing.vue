@@ -17,6 +17,7 @@
                   size="lg"
                   variant="link"
                   no-caret
+                  right
                 )
                   template(#button-content)
                     font-awesome-icon.icon.following-item__icon(

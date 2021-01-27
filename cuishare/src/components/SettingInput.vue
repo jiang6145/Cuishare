@@ -10,13 +10,13 @@
       fixed-width
     )
     .button-group(v-if="!isDisabled && editable")
-      b-button.btn.btn--submit.mr-2(
+      b-button.custom-btn.mr-2(
         variant="outline-warning"
         size="sm"
         @click="type !== 'password'? onSubmit() : passwordOnSubmit()"
       ) 保存
-      b-button.btn.btn--cancel(
-        variant="light"
+      b-button.custom-btn(
+        variant="outline-secondary"
         size="sm"
         @click="onCancel"
       ) 取消
@@ -139,7 +139,7 @@ export default {
     },
     async onSubmit (valid) {
       console.log('傳送')
-      if (!this.$refs[this.inputname].state) return
+      if (this.$refs[this.inputname].state === false) return
       const data = { [this.inputname]: this.value }
 
       try {

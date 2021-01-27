@@ -17,7 +17,7 @@
             fixed-width
           )
         b-nav-item.navbar__item
-          b-button.btn.btn--login(
+          b-button.btn(
             size="sm"
             v-b-modal="'user-modal'"
             variant="outline-dark"

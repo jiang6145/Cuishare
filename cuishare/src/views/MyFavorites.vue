@@ -15,11 +15,12 @@
                 :to="'/blog/'+article.author._id"
               )
               span.articles-item__author-name {{ article.author.username }}
-              span.articles-item__create-at {{ '，文章發布於 ' + article.createDate }}
+              span.articles-item__favorites-count {{ '，有 ' + article.favorites.length + ' 人收藏此文章'}}
               b-dropdown.articles-item__dropdown(
                   size="lg"
                   variant="link"
                   no-caret
+                  right
                 )
                   template(#button-content)
                     font-awesome-icon.icon.articles-item__icon(

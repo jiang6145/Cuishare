@@ -2,7 +2,7 @@ html,body{
   font-family: '微軟正黑體';
   letter-spacing: $letter-spacing-xs;
   line-height: $line-height-sm;
-  background-color: $color-basic;
+  // background-color: $color-basic;
 }
 
 #app{
@@ -80,15 +80,18 @@ html,body{
   }
 
   &-menu {
-    box-shadow: 0 0 5px rgba(0,0,0,0.2);
+    box-shadow: 0 0 5px rgba(0,0,0,.2);
     border: none;
   }
 
   &-item{
     font-size: $text-font-sm;
     line-height: $line-height-md;
-    transition: .2s;
+    transition: .3s;
     color: #000;
+    &:hover{
+      background-color: rgb(243,243,243);
+    }
 
     &:active{
       background-color: inherit;
@@ -136,7 +139,11 @@ html,body{
 .btn{
   letter-spacing: $letter-spacing-md;
   padding-left: 12px;
-  transition: .2s;
+}
+
+.btn.custom-btn{
+  letter-spacing: $letter-spacing-md;
+  padding-left: 12px;
 
   &:focus{
     box-shadow: none !important;
@@ -147,32 +154,31 @@ html,body{
     border-color: $color-secondary;
   }
 
-  &--close{
-    position: absolute;
-    left: 0;
-    top: 0;
-    color: $color-secondary-dark;
-    font-size: $heading-font-md;
-  }
-
-  &--submit{
+  &.btn-outline-warning{
     color: $color-secondary-dark;
     border-color: $color-primary-dark;
+
+    &:hover{
+      background-color: $color-primary-dark;
+      color: $color-basic;
+    }
   }
 
   &--follow{
     width: 112px;
-    color: $color-secondary-dark;
-    border-color: $color-primary-dark;
 
     &.btn--following{
-      background-color: $color-primary;
+      background-color: $color-primary-dark;
+      color: $color-basic;
     }
   }
-
-  &--login{
-    font-weight: 900;
-  }
+  // &--close{
+  //   position: absolute;
+  //   left: 0;
+  //   top: 0;
+  //   color: $color-secondary-dark;
+  //   font-size: $heading-font-md;
+  // }
 }
 
 .icon{

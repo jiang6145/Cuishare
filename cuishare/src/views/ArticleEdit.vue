@@ -6,7 +6,7 @@
           #editor-edit
 
           .article__button-group
-            b-button.btn.btn--publish(
+            b-button.custom-btn(
               @click="onPublish"
               variant="outline-warning"
               size="sm"

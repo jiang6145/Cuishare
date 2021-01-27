@@ -13,8 +13,8 @@ b-navbar-nav.user-menu
     b-dropdown-item(href='#' to="/new-article") 寫篇文章
     b-dropdown-item(href='#' to="/user-settings") 個人設定
     b-dropdown-item(href='#' to="/my-article") 你的文章
-    b-dropdown-item(href='#' to="/my-favorites") 你收藏的文章
-    b-dropdown-item(href='#' to="/my-following") 你關注的作者
+    b-dropdown-item(href='#' to="/my-favorites") 收藏文章
+    b-dropdown-item(href='#' to="/my-following") 追蹤與粉絲
     b-dropdown-divider
     b-dropdown-item.user-menu__about(href='#') 關於Cuishare
       font-awesome-icon(

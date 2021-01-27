@@ -1,6 +1,6 @@
 <template lang="pug">
   div
-    b-button.btn.btn--follow(
+    b-button.custom-btn.custom-btn--follow(
       v-if="!isMyself"
       variant="outline-warning"
       size="sm"
@@ -30,6 +30,8 @@ export default {
   methods: {
     async follow () {
       try {
+        if (!this.user.id) return this.$bvModal.show('user-modal')
+
         const res = await this.axios.patch(process.env.VUE_APP_API + '/users/follow/' + this.author._id)
         const { success, result } = res.data
         console.log(result)
