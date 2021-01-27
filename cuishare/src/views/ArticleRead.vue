@@ -23,7 +23,7 @@
             p.article__author-about {{ article.author.about }}
           FollowButton(:author="article.author")
 
-  CommentSidebar(v-if="article" :articleId="article._id")
+  CommentSidebar(v-if="article" :article="article")
 </template>
 
 <script>

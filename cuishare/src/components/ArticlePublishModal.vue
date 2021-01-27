@@ -30,7 +30,6 @@ b-modal#article-publish-modal(
 
   toggle-button(
     :value="isUnlisted"
-    :color="'#82C7EB'"
     @change="changeUnlisted"
   )
 

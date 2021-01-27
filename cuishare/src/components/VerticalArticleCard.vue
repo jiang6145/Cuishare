@@ -18,9 +18,11 @@
       )
       span.article-card__author-name {{ article.author.username }}
 
-    b-card-body.article-card__content(@click="toArticle(article._id)")
-      h2.article-card__title {{ article.title }}
+    b-card-body.article-card__content
+      h2.article-card__title(@click="toArticle(article._id)") {{ article.title }}
       p.article-card__sub-title {{ article.subTitle }}
+      .article-card__tags
+        span.tag.article-card__tag(v-for="tag in article.tags") {{ tag }}
 
     b-card-footer.article-card__footer
       span.article-card__create-at {{ article.createDate }}

@@ -194,6 +194,34 @@ html,body{
   }
 }
 
+.tag{
+  font-size: $text-font-xs;
+  border:1px solid $color-tag-light;
+  border-radius: 2px;
+  padding: 2px 0.4rem;
+  transition: .2s;
+
+  cursor: default;
+  color: $color-basic;
+  background-color: $color-tag;
+}
+
+.tag:not(.no-hover){
+  cursor: pointer;
+  background-color: transparent;
+  color: $color-secondary-dark;
+  border:1px solid $color-tag-light;
+
+  &:hover{
+    color: $color-basic;
+    background-color: $color-tag;
+  }
+}
+
+.tag~.tag{
+  margin-left: 0.5rem;
+}
+
 .validate-message{
   font-size: $text-font-xs; 
   color: $color-danger-light;

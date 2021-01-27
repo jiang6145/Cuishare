@@ -9,17 +9,9 @@
   padding-bottom: 3rem;
 
   &__col{
-    max-height: 120px;
     display:flex;
     flex-direction: column;
     justify-content: space-between;
-    @include media-breakpoint-up(sm){
-      max-height: 150px;
-    }
-
-    @include media-breakpoint-up(lg){
-      max-height: 180px;
-    }
   }
 
   &__header{
@@ -40,6 +32,7 @@
   &__content{
     padding: 0;
     padding-right: 1rem;
+    margin-bottom: 0.4rem;
   }
 
   &__title{
@@ -53,10 +46,10 @@
   }
 
   &__sub-title{
-    cursor: pointer;
     display: none;
     font-size: $text-font-sm;
     color: $color-secondary;
+    margin: 0.2rem;
     @include media-breakpoint-up(md){
       display: block;
       @include text-overflow(2);
@@ -75,9 +68,17 @@
   }
 
   &__cover-photo{
-    height: 100%;
-    position: relative;
     cursor: pointer;
+    position: relative;
+    height: 100%;
+    max-height: 130px;
+    @include media-breakpoint-up(sm){
+      max-height: 160px;
+    }
+
+    @include media-breakpoint-up(lg){
+      max-height: 180px;
+    }
 
     &::before{
       content:'';
@@ -118,7 +119,6 @@
   }
 
   &__img{
-    cursor: pointer;
     position: relative;
     @include img-fit;
   }

@@ -141,10 +141,9 @@ export default {
         if (!isDelete) return
 
         const res = await this.axios.delete(process.env.VUE_APP_API + '/articles/' + article._id)
-        const { success } = res.data
+        const { success, result } = res.data
         if (success) {
-          const index = this.articles.findIndex(({ _id }) => _id === article._id)
-          console.log(index)
+          const index = this.articles.findIndex(article => article._id === result._id)
           this.articles.splice(index, 1)
         }
       } catch (error) {

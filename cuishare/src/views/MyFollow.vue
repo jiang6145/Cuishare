@@ -37,8 +37,8 @@
                       b-dropdown-item.dropdown--danger(@click="unFollowing(author)") 取消追蹤
                   p.follow-item__about {{ author.about }}
                   .follow-item__his-follow
-                    span.follow-item__his-followers-text {{ '粉絲 ' + author.followers.length }}
-                    span.follow-item__his-following-text {{ '追蹤中 ' + author.following.length }}
+                    span.tag.no-hover {{ '粉絲 ' + author.followers.length }}
+                    span.tag.no-hover {{ '追蹤中 ' + author.following.length }}
 
             b-tab(:title="'粉絲 '+ followers.length")
               .follow-item(v-for="author in followers")
@@ -70,8 +70,8 @@
                       ) 他的追蹤
                   p.follow-item__about {{ author.about }}
                   .follow-item__his-follow
-                    span.follow-item__his-followers-text {{ '粉絲 ' + author.followers.length }}
-                    span.follow-item__his-following-text {{ '追蹤中 ' + author.following.length }}
+                    span.tag.no-hover {{ '粉絲 ' + author.followers.length }}
+                    span.tag.no-hover {{ '追蹤中 ' + author.following.length }}
 
     //- modal
     b-modal#his-follow-modal(

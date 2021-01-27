@@ -28,7 +28,7 @@
     .author-articles
       b-container
         b-row.author-articles__row
-          b-col(cols="12" md="8")
+          b-col(cols="12" lg="8")
             .article-item(v-for="article in authorArticles" :key="article._id")
               HorizontalArticleCard(:article="article")
 

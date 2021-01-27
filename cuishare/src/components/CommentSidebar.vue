@@ -22,12 +22,12 @@
           placeholder="分享你的想法吧"
         )
         .comment__button-group(v-if="isShowButton")
-          b-button.mr-2.btn.btn--cancel(
+          b-button.mr-2.custom-btn(
             @click="onCancel"
-            variant="light"
+            variant="outline-secondary"
             size="sm"
           ) 取消
-          b-button.btn.btn--submit(
+          b-button.custom-btn(
             @click="onSubmit"
             :disabled="isDisabled"
             variant="outline-warning"
@@ -44,9 +44,11 @@
           span.comment__username {{ comment.byUser.username }}
           span.comment__create-at {{ comment.createDate }}
           b-dropdown(
+            v-if="isArticleAuthor || isCommentAuthor(comment)"
             text="Left align"
             variant="link"
             no-caret
+            right
           )
             template(#button-content)
               font-awesome-icon.icon(
@@ -68,7 +70,7 @@ export default {
     DynamicHeight
   },
   props: {
-    articleId: String
+    article: Object
   },
   data () {
     return {
@@ -90,9 +92,15 @@ export default {
   computed: {
     user () {
       return this.$store.state.user
+    },
+    isArticleAuthor () {
+      return this.article.author._id === this.user.id
     }
   },
   methods: {
+    isCommentAuthor (comment) {
+      return comment.byUser._id === this.user.id
+    },
     onFocus (event) {
       event.target.style['min-height'] = '84px'
       this.isShowButton = true
@@ -109,7 +117,7 @@ export default {
 
       try {
         const data = { text: this.commentText }
-        const res = await this.axios.post(process.env.VUE_APP_API + '/comments/' + this.articleId, data)
+        const res = await this.axios.post(process.env.VUE_APP_API + '/comments/' + this.article._id, data)
         const { success, result } = res.data
 
         if (success) {
@@ -133,14 +141,21 @@ export default {
       this.$refs.textarea.style.height = '42px'
     },
     async deleteComment (comment) {
-      console.log(comment)
-      const res = this.axios.delete(process.ev.VUE_APP_API + '/comments/' + comment._id)
-      console.log(res)
+      try {
+        const res = await this.axios.delete(process.env.VUE_APP_API + '/comments/' + comment._id)
+        const { success, result } = res.data
+        if (success) {
+          const index = this.comments.findIndex(comment => comment._id === result._id)
+          this.comments.splice(index, 1)
+        }
+      } catch (error) {
+        console.log(error)
+      }
     }
   },
   async mounted () {
     try {
-      const res = await this.axios.get(process.env.VUE_APP_API + '/comments/' + this.articleId)
+      const res = await this.axios.get(process.env.VUE_APP_API + '/comments/' + this.article._id)
       const { success, result } = res.data
 
       if (success) {

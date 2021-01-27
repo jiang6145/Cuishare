@@ -150,6 +150,7 @@ export default {
     async onPublish () {
       try {
         const editorData = this.editorDataHandler(this.editorData)
+
         this.$store.commit('articleData', editorData)
         this.$bvModal.show('article-publish-modal')
       } catch (error) {

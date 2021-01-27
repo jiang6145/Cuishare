@@ -45,19 +45,6 @@
       color: $color-secondary;
       text-align: left;
     }
-
-    &__his-following-text,
-    &__his-followers-text {
-      font-size: $text-font-xs;
-      color: $color-basic;
-      background-color: $color-tag;
-      border-radius: 3px;
-      padding: 2px 0.4rem;
-    }
-
-    &__his-followers-text{
-      margin-right: 0.5rem;
-    }
   }
 }
 
