@@ -9,6 +9,7 @@ import {
   updateUserInfo,
   followUser,
   getFollowingUser,
+  getFollowersUser,
   heartbeat,
   addArticleCategory,
   removeArticleCategory,
@@ -23,6 +24,7 @@ router.delete('/logout', logoutUser)
 router.patch('/:userId', jsonType, updateUserInfo)
 router.patch('/follow/:userId', followUser)
 router.get('/follow/following', getFollowingUser)
+router.get('/follow/followers', getFollowersUser)
 router.get('/heartbeat', heartbeat)
 router.post('/category/:userId', jsonType, addArticleCategory)
 router.delete('/category/:categoryId', removeArticleCategory)

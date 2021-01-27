@@ -135,7 +135,6 @@ html,body{
   }
 }
 
-// 自定義
 .btn{
   letter-spacing: $letter-spacing-md;
   padding-left: 12px;
@@ -165,11 +164,15 @@ html,body{
   }
 
   &--follow{
-    width: 112px;
+    // width: 112px;
 
     &.btn--following{
       background-color: $color-primary-dark;
       color: $color-basic;
+
+      &:hover{
+        background-color: $color-primary;
+      }
     }
   }
   // &--close{

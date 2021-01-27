@@ -2,7 +2,7 @@
   .my-favorites
     b-container
       b-row
-        b-col.mx-auto.mb-5(cols="12" lg="10")
+        b-col.mx-auto.mb-4(cols="12" lg="10")
           h2.my-favorites__title 你收藏的文章
         b-col.mx-auto(cols="12" lg="10")
           .articles-item(v-for="article in favoritesArticles" :key="article._id")

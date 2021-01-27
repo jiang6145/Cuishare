@@ -2,11 +2,14 @@ $color-basic: #f6fff8;
 $color-primary:#FFC017;
 $color-secondary:#939597;
 $color-danger: #BC243C;
+$color-tag: #40af8a;
 
 $color-primary-dark:darken($color-primary, 6%);
-$color-secondary-dark:darken($color-secondary, 40%);
+$color-secondary-dark:darken($color-secondary, 30%);
+$color-tag-dark: darken($color-tag, 5%);
 $color-secondary-light:lighten($color-secondary, 30%);
 $color-danger-light:lighten($color-danger, 10%);
+$color-tag-light: lighten($color-tag, 5%);
 
 $text-font-xs: 0.8125rem;
 $text-font-sm: 0.9375rem;

@@ -1,11 +1,11 @@
-.my-following{
+.my-follow{
   padding-top: 3rem;
 
   &__title{
     font-weight: 900;
   }
 
-  .following-item{
+  .follow-item{
     text-align: center;
     margin-bottom: 1rem;
     padding: 1rem 0;
@@ -25,6 +25,11 @@
     &__info{
       display: flex;
       flex-direction: column;
+      align-items: center;
+
+      @include media-breakpoint-up(sm){
+        align-items: flex-start;
+      }
     }
 
     &__username{
@@ -33,11 +38,6 @@
       margin-bottom: 0;
       display:flex;
       align-items: center;
-      margin: auto;
-
-      @include media-breakpoint-up(sm){
-        margin: 0;
-      }
     }
 
     &__about{
@@ -46,9 +46,34 @@
       text-align: left;
     }
 
-    &__his-follow {
+    &__his-following-text,
+    &__his-followers-text {
       font-size: $text-font-xs;
-      color: $color-secondary;
+      color: $color-basic;
+      background-color: $color-tag;
+      border-radius: 3px;
+      padding: 2px 0.4rem;
+    }
+
+    &__his-followers-text{
+      margin-right: 0.5rem;
+    }
+  }
+}
+
+#his-follow-modal{
+  .modal-body{
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+  }
+
+  .follow-item{
+    display: flex;
+    align-items: center;
+
+    &__username{
+      font-size: $text-font-md;
+      font-weight: 900;
     }
   }
 }

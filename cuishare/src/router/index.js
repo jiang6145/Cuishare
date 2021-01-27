@@ -57,9 +57,9 @@ const routes = [
     meta: { isLogin: true }
   },
   {
-    path: '/my-following',
-    name: 'MyFollowing',
-    component: () => import(/* webpackChunkName: "my-following" */ '../views/MyFollowing.vue'),
+    path: '/my-follow',
+    name: 'MyFollow',
+    component: () => import(/* webpackChunkName: "my-follow" */ '../views/MyFollow.vue'),
     meta: { isLogin: true }
   }
 ]

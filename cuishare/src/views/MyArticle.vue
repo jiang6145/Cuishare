@@ -2,7 +2,7 @@
   .my-article
     b-container
       b-row
-        b-col.mx-auto.my-article__col(cols="12" lg="10")
+        b-col.mx-auto.mb-4.my-article__col(cols="12" lg="10")
           h2.my-article__title 你的文章
           b-button.custom-btn(
             to="/new-article"

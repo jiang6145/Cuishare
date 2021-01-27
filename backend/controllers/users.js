@@ -155,7 +155,7 @@ export const followUser = async (req, res, next) => {
   }
 }
 
-// 取得關注的作者資料
+// 取得追蹤中的作者
 export const getFollowingUser = async (req, res, next) => {
   try {
     if (!req.session.user) return res.status(401).send({ success: false, message: '未登入' })
@@ -163,6 +163,43 @@ export const getFollowingUser = async (req, res, next) => {
     const user = await users.findById(req.session.user._id)
       .populate({
         path: 'following',
+        model: 'users',
+        select: 'username photoUrl about following followers',
+        populate: {
+          path: 'following followers',
+          model: 'users',
+          select: 'username photoUrl about'
+        }
+      })
+      .populate({
+        path: 'followers',
+        model: 'users',
+        select: 'username photoUrl about following followers',
+        populate: {
+          path: 'following followers',
+          model: 'users',
+          select: 'username photoUrl about'
+        }
+      })
+      .select('following followers')
+
+    if (user.id !== req.session.user._id) return res.status(403).send({ success: false, message: '沒有權限' })
+    if (!user) return res.status(404).send({ success: false, message: '找不到資料' })
+
+    return res.status(200).send({ success: true, result: user })
+  } catch (error) {
+    next(error)
+  }
+}
+
+// 取得追蹤我的粉絲
+export const getFollowersUser = async (req, res, next) => {
+  try {
+    if (!req.session.user) return res.status(401).send({ success: false, message: '未登入' })
+
+    const user = await users.findById(req.session.user._id)
+      .populate({
+        path: 'followers',
         model: 'users',
         select: 'username photoUrl about following followers',
         populate: {
