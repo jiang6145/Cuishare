@@ -19,6 +19,7 @@ html,body{
   border-radius: 0;
   border: none;
   border-bottom: 1px solid $color-secondary-light;
+  transition: none;
 
   &[disabled]{
     border: none;
@@ -59,6 +60,10 @@ html,body{
   &-body{
     padding-top: 3rem;
     padding-bottom: 3rem;
+
+    &.text-center{
+      color: $color-secondary;
+    }
   }
 
   &-title{
@@ -88,6 +93,12 @@ html,body{
     &:active{
       background-color: inherit;
       color: #000;
+    }
+  }
+  
+  &--danger{
+    a.dropdown-item {
+      color: $color-danger-light ;
     }
   }
 }

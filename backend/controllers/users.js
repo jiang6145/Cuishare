@@ -45,6 +45,9 @@ export const loginUser = async (req, res, next) => {
       email: req.body.email,
       password: md5(req.body.password)
     }, '-password')
+    // .populate('following', ['username', 'photoUrl', 'about', 'following'])
+    // .populate('followers', ['username', 'photoUrl', 'about', 'followers'])
+
     if (!user) return res.status(400).send({ success: false, message: 'email 或密碼錯誤' })
 
     if (req.session.user && user.id === req.session.user._id) return res.status(401).send({ success: false, message: '登入中' })
@@ -130,6 +133,9 @@ export const followUser = async (req, res, next) => {
         { $push: { following: followedUser._id } },
         { new: true }
       )
+      // .populate('following', ['username', 'photoUrl', 'about', 'following', 'followers'])
+      //   .select('following')
+
       return res.status(200).send({ success: true, message: '追蹤中', result })
     } else {
       await users.findByIdAndUpdate(req.params.userId,
@@ -140,8 +146,37 @@ export const followUser = async (req, res, next) => {
         { $pull: { following: followedUser._id } },
         { new: true }
       )
+      // .populate('following', ['username', 'photoUrl', 'about', 'following', 'followers'])
+      //   .select('following')
       return res.status(200).send({ success: true, message: '取消追蹤', result })
     }
+  } catch (error) {
+    next(error)
+  }
+}
+
+// 取得關注的作者資料
+export const getFollowingUser = async (req, res, next) => {
+  try {
+    if (!req.session.user) return res.status(401).send({ success: false, message: '未登入' })
+
+    const user = await users.findById(req.session.user._id)
+      .populate({
+        path: 'following',
+        model: 'users',
+        select: 'username photoUrl about following followers',
+        populate: {
+          path: 'following followers',
+          model: 'users',
+          select: 'username photoUrl about'
+        }
+      })
+      .select('following')
+
+    if (user.id !== req.session.user._id) return res.status(403).send({ success: false, message: '沒有權限' })
+    if (!user) return res.status(404).send({ success: false, message: '找不到資料' })
+
+    return res.status(200).send({ success: true, result: user })
   } catch (error) {
     next(error)
   }

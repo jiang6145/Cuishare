@@ -55,6 +55,12 @@ const routes = [
     name: 'MyFavorites',
     component: () => import(/* webpackChunkName: "my-favorites" */ '../views/MyFavorites.vue'),
     meta: { isLogin: true }
+  },
+  {
+    path: '/my-following',
+    name: 'MyFollowing',
+    component: () => import(/* webpackChunkName: "my-following" */ '../views/MyFollowing.vue'),
+    meta: { isLogin: true }
   }
 ]
 

@@ -14,6 +14,7 @@ b-navbar-nav.user-menu
     b-dropdown-item(href='#' to="/user-settings") 個人設定
     b-dropdown-item(href='#' to="/my-article") 你的文章
     b-dropdown-item(href='#' to="/my-favorites") 你收藏的文章
+    b-dropdown-item(href='#' to="/my-following") 你關注的作者
     b-dropdown-divider
     b-dropdown-item.user-menu__about(href='#') 關於Cuishare
       font-awesome-icon(
@@ -21,7 +22,7 @@ b-navbar-nav.user-menu
         :size="'lg'"
         fixed-width
       )
-    b-dropdown-item.user-menu__logout(@click="logout") 登出
+    b-dropdown-item.dropdown--danger(@click="logout") 登出
 </template>
 <script>
 export default {

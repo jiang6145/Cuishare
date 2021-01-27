@@ -2,15 +2,34 @@
   .my-favorites
     b-container
       b-row
-        b-col.mx-auto.my-favorites__col(cols="12" lg="10")
-          h2.my-article__title 你收藏的文章
-        b-col.mx-auto.my-favorites__col(cols="12" lg="10")
-          .my-favorites__item(v-for="article in favoritesArticles" :key="article._id")
-            HorizontalArticleCard(:article="article")
+        b-col.mx-auto.mb-5(cols="12" lg="10")
+          h2.my-favorites__title 你收藏的文章
+        b-col.mx-auto(cols="12" lg="10")
+          .articles-item(v-for="article in favoritesArticles" :key="article._id")
+            h2.articles-item__title(@click="toArticle(article._id)") {{ article.title }}
+            .articles-item__info
+              b-avatar.articles-item__avatar(
+                :src="article.author.photoUrl"
+                size="1.4rem"
+                rounded="sm"
+                :to="'/blog/'+article.author._id"
+              )
+              span.articles-item__author-name {{ article.author.username }}
+              span.articles-item__create-at {{ '，文章發布於 ' + article.createDate }}
+              b-dropdown.articles-item__dropdown(
+                  size="lg"
+                  variant="link"
+                  no-caret
+                )
+                  template(#button-content)
+                    font-awesome-icon.icon.articles-item__icon(
+                      :icon="['fas','chevron-down']"
+                      fixed-width
+                    )
+                  b-dropdown-item.dropdown--danger(@click="unFavorites(article)") 從收藏文章中刪除
 </template>
 
 <script>
-import HorizontalArticleCard from '../components/HorizontalArticleCard'
 import dateFormat from '../dateFormat'
 
 export default {
@@ -19,9 +38,6 @@ export default {
     return {
       articles: []
     }
-  },
-  components: {
-    HorizontalArticleCard
   },
   computed: {
     user () {
@@ -40,6 +56,33 @@ export default {
         article.title = article.title ? article.title : 'Untitled'
         return article
       })
+    },
+    toArticle (articleId) {
+      this.$router.push('/article/' + articleId)
+    },
+    async unFavorites (article) {
+      try {
+        const isUnFavorites = await this.$bvModal.msgBoxConfirm(`你確定不要繼續收藏「${article.title}」了嗎?`, {
+          title: '從收藏文章中刪除',
+          size: 'md',
+          buttonSize: 'sm',
+          okVariant: 'danger',
+          okTitle: '確定',
+          cancelTitle: '取消',
+          hideHeaderClose: true,
+          centered: true,
+          headerClass: 'border-bottom-0 justify-content-center',
+          bodyClass: 'text-center',
+          footerClass: 'border-top-0 justify-content-center'
+        })
+        if (!isUnFavorites) return
+
+        const res = await this.axios.patch(process.env.VUE_APP_API + '/articles/favorites/' + article._id)
+        const { success, result } = res.data
+        if (success) article.favorites = result.favorites
+      } catch (error) {
+        alert(error.response.data.message)
+      }
     }
   },
   async mounted () {
@@ -49,7 +92,7 @@ export default {
 
       if (success) this.articles = this.filterPublished(result)
     } catch (error) {
-      console.log(error.response.data.message)
+      console.log(error)
     }
   }
 }

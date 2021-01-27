@@ -21,6 +21,7 @@ export default {
     },
     isFollow () {
       return this.user.following.includes(this.author._id)
+      // return this.user.following.some(author => author._id === this.author._id)
     },
     isMyself () {
       return this.author._id === this.user.id
@@ -31,7 +32,7 @@ export default {
       try {
         const res = await this.axios.patch(process.env.VUE_APP_API + '/users/follow/' + this.author._id)
         const { success, result } = res.data
-
+        console.log(result)
         if (success) this.$store.commit('following', result)
       } catch (error) {
         alert(error)

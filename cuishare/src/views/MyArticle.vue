@@ -32,7 +32,7 @@
                       fixed-width
                     )
                   b-dropdown-item(@click="editArticle(article._id)") 編輯文章
-                  b-dropdown-item(@click="deleteArticle(article)") 刪除文章
+                  b-dropdown-item.dropdown--danger(@click="deleteArticle(article)") 刪除文章
 
             //- 已發佈
             b-tab.articles-list(title="已發佈")
@@ -53,7 +53,7 @@
                       fixed-width
                     )
                   b-dropdown-item(@click="editArticle(article._id)") 編輯文章
-                  b-dropdown-item(@click="deleteArticle(article)") 刪除文章
+                  b-dropdown-item.dropdown--danger(@click="deleteArticle(article)") 刪除文章
 
             //- 未公開
             b-tab.articles-list(title="未公開")
@@ -74,7 +74,7 @@
                       fixed-width
                     )
                   b-dropdown-item(@click="editArticle(article._id)") 編輯文章
-                  b-dropdown-item(@click="deleteArticle(article)") 刪除文章
+                  b-dropdown-item.dropdown--danger(@click="deleteArticle(article)") 刪除文章
 
 </template>
 
@@ -123,9 +123,9 @@ export default {
     editArticle (articleId) {
       this.$router.push('/article-edit/' + articleId)
     },
-    async deleteArticle (articleData) {
+    async deleteArticle (article) {
       try {
-        const isDelete = await this.$bvModal.msgBoxConfirm(`你確定要刪除「${articleData.title}」嗎?`, {
+        const isDelete = await this.$bvModal.msgBoxConfirm(`你確定要刪除「${article.title}」嗎?`, {
           title: '刪除文章',
           size: 'md',
           buttonSize: 'sm',
@@ -140,10 +140,10 @@ export default {
         })
         if (!isDelete) return
 
-        const res = await this.axios.delete(process.env.VUE_APP_API + '/articles/' + articleData._id)
+        const res = await this.axios.delete(process.env.VUE_APP_API + '/articles/' + article._id)
         const { success } = res.data
         if (success) {
-          const index = this.articles.findIndex((article) => article._id === articleData._id)
+          const index = this.articles.findIndex(({ _id }) => _id === article._id)
           console.log(index)
           this.articles.splice(index, 1)
         }
