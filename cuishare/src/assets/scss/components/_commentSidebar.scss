@@ -65,14 +65,23 @@
     margin-right: 0.5rem;
   }
 
+  &__info{
+    flex: 1;
+    display: flex;
+    flex-wrap: wrap;
+  }
+
   &__username{
     display: block;
+    width: 100%;
     font-weight: 900;
     font-size: $text-font-sm;
   }
 
   &__create-at{
     font-size: $text-font-xs;
+    color: $color-secondary;
+    margin-right: auto;
   }
 
   &__content{

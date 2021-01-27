@@ -43,12 +43,22 @@
         .comment__info
           span.comment__username {{ comment.byUser.username }}
           span.comment__create-at {{ comment.createDate }}
+          b-dropdown(
+            text="Left align"
+            variant="link"
+            no-caret
+          )
+            template(#button-content)
+              font-awesome-icon.icon(
+                :icon="['fas','ellipsis-v']"
+                fixed-width
+              )
+            b-dropdown-item.dropdown--danger(@click="deleteComment(comment)") 刪除留言
         p.comment__content {{ comment.text }}
 
 </template>
 
 <script>
-// import TextareaComponent from './TextareaComponent'
 import DynamicHeight from 'vue-dynamic-height'
 import dateFormat from '../dateFormat'
 
@@ -94,7 +104,7 @@ export default {
     onCancel () {
       this.resetTextarea()
     },
-    async onSubmit (event) {
+    async onSubmit () {
       if (!this.commentText.trim()) return
 
       try {
@@ -121,6 +131,11 @@ export default {
       this.isShowButton = false
       this.$refs.textarea.style['min-height'] = '42px'
       this.$refs.textarea.style.height = '42px'
+    },
+    async deleteComment (comment) {
+      console.log(comment)
+      const res = this.axios.delete(process.ev.VUE_APP_API + '/comments/' + comment._id)
+      console.log(res)
     }
   },
   async mounted () {
