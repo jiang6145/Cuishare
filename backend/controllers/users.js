@@ -133,8 +133,6 @@ export const followUser = async (req, res, next) => {
         { $push: { following: followedUser._id } },
         { new: true }
       )
-      // .populate('following', ['username', 'photoUrl', 'about', 'following', 'followers'])
-      //   .select('following')
 
       return res.status(200).send({ success: true, message: '追蹤中', result })
     } else {

@@ -11,14 +11,14 @@
             .input-header
               label.label-text 你的照片
               .user-settings__button-group(v-if="isPhotChange")
-                b-button.btn.btn--submit.mr-2(
+                b-button.custom-btn.mr-2(
                   type="submit"
                   variant="outline-warning"
                   size="sm"
                 ) 保存
-                b-button.btn.btn--cancel(
+                b-button.custom-btn(
                   type="reset"
-                  variant="light"
+                  variant="outline-secondary"
                   size="sm"
                 ) 取消
             img-inputer.mx-auto(

@@ -163,6 +163,14 @@ html,body{
     }
   }
 
+  &.btn-outline-secondary{
+    color: $color-secondary-dark;
+
+    &:hover{
+      color: $color-basic;
+    }
+  }
+
   &--follow{
     // width: 112px;
 
@@ -175,13 +183,6 @@ html,body{
       }
     }
   }
-  // &--close{
-  //   position: absolute;
-  //   left: 0;
-  //   top: 0;
-  //   color: $color-secondary-dark;
-  //   font-size: $heading-font-md;
-  // }
 }
 
 .icon{
