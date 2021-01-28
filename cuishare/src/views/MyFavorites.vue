@@ -31,7 +31,7 @@
 </template>
 
 <script>
-import dateFormat from '../dateFormat'
+import dateDifference from '../dateDifference'
 
 export default {
   name: 'MyFavorites',
@@ -53,7 +53,7 @@ export default {
       return result.filter(({ isPublish, isDraft, isBlocked, isUnlisted }) => {
         return isPublish && !isDraft && !isBlocked && !isUnlisted
       }).map((article) => {
-        article.createDate = dateFormat(article.createDate, true)
+        article.createDate = dateDifference(article.createDate, true)
         article.title = article.title ? article.title : 'Untitled'
         return article
       })

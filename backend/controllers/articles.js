@@ -3,6 +3,7 @@ import validate from '../validators/articles.js'
 
 // 創建文章
 export const createArticle = async (req, res, next) => {
+  console.log(req.body)
   try {
     if (!req.session.user) return res.status(401).send({ success: false, message: '未登入' })
 

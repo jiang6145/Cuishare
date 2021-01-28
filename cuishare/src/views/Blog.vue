@@ -29,7 +29,7 @@
 <script>
 import VerticalArticleCard from '../components/VerticalArticleCard'
 import FollowButton from '../components/FollowButton'
-import dateFormat from '../dateFormat'
+import dateDifference from '../dateDifference'
 
 export default {
   name: 'Blog',
@@ -59,7 +59,7 @@ export default {
       return result.filter(({ isPublish, isDraft, isBlocked, isUnlisted }) => {
         return isPublish && !isDraft && !isBlocked && !isUnlisted
       }).map((article) => {
-        article.createDate = dateFormat(article.createDate, true)
+        article.publishedDate = dateDifference(article.publishedDate)
         return article
       })
     }

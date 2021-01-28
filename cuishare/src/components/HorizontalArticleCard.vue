@@ -18,7 +18,7 @@
             span.tag.article-card__tag(v-for="tag in article.tags") {{ tag }}
 
         b-card-footer.article-card__footer
-          span.article-card__create-at {{ article.createDate }}
+          span.article-card__create-at {{ '發布於' + article.publishedDate +'，'+ article.readingTime }}
           ArticleInteractive(:article="article" :size="'lg'")
 
       b-col.article-card__col(cols="4")

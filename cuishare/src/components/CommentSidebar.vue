@@ -62,7 +62,7 @@
 
 <script>
 import DynamicHeight from 'vue-dynamic-height'
-import dateFormat from '../dateFormat'
+import dateDifference from '../dateDifference'
 
 export default {
   name: 'CommentSidebar',
@@ -121,7 +121,7 @@ export default {
         const { success, result } = res.data
 
         if (success) {
-          result.createDate = dateFormat(result.createDate, false)
+          result.createDate = dateDifference(result.createDate)
           this.comments.unshift(result)
           this.resetTextarea()
         }
@@ -160,7 +160,7 @@ export default {
 
       if (success) {
         this.comments = result.map(comment => {
-          comment.createDate = dateFormat(comment.createDate)
+          comment.createDate = dateDifference(comment.createDate)
           return comment
         })
       }

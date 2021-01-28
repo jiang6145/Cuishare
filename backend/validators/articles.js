@@ -12,11 +12,13 @@ const validate = (credentials, requiredFields = []) => {
     text: Joi.string().allow(''),
     coverPhotoUrl: Joi.string().allow(''),
     createDate: Joi.date(),
+    publishedDate: Joi.date(),
     isPublish: Joi.boolean(),
     isUnlisted: Joi.boolean(),
     isDraft: Joi.boolean(),
     isBlocked: Joi.boolean(),
-    tags: Joi.array().items(Joi.string())
+    tags: Joi.array().items(Joi.string()),
+    readingTime: Joi.string().allow('')
   })
 
   // 設定 required 選項

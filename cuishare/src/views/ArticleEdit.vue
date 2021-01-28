@@ -16,6 +16,7 @@
 </template>
 
 <script>
+import * as readingTime from 'reading-time'
 import ClassicEditor from '../ckeditor'
 import UploadAdapter from '../uploadAdapter'
 import ArticlePublishModal from '../components/ArticlePublishModal'
@@ -130,12 +131,15 @@ export default {
         })
       }
 
+      const stats = readingTime(data)
+
       return {
         articleId: this.$route.params.id,
         title,
         subTitle,
         text: data,
-        imagesSrc
+        imagesSrc,
+        readingTime: stats.text
       }
     },
     async getArticle () {

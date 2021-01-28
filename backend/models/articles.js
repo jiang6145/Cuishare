@@ -23,6 +23,9 @@ const articleSchema = new Schema(
       default: Date.now,
       immutable: true
     },
+    publishedDate: {
+      type: Date
+    },
     isPublish: {
       type: Boolean,
       default: false
@@ -51,6 +54,9 @@ const articleSchema = new Schema(
       ref: 'users',
       required: true,
       immutable: true
+    },
+    readingTime: {
+      type: String
     },
     likes: [
       {

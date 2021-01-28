@@ -93,17 +93,21 @@ export default {
     },
     async publish () {
       const articleId = this.articleData.articleId
-
+      const now = new Date()
       const publishArticleData = {
         title: this.articleData.title,
         subTitle: this.articleData.subTitle,
         text: this.articleData.text,
         coverPhotoUrl: this.coverPhotoUrl ? this.coverPhotoUrl : (this.dataImages.length > 0 ? this.dataImages[0].src : ''),
         tags: this.tags.map(tag => tag.text),
+        readingTime: this.articleData.readingTime,
+        publishedDate: now,
         isPublish: true,
         isDraft: false,
         isUnlisted: this.isUnlisted
       }
+
+      console.log(publishArticleData)
 
       try {
         const res = await this.axios.patch(process.env.VUE_APP_API + '/articles/' + articleId, publishArticleData)

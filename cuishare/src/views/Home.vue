@@ -38,7 +38,7 @@
 import Carousel from '../components/Carousel'
 import HorizontalArticleCard from '../components/HorizontalArticleCard'
 import VerticalArticleCard from '../components/VerticalArticleCard'
-import dateFormat from '../dateFormat'
+import dateDifference from '../dateDifference'
 
 export default {
   name: 'Home',
@@ -84,7 +84,7 @@ export default {
       return result.filter(({ isPublish, isDraft, isBlocked, isUnlisted }) => {
         return isPublish && !isDraft && !isBlocked && !isUnlisted
       }).map((article) => {
-        article.createDate = dateFormat(article.createDate, true)
+        article.publishedDate = dateDifference(article.publishedDate)
         article.title = article.title ? article.title : 'Untitled'
         return article
       })

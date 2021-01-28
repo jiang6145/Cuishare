@@ -14,7 +14,7 @@
         b-col.mx-auto(cols="12" lg="10")
           b-tabs
             //- 草稿
-            b-tab.articles-list(title="草稿")
+            b-tab.articles-list(:title="'草稿 '+ draft.length")
               .articles-list__item(
                 v-for="article in draft"
                 :key="article._id"
@@ -35,7 +35,7 @@
                   b-dropdown-item.dropdown--danger(@click="deleteArticle(article)") 刪除文章
 
             //- 已發佈
-            b-tab.articles-list(title="已發佈")
+            b-tab.articles-list(:title="'已發佈 ' + published.length")
               .articles-list__item(
                 v-for="article in published"
                 :key="article._id"
@@ -56,7 +56,7 @@
                   b-dropdown-item.dropdown--danger(@click="deleteArticle(article)") 刪除文章
 
             //- 未公開
-            b-tab.articles-list(title="未公開")
+            b-tab.articles-list(:title="'未公開 ' + unlisted.length")
               .articles-list__item(
                 v-for="article in unlisted"
                 :key="article._id"
@@ -79,7 +79,7 @@
 </template>
 
 <script>
-import dateFormat from '../dateFormat'
+import dateDifference from '../dateDifference'
 
 export default {
   name: 'MyArticle',
@@ -105,7 +105,7 @@ export default {
       }).map(article => {
         const likesCountText = article.likes.length > 0 ? `，有 ${article.likes.length} 人喜歡` : ''
         const favoritesCountText = article.favorites.length > 0 ? ` ，有 ${article.favorites.length} 人收藏` : ''
-        article.info = `創建於 ${article.createDate}${likesCountText}${favoritesCountText}`
+        article.info = `發布於 ${article.publishedDate}${likesCountText}${favoritesCountText}`
         return article
       })
     },
@@ -158,7 +158,8 @@ export default {
 
       if (success) {
         this.articles = result.map((article) => {
-          article.createDate = dateFormat(article.createDate, true)
+          article.createDate = dateDifference(article.createDate)
+          article.publishedDate = dateDifference(article.publishedDate)
           article.title = article.title ? article.title : 'Untitled'
           return article
         })
