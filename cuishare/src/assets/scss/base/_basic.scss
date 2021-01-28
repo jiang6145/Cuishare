@@ -5,10 +5,6 @@ html,body{
   // background-color: $color-basic;
 }
 
-#app{
-  padding-top: 80px;
-}
-
 // bootstrapVue
 .container{
   position: relative;
@@ -138,6 +134,10 @@ html,body{
 .btn{
   letter-spacing: $letter-spacing-md;
   padding-left: 12px;
+
+  &:focus{
+    box-shadow: none !important;
+  }
 }
 
 .btn.custom-btn{

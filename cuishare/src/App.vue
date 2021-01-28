@@ -1,5 +1,7 @@
 <template lang="pug">
-#app
+#app(
+  :style="styleObject"
+)
   Navbar
   UserModal
   router-view
@@ -17,17 +19,23 @@ export default {
     Navbar,
     UserModal
   },
+  data () {
+    return {
+      styleObject: {
+        paddingTop: ''
+      }
+    }
+  },
   computed: {
     user () {
       return this.$store.state.user
     }
   },
-  mounted () {
-    this.heartbeat()
-
-    setInterval(() => {
-      this.heartbeat()
-    }, 5000)
+  watch: {
+    $route (to, from) {
+      if (to.name === 'Home') this.styleObject.paddingTop = ''
+      if (to.name !== 'Home') this.styleObject.paddingTop = '80px'
+    }
   },
   methods: {
     async heartbeat () {
@@ -45,6 +53,13 @@ export default {
         if (this.$route.path !== '/') this.$router.push('/')
       }
     }
+  },
+  mounted () {
+    this.heartbeat()
+
+    setInterval(() => {
+      this.heartbeat()
+    }, 5000)
   }
 }
 </script>

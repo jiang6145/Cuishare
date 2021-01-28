@@ -1,26 +1,30 @@
 <template lang="pug">
-  b-navbar(fixed="top")
+  b-navbar(
+    :class="navbarClass"
+    fixed="top"
+  )
     b-container
       b-navbar-brand(href="#" to="/") LOGO
 
       //- v-if="!isLogin", 未登入時的導航列
       b-navbar-nav.ml-auto(v-if="!isLogin")
-        b-nav-item.navbar__item(
+        b-nav-item(
           href="#"
           v-b-modal="'user-modal'"
           @click.prevent="toggleModal(false)"
         ) 註冊會員
-        b-nav-item.navbar__item(href="#")
-          font-awesome-icon(
+        b-nav-item(href="#")
+          font-awesome-icon.icon(
             :icon="['far', 'question-circle']"
             :size="'lg'"
             fixed-width
           )
-        b-nav-item.navbar__item
-          b-button.btn(
+        b-nav-item
+          b-button(
+            :class="{'custom-btn':navbarClass['home-navbar']}"
             size="sm"
             v-b-modal="'user-modal'"
-            variant="outline-dark"
+            :variant="'outline-warning'"
             v-if="!isLogin"
             @click="toggleModal(true)"
           ) 登入
@@ -37,6 +41,13 @@ export default {
   components: {
     UserMenu
   },
+  data () {
+    return {
+      navbarClass: {
+        'home-navbar': false
+      }
+    }
+  },
   computed: {
     user () {
       return this.$store.state.user
@@ -48,10 +59,34 @@ export default {
       return this.$store.state.isLoginModal
     }
   },
+  watch: {
+    $route (to, from) {
+      if (to.name === 'Home') this.navbarClass['home-navbar'] = false
+      if (to.name === 'ArticleEdit' || to.name === 'NewArticle') {
+        this.navbarClass['home-navbar'] = true
+      }
+    }
+  },
   methods: {
     toggleModal (boolean) {
       this.$store.commit('toggleModal', boolean)
+    },
+    onScroll () {
+      if (this.$route.name !== 'Home') return
+
+      const carousel = document.querySelector('.carousel')
+      if (window.scrollY > carousel.offsetHeight) {
+        this.navbarClass['home-navbar'] = true
+      } else {
+        this.navbarClass['home-navbar'] = false
+      }
     }
+  },
+  mounted () {
+    window.addEventListener('scroll', this.onScroll)
+  },
+  beforeDestroy () {
+    window.removeEventListener('scroll', this.onScroll)
   }
 }
 </script>

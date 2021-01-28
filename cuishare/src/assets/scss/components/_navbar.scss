@@ -1,15 +1,73 @@
 .navbar{
   min-height: 80px;
-  background-color: $color-primary-dark;
-  border-bottom: 1px solid $color-secondary;
+  background-color: rgba(0,0,0,.3);
+  transition: .3s;
 
-  &__item{
+  .navbar-brand{
+    color: $color-basic;
+
+    &:focus{
+      color: $color-basic;
+    }
+  }
+
+  .nav-item{ 
+    font-size: $text-font-sm;
     display: flex;
     align-items: center;
-    font-weight: 900;
 
-    &~.navbar__item{
-      margin-left: 0.5rem;
+    &~.nav-item{
+      margin-left: 1rem;
+    }
+
+    .icon{
+      color: $color-basic;
+      &:hover{
+        color: $color-primary-dark;
+      }
+    }
+
+    .nav-link{
+      transition: .3s;
+      color: $color-basic;
+      &:focus{
+        color: $color-basic;
+      }
+
+      &:hover{
+        color: $color-primary-dark;
+      }
     }
   }
 }
+
+.navbar.home-navbar{
+  background-color: #fff;
+  box-shadow: 0 0 10px rgba(0,0,0,.2);
+
+  .navbar-brand{
+    color: $color-secondary-dark;
+  }
+
+  .icon{
+    color: $color-secondary;
+
+    &:hover{
+      color: $color-secondary-dark;
+    }
+  }
+
+  .nav-link{
+    color: $color-secondary;
+
+    &:focus{
+      color: $color-basic;
+    }
+
+    &:hover{
+      color: $color-secondary-dark;
+    }
+  }
+}
+
+
