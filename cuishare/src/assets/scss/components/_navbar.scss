@@ -1,7 +1,7 @@
 .navbar{
   min-height: 80px;
   background-color: rgba(0,0,0,.3);
-  transition: .3s;
+  transition: background-color .3s;
 
   .navbar-brand{
     color: $color-basic;
@@ -41,7 +41,7 @@
   }
 }
 
-.navbar.home-navbar{
+.navbar.light-navbar{
   background-color: #fff;
   box-shadow: 0 0 10px rgba(0,0,0,.2);
 
@@ -69,5 +69,6 @@
     }
   }
 }
+
 
 

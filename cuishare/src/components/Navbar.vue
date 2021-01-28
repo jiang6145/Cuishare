@@ -21,7 +21,7 @@
           )
         b-nav-item
           b-button(
-            :class="{'custom-btn':navbarClass['home-navbar']}"
+            :class="{'custom-btn':navbarClass['light-navbar']}"
             size="sm"
             v-b-modal="'user-modal'"
             :variant="'outline-warning'"
@@ -44,7 +44,7 @@ export default {
   data () {
     return {
       navbarClass: {
-        'home-navbar': false
+        'light-navbar': false
       }
     }
   },
@@ -61,10 +61,12 @@ export default {
   },
   watch: {
     $route (to, from) {
-      if (to.name === 'Home') this.navbarClass['home-navbar'] = false
-      if (to.name === 'ArticleEdit' || to.name === 'NewArticle') {
-        this.navbarClass['home-navbar'] = true
+      if (to.name === 'Home') {
+        this.navbarClass['light-navbar'] = false
+        return
       }
+
+      this.navbarClass['light-navbar'] = true
     }
   },
   methods: {
@@ -76,9 +78,9 @@ export default {
 
       const carousel = document.querySelector('.carousel')
       if (window.scrollY > carousel.offsetHeight) {
-        this.navbarClass['home-navbar'] = true
+        this.navbarClass['light-navbar'] = true
       } else {
-        this.navbarClass['home-navbar'] = false
+        this.navbarClass['light-navbar'] = false
       }
     }
   },
