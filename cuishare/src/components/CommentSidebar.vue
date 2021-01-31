@@ -44,7 +44,7 @@
           span.comment__username {{ comment.byUser.username }}
           span.comment__create-at {{ comment.createDate }}
           b-dropdown(
-            v-if="isArticleAuthor || isCommentAuthor(comment)"
+            v-if="isArticleAuthor || isCommentAuthor(comment) || user.isAdmin"
             text="Left align"
             variant="link"
             no-caret

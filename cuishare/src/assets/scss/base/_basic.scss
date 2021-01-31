@@ -2,7 +2,6 @@ html,body{
   font-family: '微軟正黑體';
   letter-spacing: $letter-spacing-xs;
   line-height: $line-height-sm;
-  // background-color: $color-basic;
 }
 
 // bootstrapVue
@@ -43,7 +42,7 @@ html,body{
 
 .modal{
   &-backdrop{
-    background-color: $color-basic;
+    background-color: #fff;
     opacity:1;
     transition:opacity .2s;
   }

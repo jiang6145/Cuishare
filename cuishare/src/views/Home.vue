@@ -1,7 +1,7 @@
 <template lang="pug">
   .home
     Carousel(:carouselArticles="carouselArticles")
-
+    b-button(@click="getPopularTags") 測試
     .official-articles
       b-container
         //- Cuishare 官方文章區塊
@@ -91,6 +91,11 @@ export default {
     },
     toOfficialBlog () {
       this.$router.push('/blog/' + this.officialId)
+    },
+    getPopularTags () {
+      const tagAll = []
+      this.articles.forEach(article => article.tags.map(tag => tagAll.push(tag)))
+      console.log(tagAll)
     }
   },
   async mounted () {

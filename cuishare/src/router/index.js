@@ -67,6 +67,15 @@ const routes = [
     name: 'MyFollow',
     component: () => import(/* webpackChunkName: "my-follow" */ '../views/MyFollow.vue'),
     meta: { isLogin: true }
+  },
+  {
+    path: '/admin-back-stage',
+    name: 'AdminBackStage',
+    component: () => import(/* webpackChunkName: "admin-back-stage" */ '../views/AdminBackStage.vue'),
+    meta: {
+      isLogin: true,
+      isAdmin: true
+    }
   }
 ]
 

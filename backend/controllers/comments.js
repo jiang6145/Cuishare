@@ -39,7 +39,7 @@ export const deleteComment = async (req, res, next) => {
 
     const isCommentUser = comment.byUser.equals(req.session.user._id)
     const isArticleAuthor = comment.articleAuthor.equals(req.session.user._id)
-    if (!isCommentUser && !isArticleAuthor) return res.status(403).send({ success: false, message: '沒有權限' })
+    if (!isCommentUser && !isArticleAuthor && !req.session.user.isAdmin) return res.status(403).send({ success: false, message: '沒有權限' })
 
     const result = await comments.findByIdAndDelete(req.params.commentId)
     res.status(200).send({ success: true, message: '刪除留言', result })

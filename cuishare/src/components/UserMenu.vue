@@ -22,7 +22,7 @@
         @submit.prevent="onSearch"
       )
         font-awesome-icon.icon.icon--search(
-          v-b-modal.article-search-modal
+          @click="onSearch"
           :icon="['fas', 'search']"
           fixed-width
         )
@@ -63,6 +63,12 @@
             fixed-width
           )
         b-dropdown-item.dropdown--danger(@click="logout") 登出
+        b-dropdown-divider(v-if="user.isAdmin")
+        b-dropdown-item(
+          to="/admin-back-stage"
+          href='#'
+          v-if="user.isAdmin"
+        ) 管理員後台
 </template>
 
 <script>
