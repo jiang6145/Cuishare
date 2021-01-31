@@ -96,10 +96,7 @@ ClassicEditor.defaultConfig = {
       'blockQuote',
       'insertTable',
       'mediaEmbed',
-      'imageInsert',
-      '|',
-      'undo',
-      'redo'
+      'imageInsert'
     ]
   },
   image: {
