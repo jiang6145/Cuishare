@@ -7,10 +7,8 @@ export default class UploadAdapter {
   upload () {
     return this.loader.file.then(uploadFile => {
       return new Promise((resolve, reject) => {
-        console.log(uploadFile)
         const formData = new FormData()
         formData.append('image', uploadFile)
-        console.log(formData)
 
         axios.post(process.env.VUE_APP_API + '/pictures', formData).then(res => {
           if (res.data.success) {

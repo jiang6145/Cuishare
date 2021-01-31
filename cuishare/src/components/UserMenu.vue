@@ -1,13 +1,21 @@
 <template lang="pug">
   b-navbar-nav.user-menu
-    b-nav-item
-      b-button.custom-btn(
-        v-if="isArticleEditRoute"
-        variant="success"
-        size="sm"
-      ) 發佈文章
+    //- Ckeditor 自動保存狀態顯示
+    #snippet-autosave-status(v-if="isArticleEditRoute")
+      #snippet-autosave-status_spinner
+        span#snippet-autosave-status_spinner-label
+        span#snippet-autosave-status_spinner-loader
 
-    b-nav-item
+    b-nav-item.user-menu--editor.ml-3
+      b-button.custom-btn.letter-spacing-sm(
+        v-if="isArticleEditRoute"
+        :disabled="isDisabled"
+        variant="outline-success"
+        v-b-modal.article-publish-modal
+        size="sm"
+      ) {{ currentEditArticle.isPublished ? '變更文章設定' : '發布文章' }}
+
+    b-nav-item.user-menu--avatar
       b-dropdown(
         right
         no-caret
@@ -18,7 +26,7 @@
 
         b-dropdown-item(href='#' :to="'/blog/' + user.id") 你的首頁
         b-dropdown-divider
-        b-dropdown-item(href='#' to="/new-article") 寫篇文章
+        b-dropdown-item(href='#' @click.prevent="createArticle") 寫篇文章
         b-dropdown-item(href='#' to="/user-settings") 個人設定
         b-dropdown-item(href='#' to="/my-article") 你的文章
         b-dropdown-item(href='#' to="/my-favorites") 收藏文章
@@ -40,7 +48,13 @@ export default {
       return this.$store.state.user
     },
     isArticleEditRoute () {
-      return this.$route.name === 'NewArticle' || this.$route.name === 'ArticleEdit'
+      return this.$route.name === 'ArticleEdit'
+    },
+    currentEditArticle () {
+      return this.$store.state.currentEditArticle
+    },
+    isDisabled () {
+      return !this.currentEditArticle.text
     }
   },
   methods: {
@@ -53,6 +67,18 @@ export default {
       } catch (error) {
         alert(error.response.data.message)
       }
+    },
+    async createArticle () {
+      try {
+        const res = await this.axios.post(process.env.VUE_APP_API + '/articles', {})
+        const { success, result } = res.data
+        if (success) this.$router.push('/article-edit/' + result._id)
+      } catch (error) {
+        console.log(error)
+      }
+    },
+    async changeCoverPhoto () {
+
     }
   }
 }

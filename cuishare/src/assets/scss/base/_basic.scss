@@ -142,7 +142,7 @@ html,body{
 
 .btn.custom-btn{
   letter-spacing: $letter-spacing-md;
-  padding-left: 12px;
+  padding-left: 13px;
 
   &:focus{
     box-shadow: none !important;
@@ -182,6 +182,11 @@ html,body{
         background-color: $color-primary;
       }
     }
+  }
+
+  &.letter-spacing-sm{
+    letter-spacing: $letter-spacing-sm;
+    padding-left: 9px;
   }
 }
 

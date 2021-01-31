@@ -89,12 +89,12 @@ export const getArticleAll = async (req, res, next) => {
     let query = {}
 
     if (req.session.user === undefined) {
-      query = { isPublish: true, isDraft: false, isBlocked: false, isUnlisted: false }
+      query = { isPublished: true, isDraft: false, isBlocked: false, isUnlisted: false }
     } else {
       const isAdmin = req.session.user.isAdmin
       query = isAdmin
         ? { isDraft: false }
-        : { isPublish: true, isDraft: false, isBlocked: false, isUnlisted: false }
+        : { isPublished: true, isDraft: false, isBlocked: false, isUnlisted: false }
     }
 
     const result = await articles
@@ -115,7 +115,7 @@ export const getAuthorArticles = async (req, res, next) => {
     let query = {}
 
     if (req.session.user === undefined) {
-      query = { author: req.params.authorId, isPublish: true, isDraft: false, isBlocked: false, isUnlisted: false }
+      query = { author: req.params.authorId, isPublished: true, isDraft: false, isBlocked: false, isUnlisted: false }
     } else {
       const isAuthor = req.session.user._id === req.params.authorId
       const isAdmin = req.session.user.isAdmin
@@ -123,7 +123,7 @@ export const getAuthorArticles = async (req, res, next) => {
         ? { author: req.params.authorId }
         : (isAdmin
             ? { author: req.params.authorId, isDraft: false }
-            : { author: req.params.authorId, isPublish: true, isDraft: false, isBlocked: false, isUnlisted: false })
+            : { author: req.params.authorId, isPublished: true, isDraft: false, isBlocked: false, isUnlisted: false })
     }
 
     const result = await articles.find(query)
@@ -143,7 +143,7 @@ export const getArticle = async (req, res, next) => {
     let query = {}
 
     if (req.session.user === undefined) {
-      query = { _id: req.params.articleId, isPublish: true, isDraft: false, isBlocked: false, isUnlisted: false }
+      query = { _id: req.params.articleId, isPublished: true, isDraft: false, isBlocked: false, isUnlisted: false }
     } else {
       const { author } = await articles.findById(req.params.articleId, 'author -_id')
       const isAuthor = author.equals(req.session.user._id)
@@ -153,7 +153,7 @@ export const getArticle = async (req, res, next) => {
         ? { _id: req.params.articleId }
         : (isAdmin
             ? { _id: req.params.articleId, isDraft: false }
-            : { _id: req.params.articleId, isPublish: true, isDraft: false, isBlocked: false, isUnlisted: false })
+            : { _id: req.params.articleId, isPublished: true, isDraft: false, isBlocked: false, isUnlisted: false })
     }
 
     const result = await articles.findOne(query)
@@ -173,7 +173,7 @@ export const likeArticle = async (req, res, next) => {
 
     const article = await articles.findOne({
       _id: req.params.articleId,
-      isPublish: true
+      isPublished: true
     })
     if (!article) return res.status(404).send({ success: false, message: '找不到文章' })
 
@@ -205,7 +205,7 @@ export const favoriteArticle = async (req, res, next) => {
 
     const article = await articles.findOne({
       _id: req.params.articleId,
-      isPublish: true
+      isPublished: true
     })
     if (!article) return res.status(404).send({ success: false, message: '找不到文章' })
 

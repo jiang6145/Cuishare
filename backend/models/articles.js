@@ -26,7 +26,7 @@ const articleSchema = new Schema(
     publishedDate: {
       type: Date
     },
-    isPublish: {
+    isPublished: {
       type: Boolean,
       default: false
     },

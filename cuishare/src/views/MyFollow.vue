@@ -16,7 +16,6 @@
                 .follow-item__info
                   p.follow-item__username {{ author.username }}
                     b-dropdown.follow-item__dropdown(
-                      size="lg"
                       variant="link"
                       no-caret
                       right
@@ -50,7 +49,6 @@
                 .follow-item__info
                   p.follow-item__username {{ author.username }}
                     b-dropdown.follow-item__dropdown(
-                      size="lg"
                       variant="link"
                       no-caret
                       right

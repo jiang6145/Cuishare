@@ -2,14 +2,15 @@
 b-modal#article-publish-modal(
   @hidden="resetModal"
   @ok="publish"
-  :title="articleData.title"
+  @show="onShow"
+  :title="article.title"
   size="md"
   button-size="sm"
   centered
   no-close-on-backdrop
 )
 
-  p.publish-modal__text 選擇一張好看的封面圖片
+  p.publish-modal__text {{ dataImages.length>0 ?  '選擇一張好看的封面圖片' : '可以在文章中添加一些圖片來當作封面圖'}}
   vue-select-image(
     :dataImages="dataImages"
     :w="'80'"
@@ -40,10 +41,11 @@ b-modal#article-publish-modal(
   )
 
   template(#modal-footer="{ ok }")
-    b-button(size="sm" variant="warning" @click="ok()") 確定發佈
+    b-button(size="sm" variant="warning" @click="ok()") {{ currentEditArticle.isPublished ? '保存' : '發佈' }}
 
 </template>
 <script>
+import * as readingTime from 'reading-time'
 import VueSelectImage from 'vue-select-image'
 import VueTagsInput from '@johmun/vue-tags-input'
 import { ToggleButton } from 'vue-js-toggle-button'
@@ -55,9 +57,15 @@ export default {
     VueTagsInput,
     ToggleButton
   },
+  props: {
+    editor: Object,
+    article: Object
+  },
   data () {
     return {
-      coverPhotoUrl: null,
+      dataImages: [],
+      coverPhotoUrl: '',
+      subTitle: '',
       tag: '',
       tags: [],
       maxTags: 5,
@@ -65,20 +73,40 @@ export default {
     }
   },
   computed: {
-    articleData () {
-      return this.$store.state.articleData
-    },
-    dataImages () {
-      return this.articleData.imagesSrc
-    },
     isUnlistedIcon () {
       return this.isUnlisted ? ['far', 'eye-slash'] : ['far', 'eye']
     },
     placeholderText () {
       return this.tags && this.tags.length >= this.maxTags ? '' : '加入標籤'
+    },
+    currentEditArticle () {
+      return this.$store.state.currentEditArticle
     }
   },
   methods: {
+    onShow () {
+      // 取得文章所有圖片的src
+      this.dataImages = Array.from(new DOMParser().parseFromString(this.editor.getData(), 'text/html')
+        .querySelectorAll('img'))
+        .map((img, index) => {
+          return {
+            id: index,
+            src: img.getAttribute('src'),
+            alt: this.article.title + '的圖片' + (index + 1)
+          }
+        })
+
+      if (this.article.coverPhotoUrl) {
+        this.coverPhotoUrl = this.article.coverPhotoUrl
+      } else if (this.dataImages.length > 0) {
+        this.coverPhotoUrl = this.dataImages[0].src
+      }
+
+      // 取得文章第一個有內容的 <p>
+      this.subTitle = Array.from(new DOMParser().parseFromString(this.editor.getData(), 'text/html')
+        .querySelectorAll('p'))
+        .find(p => p.innerText.trim() !== '')
+    },
     onSelectImage ({ src }) {
       this.coverPhotoUrl = src
     },
@@ -86,35 +114,30 @@ export default {
       this.isUnlisted = value
     },
     resetModal () {
+      this.dataImages = []
       this.coverPhotoUrl = null
+      this.subTitle = ''
       this.tag = ''
       this.tags = []
       this.isUnlisted = false
     },
     async publish () {
-      const articleId = this.articleData.articleId
-      const now = new Date()
-      const publishArticleData = {
-        title: this.articleData.title,
-        subTitle: this.articleData.subTitle,
-        text: this.articleData.text,
-        coverPhotoUrl: this.coverPhotoUrl ? this.coverPhotoUrl : (this.dataImages.length > 0 ? this.dataImages[0].src : ''),
-        tags: this.tags.map(tag => tag.text),
-        readingTime: this.articleData.readingTime,
-        publishedDate: now,
-        isPublish: true,
+      const stats = readingTime(this.article.text)
+      const data = {
+        title: this.article.title,
+        subTitle: this.subTitle ? this.subTitle.innerText : '',
+        coverPhotoUrl: this.coverPhotoUrl,
+        readingTime: stats.text,
+        isPublished: true,
         isDraft: false,
         isUnlisted: this.isUnlisted
       }
-
-      console.log(publishArticleData)
+      if (this.tags.length > 0) data.tags = this.tags.map(tag => tag.text)
+      if (!this.currentEditArticle.isPublished) data.publishedDate = new Date()
 
       try {
-        const res = await this.axios.patch(process.env.VUE_APP_API + '/articles/' + articleId, publishArticleData)
-
-        if (!res.data.success) return
-        this.$store.commit('articleData', {})
-        this.$router.push('/article/' + articleId)
+        const res = await this.axios.patch(process.env.VUE_APP_API + '/articles/' + this.article._id, data)
+        if (res.data.success) this.$router.push('/article/' + this.article._id)
       } catch (error) {
         console.log(error)
       }

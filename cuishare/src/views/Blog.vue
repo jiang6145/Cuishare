@@ -56,8 +56,8 @@ export default {
   },
   methods: {
     filterPublished (result) {
-      return result.filter(({ isPublish, isDraft, isBlocked, isUnlisted }) => {
-        return isPublish && !isDraft && !isBlocked && !isUnlisted
+      return result.filter(({ isPublished, isDraft, isBlocked, isUnlisted }) => {
+        return isPublished && !isDraft && !isBlocked && !isUnlisted
       }).map((article) => {
         article.publishedDate = dateDifference(article.publishedDate)
         return article

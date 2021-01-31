@@ -13,7 +13,7 @@ const validate = (credentials, requiredFields = []) => {
     coverPhotoUrl: Joi.string().allow(''),
     createDate: Joi.date(),
     publishedDate: Joi.date(),
-    isPublish: Joi.boolean(),
+    isPublished: Joi.boolean(),
     isUnlisted: Joi.boolean(),
     isDraft: Joi.boolean(),
     isBlocked: Joi.boolean(),

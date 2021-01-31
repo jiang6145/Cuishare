@@ -17,7 +17,6 @@
               span.articles-item__author-name {{ article.author.username }}
               span.articles-item__favorites-count {{ '，有 ' + article.favorites.length + ' 人收藏此文章'}}
               b-dropdown.articles-item__dropdown(
-                  size="lg"
                   variant="link"
                   no-caret
                   right
@@ -50,8 +49,8 @@ export default {
   },
   methods: {
     filterPublished (result) {
-      return result.filter(({ isPublish, isDraft, isBlocked, isUnlisted }) => {
-        return isPublish && !isDraft && !isBlocked && !isUnlisted
+      return result.filter(({ isPublished, isDraft, isBlocked, isUnlisted }) => {
+        return isPublished && !isDraft && !isBlocked && !isUnlisted
       }).map((article) => {
         article.createDate = dateDifference(article.createDate, true)
         article.title = article.title ? article.title : 'Untitled'

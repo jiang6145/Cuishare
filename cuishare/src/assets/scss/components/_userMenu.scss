@@ -1,4 +1,5 @@
 .user-menu{
+
   &__avatar{
     transition: 0.2s;
 
@@ -19,28 +20,54 @@
     }
   }
 
-  .dropdown{
+  &--avatar{
+    .dropdown{
+      &-toggle{
+        padding: 0;
+        overflow: hidden;
+        border-radius: 50%;
+        border: none;
+        box-shadow: none;
+      }
 
-    &-toggle{
-      padding: 0;
-      overflow: hidden;
-      border-radius: 50%;
-      border: none;
-      box-shadow: none;
-    }
+      &-menu {
+        min-width: 250px;
+      }
 
-    &-menu {
-      min-width: 250px;
-    }
+      &-item{
+        font-size: $text-font-md;
+        letter-spacing: $letter-spacing-sm;
+        line-height: $line-height-lg;
 
-    &-item{
-      font-size: $text-font-md;
-      letter-spacing: $letter-spacing-sm;
-      line-height: $line-height-lg;
-
-      &:active{
-        background-color: transparent;
+        &:active{
+          background-color: transparent;
+        }
       }
     }
   }
+}
+
+// Ckeditor Autosave Status
+#snippet-autosave-status_spinner {
+  display: flex;
+  align-items: center;
+  position: relative;
+  font-size: $text-font-sm;
+}
+
+#snippet-autosave-status_spinner-label::after {
+    content: 'Saved!';
+    color: green;
+    display: inline-block;
+}
+
+#snippet-autosave-status.busy #snippet-autosave-status_spinner-label::after {
+  content: 'Saving...';
+  color: red;
+}
+
+#snippet-autosave-status.busy #snippet-autosave-status_spinner-loader {
+  display: block;
+  width: 16px;
+  height: 16px;
 }

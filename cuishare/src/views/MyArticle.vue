@@ -5,7 +5,7 @@
         b-col.mx-auto.mb-4.my-article__col(cols="12" lg="10")
           h2.my-article__title 你的文章
           b-button.custom-btn(
-            to="/new-article"
+            @click="createArticle"
             variant="success"
             size="sm"
           ) 寫新文章
@@ -22,9 +22,9 @@
                 h2.articles-list__title(@click="toArticle(article._id)") {{ article.title }}
                 span.articles-list__info {{ '創建於 ' + article.createDate }}
                 b-dropdown.articles-list__dropdown(
-                  size="lg"
                   variant="link"
                   no-caret
+                  right
                 )
                   template(#button-content)
                     font-awesome-icon.icon.articles-list__icon(
@@ -43,9 +43,9 @@
                 h2.articles-list__title(@click="toArticle(article._id)") {{ article.title }}
                 span.articles-list__info {{ article.info }}
                 b-dropdown.articles-list__dropdown(
-                  size="lg"
                   variant="link"
                   no-caret
+                  right
                 )
                   template(#button-content)
                     font-awesome-icon.icon.articles-list__icon(
@@ -64,9 +64,9 @@
                 h2.articles-list__title(@click="toArticle(article._id)") {{ article.title }}
                 span.articles-list__info {{ '創建於 ' + article.createDate }}
                 b-dropdown.articles-list__dropdown(
-                  size="lg"
                   variant="link"
                   no-caret
+                  right
                 )
                   template(#button-content)
                     font-awesome-icon.icon.articles-list__icon(
@@ -94,14 +94,14 @@ export default {
     },
     draft () {
       return this.articles.filter(article => {
-        const { isDraft, isPublish, isUnlisted, isBlocked } = article
-        return isDraft && !isPublish && !isUnlisted && !isBlocked
+        const { isDraft, isPublished, isUnlisted, isBlocked } = article
+        return isDraft && !isPublished && !isUnlisted && !isBlocked
       })
     },
     published () {
       return this.articles.filter(article => {
-        const { isDraft, isPublish, isUnlisted, isBlocked } = article
-        return !isDraft && isPublish && !isUnlisted && !isBlocked
+        const { isDraft, isPublished, isUnlisted, isBlocked } = article
+        return !isDraft && isPublished && !isUnlisted && !isBlocked
       }).map(article => {
         const likesCountText = article.likes.length > 0 ? `，有 ${article.likes.length} 人喜歡` : ''
         const favoritesCountText = article.favorites.length > 0 ? ` ，有 ${article.favorites.length} 人收藏` : ''
@@ -111,17 +111,26 @@ export default {
     },
     unlisted () {
       return this.articles.filter(article => {
-        const { isDraft, isPublish, isUnlisted, isBlocked } = article
-        return !isDraft && isPublish && isUnlisted && !isBlocked
+        const { isDraft, isPublished, isUnlisted, isBlocked } = article
+        return !isDraft && isPublished && isUnlisted && !isBlocked
       })
     }
   },
   methods: {
+    async createArticle () {
+      try {
+        const res = await this.axios.post(process.env.VUE_APP_API + '/articles', {})
+        const { success, result } = res.data
+        if (success) this.$router.push('/article-edit/' + result._id)
+      } catch (error) {
+        console.log(error)
+      }
+    },
     toArticle (articleId) {
       this.$router.push('/article/' + articleId)
     },
     editArticle (articleId) {
-      this.$router.push('/article-edit/' + articleId)
+      this.$router.push('/article-edit-test/' + articleId)
     },
     async deleteArticle (article) {
       try {

@@ -16,11 +16,7 @@ export default new Vuex.Store({
       followers: [],
       articleCategory: []
     },
-    editorStorage: {
-      id: '',
-      text: ''
-    },
-    articleData: {},
+    currentEditArticle: {},
     isLoginModal: true
   },
   mutations: {
@@ -55,13 +51,8 @@ export default new Vuex.Store({
     toggleModal (state, data) {
       state.isLoginModal = data
     },
-    editorStorage (state, data) {
-      state.editorStorage.id = data._id
-      state.editorStorage.text = data.text
-    },
-    articleData (state, data) {
-      console.log(data)
-      state.articleData = data
+    currentEditArticle (state, data) {
+      state.currentEditArticle = data
     }
   },
   actions: {
