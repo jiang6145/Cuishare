@@ -7,6 +7,7 @@ import {
   getArticleAll,
   getAuthorArticles,
   getArticle,
+  searchArticle,
   editArticle,
   changeArticleCategory,
   likeArticle,
@@ -21,6 +22,7 @@ router.patch('/category/:articleId/:categoryId', changeArticleCategory)
 router.get('/', getArticleAll)
 router.get('/author/:authorId', getAuthorArticles)
 router.get('/:articleId', getArticle)
+router.get('/search/:searchValue', searchArticle)
 router.patch('/likes/:articleId', likeArticle)
 router.patch('/favorites/:articleId', favoriteArticle)
 

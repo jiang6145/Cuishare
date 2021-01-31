@@ -201,6 +201,7 @@ html,body{
 }
 
 .tag{
+  display:inline-block;
   font-size: $text-font-xs;
   border:1px solid $color-tag-light;
   border-radius: 2px;

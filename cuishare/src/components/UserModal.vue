@@ -1,94 +1,94 @@
 <template lang="pug">
-b-modal#user-modal.user-modal(
-  @hidden="resetModal"
-  @show="resetModal"
-  centered
-  hide-footer
-  no-close-on-backdrop
-)
+  b-modal#user-modal.user-modal(
+    @hidden="resetModal"
+    @show="resetModal"
+    centered
+    hide-footer
+    no-close-on-backdrop
+  )
 
-  ValidationObserver(v-slot='{ handleSubmit }' ref="registerAndLoginForm" tag="div")
-    b-form#register-and-login-form(@submit.prevent="handleSubmit(onSubmit)")
-      //- User Name
-      ValidationProvider(
-        v-if="!isLoginModal"
-        rules="required|min:4|max:30|bannedName"
-        v-slot="{ errors, valid, dirty }"
-        name="username"
-        tag="div"
-      )
-        b-form-group(for="username")
-          b-form-input(
-            name="username"
-            type="text"
-            v-model="form.username"
-            placeholder="你的暱稱 (可以更改)"
-            :state="validState(errors, valid, dirty)"
-          )
-          p.validate-message {{ errors[0] }}
+    ValidationObserver(v-slot='{ handleSubmit }' ref="registerAndLoginForm" tag="div")
+      b-form#register-and-login-form(@submit.prevent="handleSubmit(onSubmit)")
+        //- User Name
+        ValidationProvider(
+          v-if="!isLoginModal"
+          rules="required|min:4|max:30|bannedName"
+          v-slot="{ errors, valid, dirty }"
+          name="username"
+          tag="div"
+        )
+          b-form-group(for="username")
+            b-form-input(
+              name="username"
+              type="text"
+              v-model="form.username"
+              placeholder="你的暱稱 (可以更改)"
+              :state="validState(errors, valid, dirty)"
+            )
+            p.validate-message {{ errors[0] }}
 
-      //- Email
-      ValidationProvider(
-        :rules="'required|email'+ `${!isLoginModal ? '|emailUnique' : ''}`"
-        v-slot="{ errors, valid, dirty }"
-        name="email"
-        vid="email"
-        tag="div"
-      )
-        b-form-group(for="email")
-          b-form-input(
-            name="email"
-            type="text"
-            v-model="form.email"
-            placeholder="Email"
-            :state="validState(errors, valid, dirty)"
-          )
-          p.validate-message {{ errors[0] }}
+        //- Email
+        ValidationProvider(
+          :rules="'required|email'+ `${!isLoginModal ? '|emailUnique' : ''}`"
+          v-slot="{ errors, valid, dirty }"
+          name="email"
+          vid="email"
+          tag="div"
+        )
+          b-form-group(for="email")
+            b-form-input(
+              name="email"
+              type="text"
+              v-model="form.email"
+              placeholder="Email"
+              :state="validState(errors, valid, dirty)"
+            )
+            p.validate-message {{ errors[0] }}
 
-      //- Password
-      ValidationProvider(
-        rules="required|alphaNum|min:6|max:30"
-        v-slot="{ errors, valid, dirty }"
-        name="password"
-        ref="password"
-        tag="div"
-      )
-        b-form-group
-          b-form-input(
-            type="password"
-            v-model="form.password"
-            placeholder="密碼"
-            :state="validState(errors, valid, dirty)"
-          )
-          p.validate-message {{ errors[0] }}
+        //- Password
+        ValidationProvider(
+          rules="required|alphaNum|min:6|max:30"
+          v-slot="{ errors, valid, dirty }"
+          name="password"
+          ref="password"
+          tag="div"
+        )
+          b-form-group
+            b-form-input(
+              type="password"
+              v-model="form.password"
+              placeholder="密碼"
+              :state="validState(errors, valid, dirty)"
+            )
+            p.validate-message {{ errors[0] }}
 
-      //- 確認 Password
-      ValidationProvider(
-        v-if="!isLoginModal"
-        rules="required|confirmed:password"
-        v-slot="{ errors, valid, dirty }"
-        name="confirmPassword"
-        tag="div"
-      )
-        b-form-group
-          b-form-input(
-            type="password"
-            v-model="form.confirmPassword"
-            placeholder="確認密碼"
-            :state="validState(errors, valid, dirty)"
-          )
-          p.validate-message {{ errors[0] }}
+        //- 確認 Password
+        ValidationProvider(
+          v-if="!isLoginModal"
+          rules="required|confirmed:password"
+          v-slot="{ errors, valid, dirty }"
+          name="confirmPassword"
+          tag="div"
+        )
+          b-form-group
+            b-form-input(
+              type="password"
+              v-model="form.confirmPassword"
+              placeholder="確認密碼"
+              :state="validState(errors, valid, dirty)"
+            )
+            p.validate-message {{ errors[0] }}
 
-      p.res-message(:style="{color: resMessageColor}") {{ resMessage }}
-      b-button.custom-btn.user-modal__btn-submit(
-        type='submit'
-        variant="outline-warning"
-        size="sm"
-      ) {{ isLoginModal ? '登入' : '註冊' }}
+        p.res-message(:style="{color: resMessageColor}") {{ resMessage }}
+        b-button.custom-btn.user-modal__btn-submit(
+          type='submit'
+          variant="outline-warning"
+          size="sm"
+        ) {{ isLoginModal ? '登入' : '註冊' }}
 
-    .user-modal__footer
-      p {{ isLoginModal ? '還沒有帳號嗎?' : '已有Cuishare帳號!' }}
-        a(href="#" @click.prevent="toggleModal") {{ isLoginModal ? '註冊' : '登入' }}
+      .user-modal__footer
+        p {{ isLoginModal ? '還沒有帳號嗎?' : '已有Cuishare帳號!' }}
+          a(href="#" @click.prevent="toggleModal") {{ isLoginModal ? '註冊' : '登入' }}
 </template>
 
 <script>

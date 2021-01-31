@@ -22,7 +22,10 @@
       h2.article-card__title(@click="toArticle(article._id)") {{ article.title }}
       p.article-card__sub-title {{ article.subTitle }}
       .article-card__tags
-        span.tag.article-card__tag(v-for="tag in article.tags") {{ tag }}
+        ArticleTag(
+          v-for="tag in article.tags"
+          :tag="tag"
+        )
 
     b-card-footer.article-card__footer
       span.article-card__create-at {{ '發布於 ' + article.publishedDate +'，'+ article.readingTime }}
@@ -31,10 +34,13 @@
 
 <script>
 import ArticleInteractive from './ArticleInteractive'
+import ArticleTag from './ArticleTag'
+
 export default {
   name: 'VerticalArticleCard',
   components: {
-    ArticleInteractive
+    ArticleInteractive,
+    ArticleTag
   },
   props: {
     article: Object

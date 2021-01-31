@@ -45,8 +45,6 @@ export const loginUser = async (req, res, next) => {
       email: req.body.email,
       password: md5(req.body.password)
     }, '-password')
-    // .populate('following', ['username', 'photoUrl', 'about', 'following'])
-    // .populate('followers', ['username', 'photoUrl', 'about', 'followers'])
 
     if (!user) return res.status(400).send({ success: false, message: 'email 或密碼錯誤' })
 

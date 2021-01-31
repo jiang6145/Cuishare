@@ -33,6 +33,12 @@ const routes = [
     meta: { isLogin: true }
   },
   {
+    path: '/article-search/:value',
+    name: 'ArticleSearch',
+    component: () => import(/* webpackChunkName: "article-search" */ '../views/ArticleSearch.vue'),
+    meta: { isLogin: true }
+  },
+  {
     path: '/blog/:id',
     name: 'Blog',
     component: () => import(/* webpackChunkName: "blog" */ '../views/Blog.vue'),

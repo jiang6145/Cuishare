@@ -3,8 +3,9 @@
   :style="styleObject"
 )
   Navbar
-  UserModal
   router-view
+  UserModal
+  ArticleSearchModal
 </template>
 
 <script>
@@ -12,12 +13,14 @@ import '@/assets/scss/main.scss'
 import 'vue-img-inputer/dist/index.css'
 import Navbar from './components/Navbar'
 import UserModal from './components/UserModal'
+import ArticleSearchModal from './components/ArticleSearchModal'
 
 export default {
   name: 'App',
   components: {
     Navbar,
-    UserModal
+    UserModal,
+    ArticleSearchModal
   },
   data () {
     return {

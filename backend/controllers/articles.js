@@ -100,7 +100,27 @@ export const getArticleAll = async (req, res, next) => {
     const result = await articles
       .find(query)
       .populate('author', ['username', 'photoUrl'])
-      .sort('-createDate')
+      .sort('-publishedDate')
+    if (result.length === 0) return res.status(404).send({ success: false, message: '找不到文章' })
+
+    res.status(200).send({ success: true, message: '', result })
+  } catch (error) {
+    next(error)
+  }
+}
+
+// 搜尋文章
+export const searchArticle = async (req, res, next) => {
+  try {
+    const regex = new RegExp(req.params.searchValue, 'i')
+    const result = await articles
+      .find({ isPublished: true, isDraft: false, isBlocked: false, isUnlisted: false })
+      .or([
+        { title: { $regex: regex } },
+        { tags: { $regex: regex } }
+      ])
+      .populate('author', ['username', 'photoUrl'])
+      .sort('-publishedDate')
     if (result.length === 0) return res.status(404).send({ success: false, message: '找不到文章' })
 
     res.status(200).send({ success: true, message: '', result })

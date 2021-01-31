@@ -8,7 +8,7 @@
             @click="createArticle"
             variant="success"
             size="sm"
-          ) 寫新文章
+          ) 寫文章
 
       b-row
         b-col.mx-auto(cols="12" lg="10")
@@ -130,7 +130,7 @@ export default {
       this.$router.push('/article/' + articleId)
     },
     editArticle (articleId) {
-      this.$router.push('/article-edit-test/' + articleId)
+      this.$router.push('/article-edit/' + articleId)
     },
     async deleteArticle (article) {
       try {

@@ -15,6 +15,30 @@
         size="sm"
       ) {{ currentEditArticle.isPublished ? '變更文章設定' : '發布文章' }}
 
+    b-nav-item.user-menu--search.mr-md-5(
+      v-if="!isArticleEditRoute"
+    )
+      b-form.d-none.d-md-block(
+        @submit.prevent="onSearch"
+      )
+        font-awesome-icon.icon.icon--search(
+          v-b-modal.article-search-modal
+          :icon="['fas', 'search']"
+          fixed-width
+        )
+        b-form-input(
+          v-model="searchValue"
+          type="text"
+          placeholder="搜尋文章..."
+        )
+
+      font-awesome-icon.icon.d-block.d-md-none(
+        v-b-modal.article-search-modal
+        :icon="['fas', 'search']"
+        :size="'lg'"
+        fixed-width
+      )
+
     b-nav-item.user-menu--avatar
       b-dropdown(
         right
@@ -26,7 +50,7 @@
 
         b-dropdown-item(href='#' :to="'/blog/' + user.id") 你的首頁
         b-dropdown-divider
-        b-dropdown-item(href='#' @click.prevent="createArticle") 寫篇文章
+        b-dropdown-item(href='#' @click.prevent="createArticle") 寫文章
         b-dropdown-item(href='#' to="/user-settings") 個人設定
         b-dropdown-item(href='#' to="/my-article") 你的文章
         b-dropdown-item(href='#' to="/my-favorites") 收藏文章
@@ -40,9 +64,15 @@
           )
         b-dropdown-item.dropdown--danger(@click="logout") 登出
 </template>
+
 <script>
 export default {
   name: 'UserMenu',
+  data () {
+    return {
+      searchValue: ''
+    }
+  },
   computed: {
     user () {
       return this.$store.state.user
@@ -77,8 +107,9 @@ export default {
         console.log(error)
       }
     },
-    async changeCoverPhoto () {
-
+    onSearch () {
+      this.$router.push('/article-search/' + this.searchValue)
+      this.searchValue = ''
     }
   }
 }

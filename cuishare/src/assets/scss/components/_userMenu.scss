@@ -1,4 +1,20 @@
 .user-menu{
+  &--search{
+    position: relative;
+
+    .form-control{
+      padding-left: 25px;
+      color: #fff;
+    }
+
+    .icon--search{
+      margin-left: 5px;
+      position: absolute;
+      left: 0;
+      top: 50%;
+      transform: translateY(-50%);
+    }
+  }
 
   &__avatar{
     transition: 0.2s;
@@ -43,6 +59,16 @@
           background-color: transparent;
         }
       }
+    }
+  }
+}
+
+.light-navbar{
+  .user-menu--search{
+    .form-control{
+      padding-left: 25px;
+      color: #000;
+      border-color: $color-secondary;
     }
   }
 }
