@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
+import store from '../store/index'
 import Home from '../views/Home.vue'
 
 Vue.use(VueRouter)
@@ -21,12 +22,6 @@ const routes = [
     meta: { isLogin: false }
   },
   {
-    path: '/new-article/',
-    name: 'NewArticle',
-    component: () => import(/* webpackChunkName: "new-article" */ '../views/NewArticle.vue'),
-    meta: { isLogin: true }
-  },
-  {
     path: '/article-edit/:id',
     name: 'ArticleEdit',
     component: () => import(/* webpackChunkName: "article-edit" */ '../views/ArticleEdit.vue'),
@@ -36,7 +31,7 @@ const routes = [
     path: '/article-search/:value',
     name: 'ArticleSearch',
     component: () => import(/* webpackChunkName: "article-search" */ '../views/ArticleSearch.vue'),
-    meta: { isLogin: true }
+    meta: { isLogin: false }
   },
   {
     path: '/blog/:id',
@@ -76,12 +71,20 @@ const routes = [
       {
         path: 'member-management',
         name: 'MemberManagement',
-        component: () => import(/* webpackChunkName: "member-management" */ '../components/admin/MemberManagement.vue')
+        component: () => import(/* webpackChunkName: "member-management" */ '../components/admin/MemberManagement.vue'),
+        meta: {
+          isLogin: true,
+          isAdmin: true
+        }
       },
       {
         path: 'article-management',
         name: 'ArticleManagement',
-        component: () => import(/* webpackChunkName: "article-management" */ '../components/admin/ArticleManagement.vue')
+        component: () => import(/* webpackChunkName: "article-management" */ '../components/admin/ArticleManagement.vue'),
+        meta: {
+          isLogin: true,
+          isAdmin: true
+        }
       }
     ],
     meta: {
@@ -95,8 +98,18 @@ const router = new VueRouter({
   routes
 })
 
+router.beforeEach((to, from, next) => {
+  if (to.meta.isLogin && (!store.state.user.id || store.state.user.isBlocked)) {
+    next('/')
+  } else if (to.meta.isAdmin && (!store.state.user.isAdmin || !store.state.user.id)) {
+    next('/')
+  } else {
+    next()
+  }
+})
+
 router.afterEach((to, from) => {
-  document.title = to.meta.title
+  document.title = 'Cuishare'
 })
 
 export default router

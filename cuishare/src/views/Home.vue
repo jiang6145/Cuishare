@@ -117,11 +117,18 @@ export default {
     }
   },
   async mounted () {
+    const loader = this.$loading.show()
+
     try {
       const res = await this.axios.get(process.env.VUE_APP_API + '/articles')
       const { success, result } = res.data
 
-      if (success) this.articles = this.filterPublished(result)
+      if (success) {
+        this.articles = this.filterPublished(result)
+        setTimeout(() => {
+          loader.hide()
+        }, 1000)
+      }
     } catch (error) {
       console.log(error.response.data.message)
     }
