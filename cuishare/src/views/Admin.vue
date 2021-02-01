@@ -6,7 +6,7 @@
           b-nav(vertical)
             b-nav-item(to="/admin/member-management") 會員管理
             b-nav-item(to="/admin/article-management") 文章管理
-        b-col.offset-3(cols="12" lg="8" md="7")
+        b-col.offset-lg-3(cols="12" lg="8")
           router-view
 
 </template>

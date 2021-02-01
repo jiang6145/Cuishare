@@ -1,8 +1,9 @@
 .article-search{
   padding-top: 3rem;
 
-  &__not-find-text{
-    font-size: $heading-font-md;
+  &__text{
+    font-size: $heading-font-sm;
     font-weight: 900;
+    margin-bottom: 3rem;
   }
 }

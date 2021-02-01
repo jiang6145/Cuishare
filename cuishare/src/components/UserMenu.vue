@@ -57,7 +57,7 @@
           span.tag.tag--blocked.no-hover 帳號已被封鎖
         b-dropdown-divider(v-if="user.isBlocked")
 
-        b-dropdown-item(href='#' :to="'/blog/' + user.id") 你的首頁
+        b-dropdown-item(href='#' :to="'/blog/' + user.id" :disabled="isUserBlocked") 你的首頁
         b-dropdown-divider
 
         b-dropdown-item(href='#' @click.prevent="createArticle" :disabled="isUserBlocked") 寫文章
@@ -76,7 +76,7 @@
         b-dropdown-item.dropdown--danger(@click="logout") 登出
         b-dropdown-divider(v-if="user.isAdmin")
         b-dropdown-item(
-          to="/admin"
+          to="/admin/member-management"
           href='#'
           v-if="user.isAdmin"
         ) 管理員後台

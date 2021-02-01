@@ -1,6 +1,6 @@
 html,body{
-  font-family: '微軟正黑體';
-  letter-spacing: $letter-spacing-xs;
+  font-family: 'Bitter', 'Noto Serif TC', '微軟正黑體', serif;
+  letter-spacing: $letter-spacing-sm;
   line-height: $line-height-sm;
 }
 
@@ -220,10 +220,14 @@ html,body{
   border-radius: 2px;
   padding: 2px 0.4rem;
   transition: .2s;
-
+  margin-bottom: 0.2rem;
   cursor: default;
   color: $color-basic;
   background-color: $color-tag;
+
+  @include media-breakpoint-up(lg){
+    margin-bottom: 0;
+  }
 
   &--blocked{
     text-align: center;

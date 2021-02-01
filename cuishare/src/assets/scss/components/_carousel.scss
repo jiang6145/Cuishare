@@ -35,9 +35,9 @@
   }
 
   &__title{
+    font-size: $heading-font-xs;
     position: relative;
     cursor: pointer;
-    font-size: $heading-font-xs;
     text-align: left;
 
     @include media-breakpoint-up(md){
@@ -68,13 +68,15 @@
   }
 
   &__text{
-    width: 50%;
-    margin: 0 auto;
-    color: $color-secondary-light;
     display: none;
 
     @include media-breakpoint-up(lg){
       display: block;
+      width: 50%;
+      margin: 0 auto;
+      line-height: $line-height-lg;
+      color: $color-secondary-light;
+      
       @include text-overflow(3);
     }
   }

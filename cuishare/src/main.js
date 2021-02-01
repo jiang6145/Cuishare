@@ -10,6 +10,7 @@ import vueAxios from 'vue-axios'
 import ImgInputer from 'vue-img-inputer'
 import CKEditor from '@ckeditor/ckeditor5-vue2'
 import Loading from 'vue-loading-overlay'
+import Toasted from 'vue-toasted'
 import 'vue-loading-overlay/dist/vue-loading.css'
 import '../src/validation.js'
 
@@ -47,6 +48,13 @@ Vue.use(Loading, {
   backgroundColor: '#fff',
   opacity: 1,
   lockScroll: true
+})
+Vue.use(Toasted, {
+  position: 'top-center',
+  duration: 2000,
+  keepOnHover: true,
+  fitToScreen: true,
+  singleton: true
 })
 
 new Vue({

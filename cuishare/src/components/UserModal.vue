@@ -79,7 +79,6 @@
             )
             p.validate-message {{ errors[0] }}
 
-        p.res-message(:style="{color: resMessageColor}") {{ resMessage }}
         b-button.custom-btn.user-modal__btn-submit(
           type='submit'
           variant="outline-warning"
@@ -107,9 +106,7 @@ export default {
         email: '',
         password: '',
         confirmPassword: ''
-      },
-      resMessage: '',
-      resMessageColor: ''
+      }
     }
   },
   computed: {
@@ -119,7 +116,6 @@ export default {
   },
   methods: {
     async onSubmit () {
-      let message = ''
       try {
         if (this.isLoginModal) {
           // 登入
@@ -130,9 +126,12 @@ export default {
           }
 
           const res = await this.axios.post(process.env.VUE_APP_API + '/users/login', loginData)
+          const { success, result } = res.data
 
-          message = res.data.message
-          this.$store.commit('login', res.data.result)
+          if (success) {
+            this.$toasted.success('登入成功，歡迎回來 Cuishae')
+            this.$store.commit('login', result)
+          }
         } else {
           // 註冊
           const { username, email, password } = this.$data.form
@@ -142,15 +141,23 @@ export default {
             password
           }
           const res = await this.axios.post(process.env.VUE_APP_API + '/users', registerData)
-          message = res.data.message
+          const { success, message } = res.data
+
+          if (success) {
+            this.$toasted.success(message)
+            const loginData = {
+              email,
+              password
+            }
+            const res = await this.axios.post(process.env.VUE_APP_API + '/users/login', loginData)
+            if (res.data.success) this.$store.commit('login', res.data.result)
+          }
         }
         this.$bvModal.hide('user-modal')
-        this.resMessageColor = 'green'
-        this.resMessage = message
       } catch (error) {
         this.$refs.registerAndLoginForm.reset()
-        this.resMessageColor = 'red'
-        this.resMessage = error.response.data.message
+        this.$toasted.error(error.response.data.message)
+        console.log(error)
       }
     },
     resetModal () {
@@ -158,7 +165,6 @@ export default {
       this.form.email = ''
       this.form.password = ''
       this.form.confirmPassword = ''
-      this.resMessage = ''
     },
     toggleModal () {
       this.$store.commit('toggleModal', !this.isLoginModal)

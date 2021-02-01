@@ -1,4 +1,5 @@
 <template lang="pug">
+
   b-sidebar.comment.comment--sidebar(
     id="comment-sidebar"
     ref="commentSidebar"
@@ -130,9 +131,10 @@ export default {
       }
     },
     onChange () {
-      if (this.user.id) return
+      if (this.user.id && !this.user.isBlocked) return
       this.$refs.commentSidebar.hide()
-      this.$bvModal.show('user-modal')
+      if (!this.user.id) this.$bvModal.show('user-modal')
+      if (this.user.isBlocked) this.$toasted.error('你已被封鎖不能留言')
     },
     resetTextarea () {
       this.commentText = ''

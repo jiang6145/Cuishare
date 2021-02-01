@@ -65,17 +65,25 @@ export default {
     }
   },
   async mounted () {
+    const loader = this.$loading.show()
     try {
       const articleId = this.$route.params.id
       const res = await this.axios.get(process.env.VUE_APP_API + '/articles/' + articleId)
       const { success, result } = res.data
-      if (result.isBlocked) this.$router.push('/')
+      if (result.isBlocked) {
+        this.$router.go(-1)
+        this.$toasted.error('此文章已被封鎖，不可閱讀')
+      }
       if (success) {
         this.article = result
         this.initEditor()
       }
+
+      setTimeout(() => {
+        loader.hide()
+      }, 500)
     } catch (error) {
-      console.log(error.response.data.message)
+      console.log(error)
     }
   }
 }

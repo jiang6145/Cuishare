@@ -5,7 +5,15 @@
 
   .navbar-brand{
     color: $color-basic;
+    max-width: 100px;
 
+    .logo{
+      width: 100%;
+    }
+
+    &:hover{
+      color: $color-basic;
+    }
     &:focus{
       color: $color-basic;
     }

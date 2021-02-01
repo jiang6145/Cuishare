@@ -99,7 +99,7 @@ export const getArticleAll = async (req, res, next) => {
 
     const result = await articles
       .find(query)
-      .populate('author', ['username', 'photoUrl'])
+      .populate('author', ['username', 'photoUrl', 'isBlocked'])
       .sort('-publishedDate')
     if (result.length === 0) return res.status(404).send({ success: false, message: '找不到文章' })
 
@@ -119,7 +119,7 @@ export const searchArticle = async (req, res, next) => {
         { title: { $regex: regex } },
         { tags: { $regex: regex } }
       ])
-      .populate('author', ['username', 'photoUrl'])
+      .populate('author', ['username', 'photoUrl', 'isBlocked'])
       .sort('-publishedDate')
     if (result.length === 0) return res.status(404).send({ success: false, message: '找不到文章' })
 
@@ -147,7 +147,7 @@ export const getAuthorArticles = async (req, res, next) => {
     }
 
     const result = await articles.find(query)
-      .populate('author', ['username', 'photoUrl', 'about'])
+      .populate('author', ['username', 'photoUrl', 'about', 'isBlocked'])
       .sort('-createDate')
 
     if (result.length === 0) return res.status(404).send({ success: false, message: '找不到文章' })

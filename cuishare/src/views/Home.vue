@@ -21,22 +21,22 @@
           )
             VerticalArticleCard(:article="article")
           b-col(cols="12")
-            p(@click="toOfficialBlog").official-articles__text 閱讀更多我們的文章
+            p.official-articles__text(@click="toOfficialBlog") 閱讀更多我們的文章
 
     //- 各作者文章區塊
     .author-articles
       b-container
         b-row.author-articles__row
-          b-col(cols="12" lg="8")
+          b-col(cols="12" lg="8" order-lg="0" order="1")
             .article-item(v-for="article in authorArticles" :key="article._id")
               HorizontalArticleCard(:article="article")
-          b-col.ml-auto(cols="12" lg="3")
+          b-col.ml-auto(cols="12" lg="3" order-lg="1" order="0")
             .popular-tags
               ArticleTag(
                 v-for="tag in getPopularTags"
                 :tag="tag.name"
               )
-              p.popular-tags__text 文章熱門標籤，點擊標籤查詢相關文章。
+              p.d-none.d-lg-block.popular-tags__text 文章熱門標籤，點擊標籤查詢相關文章。
 
 </template>
 
@@ -104,8 +104,9 @@ export default {
   },
   methods: {
     filterPublished (result) {
-      return result.filter(({ isPublished, isDraft, isBlocked, isUnlisted }) => {
-        return isPublished && !isDraft && !isBlocked && !isUnlisted
+      return result.filter(article => {
+        const { isPublished, isDraft, isBlocked, isUnlisted, author } = article
+        return isPublished && !isDraft && !isBlocked && !isUnlisted && !author.isBlocked
       }).map((article) => {
         article.publishedDate = dateDifference(article.publishedDate)
         article.title = article.title ? article.title : 'Untitled'
@@ -127,10 +128,10 @@ export default {
         this.articles = this.filterPublished(result)
         setTimeout(() => {
           loader.hide()
-        }, 1000)
+        }, 500)
       }
     } catch (error) {
-      console.log(error.response.data.message)
+      console.log(error)
     }
   }
 }

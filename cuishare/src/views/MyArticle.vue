@@ -32,7 +32,7 @@
                       :icon="['fas','chevron-down']"
                       fixed-width
                     )
-                  b-dropdown-item(@click="editArticle(article)") 編輯文章
+                  b-dropdown-item(@click.prevent="editArticle(article)") 編輯文章
                   b-dropdown-item.dropdown--danger(@click="deleteArticle(article)") 刪除文章
 
             //- 已發佈
@@ -54,7 +54,7 @@
                       :icon="['fas','chevron-down']"
                       fixed-width
                     )
-                  b-dropdown-item(@click="editArticle(article)") 編輯文章
+                  b-dropdown-item(@click.prevent="editArticle(article)") 編輯文章
                   b-dropdown-item.dropdown--danger(@click="deleteArticle(article)") 刪除文章
 
             //- 未公開
@@ -76,7 +76,7 @@
                       :icon="['fas','chevron-down']"
                       fixed-width
                     )
-                  b-dropdown-item(@click="editArticle(article)") 編輯文章
+                  b-dropdown-item(@click.prevent="editArticle(article)") 編輯文章
                   b-dropdown-item.dropdown--danger(@click="deleteArticle(article)") 刪除文章
 
 </template>
@@ -130,11 +130,11 @@ export default {
       }
     },
     toArticle (article) {
-      if (article.isBlocked) return
+      if (article.isBlocked) return this.$toasted.error('此文章已被封鎖，不可閱讀')
       this.$router.push('/article/' + article._id)
     },
     editArticle (article) {
-      if (article.isBlocked) return
+      if (article.isBlocked) return this.$toasted.error('此文章已被封鎖，不可編輯')
       this.$router.push('/article-edit/' + article._id)
     },
     async deleteArticle (article) {

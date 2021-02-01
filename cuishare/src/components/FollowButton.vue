@@ -28,6 +28,7 @@ export default {
   },
   methods: {
     async follow () {
+      if (this.user.isBlocked) return this.$toasted.error('你的帳號被封鎖，不能操作')
       try {
         if (!this.user.id) return this.$bvModal.show('user-modal')
 

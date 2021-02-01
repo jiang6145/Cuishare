@@ -65,16 +65,21 @@ export default {
     }
   },
   async mounted () {
+    const loader = this.$loading.show()
     try {
       const res = await this.axios.get(process.env.VUE_APP_API + '/articles/author/' + this.$route.params.id)
       const { success, result } = res.data
-
+      if (result[0].author.isBlocked) {
+        this.$router.go(-1)
+        this.$toasted.error('此作者已被封鎖，不可訪問')
+      }
       if (success) {
         this.blogArticles = this.filterPublished(result)
-
         this.author = this.blogArticles[0].author
-        console.log(this.author)
       }
+      setTimeout(() => {
+        loader.hide()
+      }, 500)
     } catch (error) {
       alert(error.response.data.message)
     }

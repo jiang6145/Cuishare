@@ -3,9 +3,8 @@
     b-container
       b-row
         b-col.mx-auto(cols="12" md="8")
-          h4.article-search__not-find-text(v-if="articles.length <= 0") 找不到相關文章：請查詢其它關鍵字
+          h4.article-search__text {{ searchText }}
           .article-item(
-            v-else
             v-for="article in articles"
             :key="article._id"
           )
@@ -25,6 +24,13 @@ export default {
       articles: []
     }
   },
+  computed: {
+    searchText () {
+      return this.articles.length <= 0
+        ? '找不到相關文章：請查詢其它關鍵字'
+        : '關鍵字：「' + this.$route.params.value + '」的相關文章'
+    }
+  },
   watch: {
     '$route.params': {
       handler ({ value }) {
@@ -35,13 +41,22 @@ export default {
   },
   methods: {
     async getArticles (searchValue) {
+      const loader = this.$loading.show()
       try {
         const res = await this.axios.get(process.env.VUE_APP_API + '/articles/search/' + searchValue)
         const { success, result } = res.data
         if (success) this.articles = result
+
+        setTimeout(() => {
+          loader.hide()
+        }, 500)
       } catch (error) {
         this.articles = []
         console.log(error)
+
+        setTimeout(() => {
+          loader.hide()
+        }, 500)
       }
     }
   },

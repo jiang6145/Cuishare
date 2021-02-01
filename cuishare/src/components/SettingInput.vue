@@ -175,13 +175,14 @@ export default {
 
       try {
         const res = await this.axios.patch(process.env.VUE_APP_API + '/users/' + this.user.id, data)
-        if (!res.data.success) return
-
-        this.$refs[this.inputname + '-valid'].reset()
-        this.value = this.newPassword
-        this.newPassword = ''
-        this.confirmNewPassword = ''
-        this.isDisabled = true
+        if (res.data.success) {
+          this.$refs[this.inputname + '-valid'].reset()
+          this.value = this.newPassword
+          this.newPassword = ''
+          this.confirmNewPassword = ''
+          this.isDisabled = true
+          this.$toasted.success('密碼變更成功')
+        }
       } catch (error) {
         this.$refs[this.inputname + '-valid'].reset()
         this.$refs['new-password' + '-valid'].reset()
@@ -190,7 +191,7 @@ export default {
         this.newPassword = ''
         this.confirmNewPassword = ''
 
-        alert(error.response.data.message)
+        this.$toasted.error('密碼錯誤')
         console.log(error)
       }
     },

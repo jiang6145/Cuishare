@@ -85,6 +85,7 @@ export default {
   methods: {
     async clikcLike (article) {
       if (!this.user.id) return this.$bvModal.show('user-modal')
+      if (this.user.isBlocked) return this.$toasted.error('你的帳號被封鎖，不能操作')
 
       try {
         const res = await this.axios.patch(process.env.VUE_APP_API + '/articles/likes/' + article._id)
@@ -96,6 +97,7 @@ export default {
     },
     async clikcFavorites (article) {
       if (!this.user.id) return this.$bvModal.show('user-modal')
+      if (this.user.isBlocked) return this.$toasted.error('你的帳號被封鎖，不能操作')
 
       try {
         const res = await this.axios.patch(process.env.VUE_APP_API + '/articles/favorites/' + article._id)

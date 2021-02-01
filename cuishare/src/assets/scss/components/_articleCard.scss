@@ -29,6 +29,11 @@
     margin-right: 0.5rem;
   }
 
+  &__author-name{
+    cursor: pointer;
+    font-weight: 900;
+  }
+
   &__content{
     padding: 0;
     padding-right: 1rem;
@@ -46,9 +51,9 @@
   }
 
   &__sub-title{
-    display: none;
     font-size: $text-font-sm;
     color: $color-secondary;
+    display: none;
     margin: 0.2rem;
     @include media-breakpoint-up(md){
       display: block;
@@ -124,12 +129,6 @@
   }
 }
 
-// .article-card--horizontal
-.article-card--horizontal{
-  .article-card__author-name{
-    cursor: pointer;
-  }
-}
 
 // article-card--vertical
 .article-card--vertical{

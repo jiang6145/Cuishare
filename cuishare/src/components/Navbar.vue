@@ -4,7 +4,8 @@
     fixed="top"
   )
     b-container
-      b-navbar-brand(href="#" to="/") LOGO
+      b-navbar-brand(href="#" to="/")
+        img.logo(src="../plugins/images/logo.png")
 
       //- v-if="!isLogin", 未登入時的導航列
       b-navbar-nav.ml-auto(v-if="!isLogin")

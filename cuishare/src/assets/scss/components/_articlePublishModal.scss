@@ -18,8 +18,13 @@
     padding:0.5rem;
   }
 
+  &__thumbnail{
+    transition: .3s;
+    border: 2px solid transparent;
+  }
+
   &__thumbnail--selected{
-    border: 2px solid $color-secondary;
+    border: 2px solid $color-tag;
   }
 
   img{

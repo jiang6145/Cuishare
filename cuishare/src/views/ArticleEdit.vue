@@ -141,7 +141,11 @@ export default {
     }
   },
   mounted () {
+    const loader = this.$loading.show()
     this.initEditor()
+    setTimeout(() => {
+      loader.hide()
+    }, 500)
   }
 }
 </script>
