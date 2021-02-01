@@ -15,23 +15,28 @@
         size="sm"
       ) {{ currentEditArticle.isPublished ? '變更文章設定' : '發布文章' }}
 
-    b-nav-item.user-menu--search.mr-md-5(
+    b-nav-item.user-menu--search.mr-md-3(
       v-if="!isArticleEditRoute"
+      :class="searchClass"
     )
+      //- md 以上的 search
       b-form.d-none.d-md-block(
         @submit.prevent="onSearch"
       )
         font-awesome-icon.icon.icon--search(
-          @click="onSearch"
+          @click="onShowSearch"
           :icon="['fas', 'search']"
           fixed-width
         )
         b-form-input(
+          @blur="searchClass['search-show']= flase"
+          ref="search-input"
           v-model="searchValue"
           type="text"
           placeholder="搜尋文章..."
         )
 
+      //- md 以下的 search
       font-awesome-icon.icon.d-block.d-md-none(
         v-b-modal.article-search-modal
         :icon="['fas', 'search']"
@@ -48,14 +53,20 @@
         template(#button-content)
           b-avatar.user-menu__avatar(:src="user.photoUrl" size="2.6rem")
 
+        b-dropdown-item(v-if="user.isBlocked")
+          span.tag.tag--blocked.no-hover 帳號已被封鎖
+        b-dropdown-divider(v-if="user.isBlocked")
+
         b-dropdown-item(href='#' :to="'/blog/' + user.id") 你的首頁
         b-dropdown-divider
-        b-dropdown-item(href='#' @click.prevent="createArticle") 寫文章
-        b-dropdown-item(href='#' to="/user-settings") 個人設定
-        b-dropdown-item(href='#' to="/my-article") 你的文章
-        b-dropdown-item(href='#' to="/my-favorites") 收藏文章
-        b-dropdown-item(href='#' to="/my-follow") 追蹤與粉絲
+
+        b-dropdown-item(href='#' @click.prevent="createArticle" :disabled="isUserBlocked") 寫文章
+        b-dropdown-item(href='#' to="/user-settings" :disabled="isUserBlocked") 個人設定
+        b-dropdown-item(href='#' to="/my-article" :disabled="isUserBlocked") 你的文章
+        b-dropdown-item(href='#' to="/my-favorites" :disabled="isUserBlocked") 收藏文章
+        b-dropdown-item(href='#' to="/my-follow" :disabled="isUserBlocked") 追蹤與粉絲
         b-dropdown-divider
+
         b-dropdown-item.user-menu__about(href='#') 關於Cuishare
           font-awesome-icon(
             :icon="['far', 'question-circle']"
@@ -76,12 +87,18 @@ export default {
   name: 'UserMenu',
   data () {
     return {
-      searchValue: ''
+      searchValue: '',
+      searchClass: {
+        'search-show': false
+      }
     }
   },
   computed: {
     user () {
       return this.$store.state.user
+    },
+    isUserBlocked () {
+      return this.user.isBlocked
     },
     isArticleEditRoute () {
       return this.$route.name === 'ArticleEdit'
@@ -116,6 +133,10 @@ export default {
     onSearch () {
       this.$router.push('/article-search/' + this.searchValue)
       this.searchValue = ''
+    },
+    onShowSearch () {
+      this.searchClass['search-show'] = !this.searchClass['search-show']
+      this.$nextTick(() => this.$refs['search-input'].focus())
     }
   }
 }

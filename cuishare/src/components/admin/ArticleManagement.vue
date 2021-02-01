@@ -33,10 +33,10 @@
           span.ml-2 {{ data.item.author.username }}
 
         template(#cell(likes)="data")
-          span {{ data.item.likes.length }}
+          span {{ data.item.likes }}
 
         template(#cell(favorites)="data")
-          span {{ data.item.favorites.length }}
+          span {{ data.item.favorites }}
 
         template(#cell(isBlocked)="data")
           b-button.custom-btn.custom-btn--blockade(
@@ -99,7 +99,13 @@ export default {
     try {
       const res = await this.axios.get(process.env.VUE_APP_API + '/articles')
       const { success, result } = res.data
-      if (success) this.articles = result
+      if (success) {
+        this.articles = result.map(article => {
+          article.likes = article.likes.length
+          article.favorites = article.favorites.length
+          return article
+        })
+      }
     } catch (error) {
       console.log(error)
     }

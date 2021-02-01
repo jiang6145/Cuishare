@@ -1,6 +1,10 @@
 .article-management{
   font-size: $text-font-sm;
 
+  h3{
+    font-weight: 900;
+  }
+
   th{
     letter-spacing: $letter-spacing-md;
     color: $color-secondary;
@@ -14,6 +18,12 @@
       overflow:hidden;
       white-space: nowrap;
       text-overflow: ellipsis;
+
+      a{
+        font-weight: 900;
+        color: $color-secondary-dark;
+        text-decoration: none;
+      }
     }
   }
 

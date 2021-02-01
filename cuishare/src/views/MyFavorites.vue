@@ -6,8 +6,9 @@
           h2.my-favorites__title 你收藏的文章
         b-col.mx-auto(cols="12" lg="10")
           .articles-item(v-for="article in favoritesArticles" :key="article._id")
-            h2.articles-item__title(@click="toArticle(article._id)") {{ article.title }}
+            h2.articles-item__title(@click="toArticle(article)") {{ article.title }}
             .articles-item__info
+              span(v-if="article.isBlocked").tag.tag--blocked.no-hover 文章已被封鎖
               b-avatar.articles-item__avatar(
                 :src="article.author.photoUrl"
                 size="1.4rem"
@@ -50,15 +51,16 @@ export default {
   methods: {
     filterPublished (result) {
       return result.filter(({ isPublished, isDraft, isBlocked, isUnlisted }) => {
-        return isPublished && !isDraft && !isBlocked && !isUnlisted
+        return isPublished && !isDraft && !isUnlisted
       }).map((article) => {
         article.createDate = dateDifference(article.createDate, true)
         article.title = article.title ? article.title : 'Untitled'
         return article
       })
     },
-    toArticle (articleId) {
-      this.$router.push('/article/' + articleId)
+    toArticle (article) {
+      if (article.isBlocked) return
+      this.$router.push('/article/' + article._id)
     },
     async unFavorites (article) {
       try {

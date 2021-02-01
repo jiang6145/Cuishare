@@ -224,6 +224,14 @@ html,body{
   cursor: default;
   color: $color-basic;
   background-color: $color-tag;
+
+  &--blocked{
+    text-align: center;
+    background-color: $color-danger-light;
+    border: none;
+    font-size: $text-font-xs;
+    margin-right: 0.5rem;
+  }
 }
 
 .tag:not(.no-hover){

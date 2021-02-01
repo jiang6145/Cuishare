@@ -1,6 +1,10 @@
 .member-management{
   font-size: $text-font-sm;
 
+  h3{
+    font-weight: 900;
+  }
+  
   th{
     letter-spacing: $letter-spacing-md;
     color: $color-secondary;

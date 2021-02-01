@@ -19,7 +19,8 @@
                 v-for="article in draft"
                 :key="article._id"
               )
-                h2.articles-list__title(@click="toArticle(article._id)") {{ article.title }}
+                h2.articles-list__title(@click="toArticle(article)") {{ article.title }}
+                span(v-if="article.isBlocked").tag.tag--blocked.no-hover 文章已被封鎖
                 span.articles-list__info {{ '創建於 ' + article.createDate }}
                 b-dropdown.articles-list__dropdown(
                   variant="link"
@@ -31,7 +32,7 @@
                       :icon="['fas','chevron-down']"
                       fixed-width
                     )
-                  b-dropdown-item(@click="editArticle(article._id)") 編輯文章
+                  b-dropdown-item(@click="editArticle(article)") 編輯文章
                   b-dropdown-item.dropdown--danger(@click="deleteArticle(article)") 刪除文章
 
             //- 已發佈
@@ -40,7 +41,8 @@
                 v-for="article in published"
                 :key="article._id"
               )
-                h2.articles-list__title(@click="toArticle(article._id)") {{ article.title }}
+                h2.articles-list__title(@click="toArticle(article)") {{ article.title }}
+                span(v-if="article.isBlocked").tag.tag--blocked.no-hover 文章已被封鎖
                 span.articles-list__info {{ article.info }}
                 b-dropdown.articles-list__dropdown(
                   variant="link"
@@ -52,7 +54,7 @@
                       :icon="['fas','chevron-down']"
                       fixed-width
                     )
-                  b-dropdown-item(@click="editArticle(article._id)") 編輯文章
+                  b-dropdown-item(@click="editArticle(article)") 編輯文章
                   b-dropdown-item.dropdown--danger(@click="deleteArticle(article)") 刪除文章
 
             //- 未公開
@@ -61,7 +63,8 @@
                 v-for="article in unlisted"
                 :key="article._id"
               )
-                h2.articles-list__title(@click="toArticle(article._id)") {{ article.title }}
+                h2.articles-list__title(@click="toArticle(article)") {{ article.title }}
+                span(v-if="article.isBlocked").tag.tag--blocked.no-hover 文章已被封鎖
                 span.articles-list__info {{ '創建於 ' + article.createDate }}
                 b-dropdown.articles-list__dropdown(
                   variant="link"
@@ -73,7 +76,7 @@
                       :icon="['fas','chevron-down']"
                       fixed-width
                     )
-                  b-dropdown-item(@click="editArticle(article._id)") 編輯文章
+                  b-dropdown-item(@click="editArticle(article)") 編輯文章
                   b-dropdown-item.dropdown--danger(@click="deleteArticle(article)") 刪除文章
 
 </template>
@@ -94,14 +97,14 @@ export default {
     },
     draft () {
       return this.articles.filter(article => {
-        const { isDraft, isPublished, isUnlisted, isBlocked } = article
-        return isDraft && !isPublished && !isUnlisted && !isBlocked
+        const { isDraft, isPublished, isUnlisted } = article
+        return isDraft && !isPublished && !isUnlisted
       })
     },
     published () {
       return this.articles.filter(article => {
-        const { isDraft, isPublished, isUnlisted, isBlocked } = article
-        return !isDraft && isPublished && !isUnlisted && !isBlocked
+        const { isDraft, isPublished, isUnlisted } = article
+        return !isDraft && isPublished && !isUnlisted
       }).map(article => {
         const likesCountText = article.likes.length > 0 ? `，有 ${article.likes.length} 人喜歡` : ''
         const favoritesCountText = article.favorites.length > 0 ? ` ，有 ${article.favorites.length} 人收藏` : ''
@@ -111,8 +114,8 @@ export default {
     },
     unlisted () {
       return this.articles.filter(article => {
-        const { isDraft, isPublished, isUnlisted, isBlocked } = article
-        return !isDraft && isPublished && isUnlisted && !isBlocked
+        const { isDraft, isPublished, isUnlisted } = article
+        return !isDraft && isPublished && isUnlisted
       })
     }
   },
@@ -126,11 +129,13 @@ export default {
         console.log(error)
       }
     },
-    toArticle (articleId) {
-      this.$router.push('/article/' + articleId)
+    toArticle (article) {
+      if (article.isBlocked) return
+      this.$router.push('/article/' + article._id)
     },
-    editArticle (articleId) {
-      this.$router.push('/article-edit/' + articleId)
+    editArticle (article) {
+      if (article.isBlocked) return
+      this.$router.push('/article-edit/' + article._id)
     },
     async deleteArticle (article) {
       try {

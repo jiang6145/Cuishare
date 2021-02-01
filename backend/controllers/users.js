@@ -32,7 +32,7 @@ export const getUserAll = async (req, res, next) => {
 
     const result = await users
       .find({ _id: { $nin: req.session.user._id } })
-      .select('email username photoUrl isBlocked createDate')
+      .select('email username photoUrl isBlocked createDate followers')
     res.status(200).send({ success: true, message: '', result })
   } catch (error) {
     next(error)

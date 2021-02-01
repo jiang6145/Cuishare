@@ -69,7 +69,7 @@ export default {
       const articleId = this.$route.params.id
       const res = await this.axios.get(process.env.VUE_APP_API + '/articles/' + articleId)
       const { success, result } = res.data
-
+      if (result.isBlocked) this.$router.push('/')
       if (success) {
         this.article = result
         this.initEditor()

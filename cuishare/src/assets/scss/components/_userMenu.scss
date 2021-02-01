@@ -1,18 +1,37 @@
 .user-menu{
+  
+  .tag{
+    width: 100%;
+    margin: 0;
+    font-size: $text-font-sm;
+  }
+
   &--search{
     position: relative;
 
     .form-control{
-      padding-left: 25px;
       color: #fff;
+      width: 0px;
+      padding: 0;
+      transition: .2s;
     }
 
     .icon--search{
-      margin-left: 5px;
       position: absolute;
       left: 0;
       top: 50%;
       transform: translateY(-50%);
+    }
+
+    &.search-show{
+      .form-control{
+        padding-left: 30px;
+        width: 300px;
+      }
+
+      .icon--search{
+        margin-left: 10px;
+      }
     }
   }
 
@@ -66,7 +85,6 @@
 .light-navbar{
   .user-menu--search{
     .form-control{
-      padding-left: 25px;
       color: #000;
       border-color: $color-secondary;
     }

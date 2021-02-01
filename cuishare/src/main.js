@@ -1,14 +1,16 @@
 import '@babel/polyfill'
 import 'mutationobserver-shim'
-import Vue from 'vue'
-import ImgInputer from 'vue-img-inputer'
-import CKEditor from '@ckeditor/ckeditor5-vue2'
 import './plugins/bootstrap-vue'
-import axios from 'axios'
-import vueAxios from 'vue-axios'
+import Vue from 'vue'
 import App from './App.vue'
 import router from './router'
 import store from './store'
+import axios from 'axios'
+import vueAxios from 'vue-axios'
+import ImgInputer from 'vue-img-inputer'
+import CKEditor from '@ckeditor/ckeditor5-vue2'
+import Loading from 'vue-loading-overlay'
+import 'vue-loading-overlay/dist/vue-loading.css'
 import '../src/validation.js'
 
 import { library } from '@fortawesome/fontawesome-svg-core'
@@ -38,8 +40,14 @@ axios.defaults.withCredentials = true
 Vue.config.productionTip = false
 
 Vue.component('ImgInputer', ImgInputer)
-Vue.use(CKEditor)
 Vue.use(vueAxios, axios)
+Vue.use(CKEditor)
+Vue.use(Loading, {
+  color: '#FFB015',
+  backgroundColor: '#fff',
+  opacity: 1,
+  lockScroll: true
+})
 
 new Vue({
   router,

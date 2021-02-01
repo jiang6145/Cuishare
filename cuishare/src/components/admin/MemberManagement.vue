@@ -45,6 +45,7 @@ export default {
         { key: 'username', label: '用戶暱稱', sortable: true },
         { key: 'email', label: '帳號', sortable: true },
         { key: 'createDate', label: '註冊日期', sortable: true },
+        { key: 'followers', label: '粉絲人數', sortable: true },
         { key: 'isBlocked', label: '會員狀態' }
       ],
       members: []
@@ -84,6 +85,7 @@ export default {
       if (success) {
         this.members = result.map(user => {
           user.createDate = dateFormat(user.createDate)
+          user.followers = user.followers.length
           return user
         })
       }

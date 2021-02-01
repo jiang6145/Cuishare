@@ -10,13 +10,6 @@
     border-bottom: 1px solid $color-secondary-light;
     display: flex;
     align-items: center;
-
-    .tag{
-      margin-left: 1rem;
-      background-color: $color-danger-light;
-      border: none;
-      font-size: $text-font-sm;
-    }
   }
 
   &-photo{

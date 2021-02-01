@@ -25,6 +25,11 @@ export default {
       article: {}
     }
   },
+  computed: {
+    user () {
+      return this.$store.state.user
+    }
+  },
   methods: {
     initEditor () {
       const autoSave = this.autoSave
@@ -117,6 +122,7 @@ export default {
         const res = await this.axios.get(process.env.VUE_APP_API + '/articles/' + articleId)
         const { success, result } = res.data
 
+        if (result.author._id !== this.user.id) this.$router.push('/')
         if (success) {
           this.article = {
             _id: result._id,
