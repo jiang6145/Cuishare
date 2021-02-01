@@ -1,0 +1,20 @@
+.member-management{
+  font-size: $text-font-sm;
+
+  th{
+    letter-spacing: $letter-spacing-md;
+    color: $color-secondary;
+  }
+
+  td{
+    vertical-align: middle;
+
+    &:first-child{
+      text-align: center;
+    }
+  }
+
+  .form-control{
+    border:1px solid $color-secondary-light;
+  }
+}

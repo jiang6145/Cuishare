@@ -29,7 +29,7 @@
 <script>
 import VerticalArticleCard from '../components/VerticalArticleCard'
 import FollowButton from '../components/FollowButton'
-import dateDifference from '../dateDifference'
+import { dateDifference } from '../dateDifference'
 
 export default {
   name: 'Blog',

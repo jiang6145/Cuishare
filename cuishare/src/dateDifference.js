@@ -1,6 +1,6 @@
 import * as timeDifference from 'time-difference-js'
 
-const dateFormat = (date) => {
+export const dateFormat = (date) => {
   const now = new Date(date)
 
   let year = now.getFullYear()// 年
@@ -15,7 +15,7 @@ const dateFormat = (date) => {
   return year + '/' + month + '/' + day
 }
 
-const dateDifference = (date) => {
+export const dateDifference = (date) => {
   const { getTimeDiff } = timeDifference
   const startDate = new Date(date)
   const endDate = new Date()
@@ -32,6 +32,7 @@ const dateDifference = (date) => {
     case 'minutes':
       result.text = value + ' 分鐘前'
       break
+    case 'hour':
     case 'hours':
       result.text = value + ' 小時前'
       break
@@ -54,5 +55,3 @@ const dateDifference = (date) => {
 
   return result.text
 }
-
-export default dateDifference

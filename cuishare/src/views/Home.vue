@@ -1,7 +1,6 @@
 <template lang="pug">
   .home
     Carousel(:carouselArticles="carouselArticles")
-    b-button(@click="getPopularTags") 測試
     .official-articles
       b-container
         //- Cuishare 官方文章區塊
@@ -31,6 +30,13 @@
           b-col(cols="12" lg="8")
             .article-item(v-for="article in authorArticles" :key="article._id")
               HorizontalArticleCard(:article="article")
+          b-col.ml-auto(cols="12" lg="3")
+            .popular-tags
+              ArticleTag(
+                v-for="tag in getPopularTags"
+                :tag="tag.name"
+              )
+              p.popular-tags__text 文章熱門標籤，點擊標籤查詢相關文章。
 
 </template>
 
@@ -38,14 +44,16 @@
 import Carousel from '../components/Carousel'
 import HorizontalArticleCard from '../components/HorizontalArticleCard'
 import VerticalArticleCard from '../components/VerticalArticleCard'
-import dateDifference from '../dateDifference'
+import ArticleTag from '../components/ArticleTag'
+import { dateDifference } from '../dateDifference'
 
 export default {
   name: 'Home',
   components: {
     Carousel,
     HorizontalArticleCard,
-    VerticalArticleCard
+    VerticalArticleCard,
+    ArticleTag
   },
   data () {
     return {
@@ -77,6 +85,21 @@ export default {
     },
     officialId () {
       return this.officialArticles.length > 0 ? this.officialArticles[0].author._id : ''
+    },
+    getPopularTags () {
+      const tagAll = []
+      this.articles.forEach(article => {
+        for (const tag of article.tags) {
+          const idx = tagAll.findIndex(t => t.name === tag)
+          if (idx > -1) {
+            tagAll[idx].count++
+          } else {
+            tagAll.push({ name: tag, count: 1 })
+          }
+        }
+      })
+      tagAll.sort((a, b) => b.count - a.count)
+      return tagAll.slice(0, 10)
     }
   },
   methods: {
@@ -91,11 +114,6 @@ export default {
     },
     toOfficialBlog () {
       this.$router.push('/blog/' + this.officialId)
-    },
-    getPopularTags () {
-      const tagAll = []
-      this.articles.forEach(article => article.tags.map(tag => tagAll.push(tag)))
-      console.log(tagAll)
     }
   },
   async mounted () {

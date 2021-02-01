@@ -4,6 +4,7 @@
       b-row
         b-col.mx-auto(cols="12" lg="8")
           .user-settings__title 個人資料
+            span.tag.no-hover(v-if="user.isBlocked") 帳號已被封鎖
           b-form.user-settings-photo(
             @submit.prevent="photoOnSubmit"
             @reset.prevent="photoOnCancel"

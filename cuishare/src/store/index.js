@@ -15,7 +15,8 @@ export default new Vuex.Store({
       following: [],
       followers: [],
       articleCategory: [],
-      isAdmin: false
+      isAdmin: false,
+      isBlocked: false
     },
     currentEditArticle: {},
     isLoginModal: true
@@ -31,6 +32,7 @@ export default new Vuex.Store({
       state.user.followers = data.followers
       state.user.articleCategory = data.articleCategory
       state.user.isAdmin = data.isAdmin
+      state.user.isBlocked = data.isBlocked
     },
     logout (state) {
       state.user.id = ''
@@ -42,6 +44,7 @@ export default new Vuex.Store({
       state.user.followers = []
       state.user.articleCategory = []
       state.user.isAdmin = false
+      state.user.isBlocked = false
     },
     updateUser (state, data) {
       console.log(data)

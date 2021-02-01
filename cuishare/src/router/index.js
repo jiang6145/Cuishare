@@ -69,9 +69,21 @@ const routes = [
     meta: { isLogin: true }
   },
   {
-    path: '/admin-back-stage',
-    name: 'AdminBackStage',
-    component: () => import(/* webpackChunkName: "admin-back-stage" */ '../views/AdminBackStage.vue'),
+    path: '/admin',
+    name: 'Admin',
+    component: () => import(/* webpackChunkName: "admin" */ '../views/Admin.vue'),
+    children: [
+      {
+        path: 'member-management',
+        name: 'MemberManagement',
+        component: () => import(/* webpackChunkName: "member-management" */ '../components/admin/MemberManagement.vue')
+      },
+      {
+        path: 'article-management',
+        name: 'ArticleManagement',
+        component: () => import(/* webpackChunkName: "article-management" */ '../components/admin/ArticleManagement.vue')
+      }
+    ],
     meta: {
       isLogin: true,
       isAdmin: true

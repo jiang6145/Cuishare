@@ -1,0 +1,23 @@
+.article-management{
+  font-size: $text-font-sm;
+
+  th{
+    letter-spacing: $letter-spacing-md;
+    color: $color-secondary;
+  }
+
+  td{
+    vertical-align: middle;
+
+    &:first-child{
+      max-width: 150px;
+      overflow:hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+    }
+  }
+
+  .form-control{
+    border:1px solid $color-secondary-light;
+  }
+}

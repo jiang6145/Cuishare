@@ -20,6 +20,8 @@
 @import 'components/userMenu';
 @import 'components/articlePublishModal';
 @import 'components/articleSearchModal';
+@import 'components/admin/memberManagement';
+@import 'components/admin/articleManagement';
 
 
 
@@ -32,3 +34,4 @@
 @import 'views/myFavorites';
 @import 'views/myFollow';
 @import 'views/articleSearch';
+@import 'views/admin';

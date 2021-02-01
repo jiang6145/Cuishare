@@ -56,3 +56,27 @@
 .author-articles{
   padding-top: 6rem;
 }
+
+.popular-tags{
+  position: sticky;
+  top: 120px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-content: center;
+
+  .tag{
+    margin: 0;
+    margin: 0.5rem 0;
+    padding: 8px 10px;
+  }
+
+  &__text{
+    width: 100%;
+    border-top: 1px solid $color-secondary-light;
+    margin-top: 1rem;
+    padding-top: 1rem;
+    color: $color-secondary;
+    font-size: $text-font-xs;
+  }
+}

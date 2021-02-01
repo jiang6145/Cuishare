@@ -79,7 +79,7 @@
 </template>
 
 <script>
-import dateDifference from '../dateDifference'
+import { dateDifference } from '../dateDifference'
 
 export default {
   name: 'MyArticle',

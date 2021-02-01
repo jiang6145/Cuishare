@@ -21,7 +21,6 @@ export default {
     },
     isFollow () {
       return this.user.following.includes(this.author._id)
-      // return this.user.following.some(author => author._id === this.author._id)
     },
     isMyself () {
       return this.author._id === this.user.id

@@ -249,3 +249,23 @@ export const favoriteArticle = async (req, res, next) => {
     next(error)
   }
 }
+
+// 封鎖文章
+export const blockadeArticle = async (req, res, next) => {
+  try {
+    if (!req.session.user) return res.status(401).send({ success: false, message: '未登入' })
+    if (!req.session.user.isAdmin) return res.status(403).send({ success: false, message: '沒有權限' })
+
+    const result = await articles.findByIdAndUpdate(
+      req.params.articleId,
+      req.body,
+      { new: true }
+    ).select('isBlocked')
+
+    if (!result) return res.status(404).send({ success: false, message: '找不到資料' })
+
+    res.status(200).send({ success: true, message: '', result })
+  } catch (error) {
+    next(error)
+  }
+}

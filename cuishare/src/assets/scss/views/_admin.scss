@@ -1,0 +1,18 @@
+.admin{
+  padding-top: 4rem;
+  li{
+    list-style: none;
+  }
+
+  &__side-menu{
+    background-color: $color-secondary-light;
+    height: 100%;
+    position: fixed;
+    top: 80px;
+    left: 0;
+
+    .nav-item{
+      font-weight: 900;
+    }
+  }
+}

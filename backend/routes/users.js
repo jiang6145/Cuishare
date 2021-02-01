@@ -3,10 +3,12 @@ import express from 'express'
 import jsonType from '../middlewares/jsonType.js'
 import {
   createUser,
+  getUserAll,
   isEmailRepeat,
   loginUser,
   logoutUser,
   updateUserInfo,
+  blockadeUser,
   followUser,
   getFollowingUser,
   getFollowersUser,
@@ -18,10 +20,12 @@ import {
 
 const router = express.Router()
 router.post('/', jsonType, createUser)
+router.get('/', getUserAll)
 router.get('/:email', isEmailRepeat)
 router.post('/login', jsonType, loginUser)
 router.delete('/logout', logoutUser)
 router.patch('/:userId', jsonType, updateUserInfo)
+router.patch('/blockade/:userId', jsonType, blockadeUser)
 router.patch('/follow/:userId', followUser)
 router.get('/follow/following', getFollowingUser)
 router.get('/follow/followers', getFollowersUser)

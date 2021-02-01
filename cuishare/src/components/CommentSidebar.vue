@@ -62,7 +62,7 @@
 
 <script>
 import DynamicHeight from 'vue-dynamic-height'
-import dateDifference from '../dateDifference'
+import { dateDifference } from '../dateDifference'
 
 export default {
   name: 'CommentSidebar',

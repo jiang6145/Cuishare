@@ -11,7 +11,8 @@ import {
   editArticle,
   changeArticleCategory,
   likeArticle,
-  favoriteArticle
+  favoriteArticle,
+  blockadeArticle
 } from '../controllers/articles.js'
 
 const router = express.Router()
@@ -25,5 +26,6 @@ router.get('/:articleId', getArticle)
 router.get('/search/:searchValue', searchArticle)
 router.patch('/likes/:articleId', likeArticle)
 router.patch('/favorites/:articleId', favoriteArticle)
+router.patch('/blockade/:articleId', blockadeArticle)
 
 export default router

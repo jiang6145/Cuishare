@@ -183,6 +183,20 @@ html,body{
     }
   }
 
+  &--blockade{
+    min-width: 96px;
+
+    &.btn--blocked{
+      border-color: $color-danger;
+      background-color: $color-danger;
+      color: $color-basic;
+
+      &:hover{
+        background-color: $color-danger-light;
+      }
+    }
+  }
+
   &.letter-spacing-sm{
     letter-spacing: $letter-spacing-sm;
     padding-left: 9px;

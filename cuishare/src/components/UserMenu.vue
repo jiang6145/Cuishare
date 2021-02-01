@@ -65,7 +65,7 @@
         b-dropdown-item.dropdown--danger(@click="logout") 登出
         b-dropdown-divider(v-if="user.isAdmin")
         b-dropdown-item(
-          to="/admin-back-stage"
+          to="/admin"
           href='#'
           v-if="user.isAdmin"
         ) 管理員後台

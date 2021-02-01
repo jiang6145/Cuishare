@@ -23,6 +23,22 @@ export const createUser = async (req, res, next) => {
     next(error)
   }
 }
+
+// 取得所有使用者
+export const getUserAll = async (req, res, next) => {
+  try {
+    if (!req.session.user) return res.status(401).send({ success: false, message: '未登入' })
+    if (!req.session.user.isAdmin) return res.status(403).send({ success: false, message: '沒有權限' })
+
+    const result = await users
+      .find({ _id: { $nin: req.session.user._id } })
+      .select('email username photoUrl isBlocked createDate')
+    res.status(200).send({ success: true, message: '', result })
+  } catch (error) {
+    next(error)
+  }
+}
+
 // 註冊帳號時判斷 Email 是否被使用過
 export const isEmailRepeat = async (req, res, next) => {
   try {
@@ -104,6 +120,26 @@ export const updateUserInfo = async (req, res, next) => {
       { new: true }
     ).select(keys)
     res.status(200).send({ success: true, message: '更改成功', result })
+  } catch (error) {
+    next(error)
+  }
+}
+
+// 封鎖使使用者
+export const blockadeUser = async (req, res, next) => {
+  try {
+    if (!req.session.user) return res.status(401).send({ success: false, message: '未登入' })
+    if (!req.session.user.isAdmin) return res.status(403).send({ success: false, message: '沒有權限' })
+
+    const result = await users.findByIdAndUpdate(
+      req.params.userId,
+      req.body,
+      { new: true }
+    ).select('isBlocked')
+
+    if (!result) return res.status(404).send({ success: false, message: '找不到資料' })
+
+    res.status(200).send({ success: true, message: '', result })
   } catch (error) {
     next(error)
   }
