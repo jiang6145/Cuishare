@@ -60,6 +60,17 @@ export default {
         this.$store.commit('logout')
         if (this.$route.path !== '/') this.$router.push('/')
       }
+    },
+    async getNotifications () {
+      try {
+        const res = await this.axios.get(process.env.VUE_APP_API + '/notifications')
+        const { success, result } = res.data
+        if (success) {
+          this.$store.commit('notifications', result.notifications)
+        }
+      } catch (error) {
+        console.log(error)
+      }
     }
   },
   mounted () {
@@ -67,6 +78,7 @@ export default {
 
     setInterval(() => {
       this.heartbeat()
+      this.getNotifications()
     }, 5000)
   }
 }

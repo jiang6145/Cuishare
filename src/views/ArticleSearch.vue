@@ -27,7 +27,7 @@ export default {
   },
   computed: {
     searchText () {
-      return this.articles.length <= 0
+      return this.articles.length === 0
         ? '找不到相關文章：請查詢其它關鍵字'
         : '關鍵字：「' + this.$route.params.value + '」的相關文章'
     }
@@ -42,6 +42,7 @@ export default {
   },
   methods: {
     async getArticles (searchValue) {
+      const loader = this.$loading.show()
       try {
         const res = await this.axios.get(process.env.VUE_APP_API + '/articles/search/' + searchValue)
         const { success, result } = res.data
@@ -56,12 +57,11 @@ export default {
         this.articles = []
         console.log(error)
       }
+      loader.hide()
     }
   },
   mounted () {
-    const loader = this.$loading.show()
     this.getArticles(this.$route.params.value)
-    loader.hide()
   }
 }
 </script>

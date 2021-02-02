@@ -1,0 +1,32 @@
+.notifications{
+
+  .dropdown-item{
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+    cursor: default;
+  }
+
+  &__by-user{
+    margin-bottom: 0.4rem;
+    display:flex;
+    align-items: center;
+  }
+
+  &__avatar{
+    cursor: pointer;
+  }
+
+  &__by-username{
+    font-size: $text-font-xs;
+  }
+
+  &__create-at{
+    font-size: $text-font-xs;
+    color: $color-secondary;
+  }
+
+  &__text{
+    margin-bottom: 0;
+    cursor: pointer;
+  }
+}

@@ -16,7 +16,8 @@ export default new Vuex.Store({
       followers: [],
       articleCategory: [],
       isAdmin: false,
-      isBlocked: false
+      isBlocked: false,
+      notifications: []
     },
     currentEditArticle: {},
     isLoginModal: true,
@@ -34,6 +35,7 @@ export default new Vuex.Store({
       state.user.articleCategory = data.articleCategory
       state.user.isAdmin = data.isAdmin
       state.user.isBlocked = data.isBlocked
+      state.user.notifications = data.notifications
     },
     logout (state) {
       state.user.id = ''
@@ -50,6 +52,9 @@ export default new Vuex.Store({
     updateUser (state, data) {
       const key = Object.keys(data)
       state.user[key[0]] = data[key[0]]
+    },
+    notifications (state, data) {
+      state.user.notifications = data
     },
     following (state, data) {
       const index = state.user.following.findIndex(id => id === data._id)

@@ -15,7 +15,7 @@
         size="sm"
       ) {{ currentEditArticle.isPublished ? '變更文章設定' : '發布文章' }}
 
-    b-nav-item.user-menu--search.mr-md-3(
+    b-nav-item.user-menu--search(
       v-if="!isArticleEditRoute"
       :class="searchClass"
     )
@@ -27,6 +27,7 @@
           @click="onShowSearch"
           :icon="['fas', 'search']"
           fixed-width
+          size="lg"
         )
         b-form-input(
           @blur="searchClass['search-show']= false"
@@ -40,9 +41,13 @@
       font-awesome-icon.icon.d-block.d-md-none(
         v-b-modal.article-search-modal
         :icon="['fas', 'search']"
-        :size="'lg'"
+        size="lg"
         fixed-width
       )
+
+    //- 通知
+    b-nav-item.user-menu--notifications
+      NotificationsIcon
 
     b-nav-item.user-menu--avatar
       b-dropdown(
@@ -83,8 +88,13 @@
 </template>
 
 <script>
+import NotificationsIcon from '../components/NotificationsIcon'
+
 export default {
   name: 'UserMenu',
+  components: {
+    NotificationsIcon
+  },
   data () {
     return {
       searchValue: '',

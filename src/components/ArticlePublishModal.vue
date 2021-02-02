@@ -73,6 +73,9 @@ export default {
     }
   },
   computed: {
+    user () {
+      return this.$store.state.user
+    },
     isUnlistedIcon () {
       return this.isUnlisted ? ['far', 'eye-slash'] : ['far', 'eye']
     },
@@ -126,7 +129,7 @@ export default {
       const data = {
         title: this.article.title,
         subTitle: this.subTitle ? this.subTitle.innerText : '',
-        coverPhotoUrl: this.coverPhotoUrl,
+        coverPhotoUrl: this.coverPhotoUrl ? this.coverPhotoUrl : '',
         readingTime: stats.text,
         isPublished: true,
         isDraft: false,
@@ -137,9 +140,23 @@ export default {
 
       try {
         const res = await this.axios.patch(process.env.VUE_APP_API + '/articles/' + this.article._id, data)
-        if (res.data.success && !this.currentEditArticle.isPublished) {
+        const { success, result } = res.data
+        if (success && !this.currentEditArticle.isPublished) {
           this.$toasted.success('文章發佈成功，前往此文章')
           this.$router.push('/article/' + this.article._id)
+
+          // if (this.user.followers > 0) {
+          const notificationData = {
+            text: '發佈了新文章「' + result.title + '」',
+            byUser: result.author,
+            data: {
+              title: result.title,
+              _id: result._id
+            }
+          }
+          console.log(notificationData)
+          await this.axios.post(process.env.VUE_APP_API + '/notifications/', notificationData)
+          // }
           return
         }
         this.$toasted.success('文章修改成功')
