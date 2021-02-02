@@ -32,7 +32,6 @@ import TableToolbar from '@ckeditor/ckeditor5-table/src/tabletoolbar'
 import TextTransformation from '@ckeditor/ckeditor5-typing/src/texttransformation'
 import Title from '@ckeditor/ckeditor5-heading/src/title'
 import TodoList from '@ckeditor/ckeditor5-list/src/todolist'
-import WordCount from '@ckeditor/ckeditor5-word-count/src/wordcount'
 import SimpleUploadAdapter from '@ckeditor/ckeditor5-upload/src/adapters/simpleuploadadapter'
 import ImageRemoveEventCallbackPlugin from 'ckeditor5-image-remove-event-callback-plugin'
 
@@ -70,7 +69,6 @@ ClassicEditor.builtinPlugins = [
   TextTransformation,
   Title,
   TodoList,
-  WordCount,
   SimpleUploadAdapter,
   ImageRemoveEventCallbackPlugin
 ]

@@ -30,7 +30,6 @@
     "@ckeditor/ckeditor5-typing": "^24.0.0",
     "@ckeditor/ckeditor5-upload": "^24.0.0",
     "@ckeditor/ckeditor5-vue2": "^1.0.5",
-    "@ckeditor/ckeditor5-word-count": "^24.0.0",
     "@fortawesome/fontawesome-svg-core": "^1.2.32",
     "@fortawesome/free-regular-svg-icons": "^5.15.1",
     "@fortawesome/free-solid-svg-icons": "^5.15.1",
