@@ -56,7 +56,7 @@ export const getArticleComments = async (req, res, next) => {
       .populate('likes', ['username', 'photoUrl'])
       .sort('-createDate')
 
-    if (result.length === 0) return res.status(404).send({ success: false, message: '找不到留言' })
+    if (result.length === 0) return res.status(200).send({ success: true, message: '沒有留言', result })
 
     res.status(200).send({ success: true, message: '', result })
   } catch (error) {

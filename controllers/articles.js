@@ -150,7 +150,8 @@ export const getAuthorArticles = async (req, res, next) => {
       .populate('author', ['username', 'photoUrl', 'about', 'isBlocked'])
       .sort('-createDate')
 
-    if (result.length === 0) return res.status(404).send({ success: false, message: '找不到文章' })
+    if (result.length === 0) return res.status(200).send({ success: true, message: '沒有文章', result })
+
     res.status(200).send({ success: true, message: '', result })
   } catch (error) {
     next(error)

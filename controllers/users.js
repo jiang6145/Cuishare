@@ -158,28 +158,39 @@ export const followUser = async (req, res, next) => {
 
     if (!isfollowing) {
       // 對方的 followers $push 自己的 id
-      await users.findByIdAndUpdate(req.params.userId,
+      const result = await users.findByIdAndUpdate(req.params.userId,
         { $push: { followers: user._id } }
       )
+        .populate({
+          path: 'following',
+          model: 'users',
+          select: 'username photoUrl '
+        })
+        .populate({
+          path: 'followers',
+          model: 'users',
+          select: 'username photoUrl '
+        })
+        .select('following followers username photoUrl about')
 
       // 自己的 following $push 對方的 id
-      const result = await users.findByIdAndUpdate(req.session.user._id,
+      await users.findByIdAndUpdate(req.session.user._id,
         { $push: { following: followedUser._id } },
         { new: true }
       )
 
       return res.status(200).send({ success: true, message: '追蹤中', result })
     } else {
-      await users.findByIdAndUpdate(req.params.userId,
+      const result = await users.findByIdAndUpdate(req.params.userId,
         { $pull: { followers: user._id } }
       )
+        .select('username photoUrl')
 
-      const result = await users.findByIdAndUpdate(req.session.user._id,
+      await users.findByIdAndUpdate(req.session.user._id,
         { $pull: { following: followedUser._id } },
         { new: true }
       )
-      // .populate('following', ['username', 'photoUrl', 'about', 'following', 'followers'])
-      //   .select('following')
+
       return res.status(200).send({ success: true, message: '取消追蹤', result })
     }
   } catch (error) {
