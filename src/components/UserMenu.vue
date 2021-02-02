@@ -29,7 +29,7 @@
           fixed-width
         )
         b-form-input(
-          @blur="searchClass['search-show']= flase"
+          @blur="searchClass['search-show']= false"
           ref="search-input"
           v-model="searchValue"
           type="text"
