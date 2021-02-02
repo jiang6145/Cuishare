@@ -99,8 +99,6 @@ export default {
           })
 
         this.$store.commit('currentEditArticle', this.article)
-
-        console.log('saved')
         resolve()
       })
     },

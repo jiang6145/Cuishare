@@ -138,7 +138,6 @@ export default {
       this.isDisabled = true
     },
     async onSubmit (valid) {
-      console.log('傳送')
       if (this.$refs[this.inputname].state === false) return
       const data = { [this.inputname]: this.value }
 

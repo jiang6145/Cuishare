@@ -47,7 +47,6 @@ export default new Vuex.Store({
       state.user.isBlocked = false
     },
     updateUser (state, data) {
-      console.log(data)
       const key = Object.keys(data)
       state.user[key[0]] = data[key[0]]
     },

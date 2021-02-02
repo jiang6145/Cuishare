@@ -77,11 +77,16 @@ export default {
         this.blogArticles = this.filterPublished(result)
         this.author = this.blogArticles[0].author
       }
+
       setTimeout(() => {
         loader.hide()
       }, 500)
     } catch (error) {
-      alert(error.response.data.message)
+      console.log(error)
+
+      setTimeout(() => {
+        loader.hide()
+      }, 500)
     }
   }
 }
