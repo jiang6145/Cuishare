@@ -132,6 +132,9 @@ export default {
       }
     } catch (error) {
       console.log(error)
+      setTimeout(() => {
+        loader.hide()
+      }, 500)
     }
   }
 }
