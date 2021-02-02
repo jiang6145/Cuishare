@@ -3,6 +3,31 @@ import validator from 'validator'
 
 const Schema = mongoose.Schema
 
+const notificationSchema = new Schema(
+  {
+    text: {
+      type: String,
+      maxlength: 1024,
+      trim: true
+    },
+    byUser: {
+      type: Object
+    },
+    data: {
+      type: Object
+    },
+    isRead: {
+      type: Boolean,
+      default: false
+    },
+    createDate: {
+      type: Date,
+      default: Date.now,
+      immutable: true
+    }
+  }
+)
+
 const userSchema = new Schema(
   {
     email: {
@@ -61,7 +86,8 @@ const userSchema = new Schema(
     ],
     articleCategory: [{
       categoryName: String
-    }]
+    }],
+    notifications: [notificationSchema]
   },
   {
     versionKey: false

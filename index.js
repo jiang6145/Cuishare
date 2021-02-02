@@ -11,6 +11,7 @@ import userRouter from './routes/users.js'
 import articleRouter from './routes/articles.js'
 import commentRouter from './routes/comments.js'
 import pictureRouter from './routes/pictures.js'
+import notificationRouter from './routes/notifications.js'
 
 dotenv.config()
 mongoose.set('runValidators', true) // 使 mongoose 在更新資料時也會進行 schema 驗證
@@ -72,6 +73,7 @@ app.use(session(sessionSettings))
 
 // Router
 app.use('/users', userRouter)
+app.use('/notifications', notificationRouter)
 app.use('/articles', articleRouter)
 app.use('/comments', commentRouter)
 app.use('/pictures', pictureRouter)
