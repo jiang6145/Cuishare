@@ -13,6 +13,7 @@
 
 <script>
 import HorizontalArticleCard from '../components/HorizontalArticleCard'
+import { dateDifference } from '../dateDifference'
 
 export default {
   name: 'ArticleSearch',
@@ -41,27 +42,26 @@ export default {
   },
   methods: {
     async getArticles (searchValue) {
-      const loader = this.$loading.show()
       try {
         const res = await this.axios.get(process.env.VUE_APP_API + '/articles/search/' + searchValue)
         const { success, result } = res.data
-        if (success) this.articles = result
-
-        setTimeout(() => {
-          loader.hide()
-        }, 500)
+        // if (success) this.articles = result
+        if (success) {
+          this.articles = result.map((article) => {
+            article.publishedDate = dateDifference(article.publishedDate)
+            return article
+          })
+        }
       } catch (error) {
         this.articles = []
         console.log(error)
-
-        setTimeout(() => {
-          loader.hide()
-        }, 500)
       }
     }
   },
   mounted () {
+    const loader = this.$loading.show()
     this.getArticles(this.$route.params.value)
+    loader.hide()
   }
 }
 </script>

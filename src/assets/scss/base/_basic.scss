@@ -1,9 +1,37 @@
 html,body{
+  height: 100%;
+  margin: 0;
   font-family: 'Bitter', 'Noto Serif TC', '微軟正黑體', serif;
   letter-spacing: $letter-spacing-sm;
   line-height: $line-height-sm;
 }
 
+.wrapper {
+  min-height: 100%;
+  margin-bottom: -60px;
+}
+
+.main{
+  padding-bottom: 60px;
+  margin-bottom: 3rem;
+}
+
+.footer{
+  position: relative;
+  height: 60px;
+  background-color: rgb(14, 14, 14);
+
+  &__text {
+    text-align: center;
+    line-height: 60px;
+    color: $color-basic;
+    font-size: $text-font-sm;
+  }
+}
+
+#app{
+  height: 100%;
+}
 // bootstrapVue
 .container{
   position: relative;

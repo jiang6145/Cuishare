@@ -12,7 +12,10 @@
 
       b-row
         b-col.mx-auto(cols="12" lg="10")
-          b-tabs
+          b-tabs(
+            :value="myArticleTabIndex"
+            @input="onInput"
+          )
             //- 草稿
             b-tab.articles-list(:title="'草稿 '+ draft.length")
               .articles-list__item(
@@ -95,6 +98,9 @@ export default {
     user () {
       return this.$store.state.user
     },
+    myArticleTabIndex () {
+      return this.$store.state.myArticleTabIndex
+    },
     draft () {
       return this.articles.filter(article => {
         const { isDraft, isPublished, isUnlisted } = article
@@ -163,9 +169,13 @@ export default {
       } catch (error) {
         console.log(error)
       }
+    },
+    onInput (tabIndex) {
+      this.$store.commit('myArticleTabIndex', tabIndex)
     }
   },
   async mounted () {
+    const loader = this.$loading.show()
     try {
       const res = await this.axios.get(process.env.VUE_APP_API + '/articles/author/' + this.user.id)
       const { success, result } = res.data
@@ -181,6 +191,7 @@ export default {
     } catch (error) {
       console.log(error)
     }
+    loader.hide()
   }
 
 }

@@ -3,9 +3,14 @@
   :style="styleObject"
 )
   Navbar
-  router-view
+  .wrapper
+    .main
+      router-view
   UserModal
   ArticleSearchModal
+
+  footer.footer
+    p.footer__text Copyright © Cuishare. 2021 • All rights reserved.
 </template>
 
 <script>

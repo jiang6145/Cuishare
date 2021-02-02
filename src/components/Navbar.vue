@@ -6,6 +6,7 @@
     b-container
       b-navbar-brand(href="#" to="/")
         img.logo(src="../plugins/images/logo.png")
+        |Cuishare
 
       //- v-if="!isLogin", 未登入時的導航列
       b-navbar-nav.ml-auto(v-if="!isLogin")
@@ -14,7 +15,7 @@
           v-b-modal="'user-modal'"
           @click.prevent="toggleModal(false)"
         ) 註冊會員
-        b-nav-item(href="#")
+        b-nav-item(href="#" to="/about")
           font-awesome-icon.icon(
             :icon="['far', 'question-circle']"
             :size="'lg'"

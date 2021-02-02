@@ -67,7 +67,7 @@
         b-dropdown-item(href='#' to="/my-follow" :disabled="isUserBlocked") 追蹤與粉絲
         b-dropdown-divider
 
-        b-dropdown-item.user-menu__about(href='#') 關於Cuishare
+        b-dropdown-item.user-menu__about(href='#' to="/about") 關於Cuishare
           font-awesome-icon(
             :icon="['far', 'question-circle']"
             :size="'lg'"
@@ -112,14 +112,19 @@ export default {
   },
   methods: {
     async logout () {
+      const loader = this.$loading.show()
       try {
         await this.axios.delete(process.env.VUE_APP_API + '/users/logout')
 
         this.$store.commit('logout')
         if (this.$route.path !== '/') this.$router.push('/')
       } catch (error) {
-        alert(error.response.data.message)
+        console.log(error)
       }
+
+      setTimeout(() => {
+        loader.hide()
+      }, 500)
     },
     async createArticle () {
       try {

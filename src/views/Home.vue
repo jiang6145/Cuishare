@@ -37,7 +37,6 @@
                 :tag="tag.name"
               )
               p.d-none.d-lg-block.popular-tags__text 文章熱門標籤，點擊標籤查詢相關文章。
-
 </template>
 
 <script>
@@ -124,18 +123,11 @@ export default {
       const res = await this.axios.get(process.env.VUE_APP_API + '/articles')
       const { success, result } = res.data
 
-      if (success) {
-        this.articles = this.filterPublished(result)
-        setTimeout(() => {
-          loader.hide()
-        }, 500)
-      }
+      if (success) this.articles = this.filterPublished(result)
     } catch (error) {
       console.log(error)
-      setTimeout(() => {
-        loader.hide()
-      }, 500)
     }
+    loader.hide()
   }
 }
 </script>

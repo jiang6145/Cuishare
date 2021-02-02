@@ -179,3 +179,11 @@ export default {
   }
 }
 </script>
+
+<style lang="scss">
+#user-modal{
+    &::before{
+    background: url('../plugins/images/side-panels.png') no-repeat center / cover;
+  }
+}
+</style>

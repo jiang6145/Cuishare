@@ -84,7 +84,7 @@
           :to="'/blog/'+ author._id"
         )
         span.follow-item__username {{author.username}}
-        FollowButton.ml-auto(:author="author")
+        FollowButton.ml-auto(:author="author" @onClick="onFollowing")
 </template>
 
 <script>
@@ -142,9 +142,18 @@ export default {
         modalTitle: '粉絲 ' + author.followers.length,
         follow: author.followers
       }
+    },
+    onFollowing (author) {
+      const index = this.following.findIndex(({ _id }) => _id === author._id)
+      if (index < 0) {
+        this.following.unshift(author)
+      } else {
+        this.following.splice(index, 1)
+      }
     }
   },
   async mounted () {
+    const loader = this.$loading.show()
     try {
       const res = await this.axios.get(process.env.VUE_APP_API + '/users/follow/following')
       const { success, result } = res.data
@@ -156,6 +165,10 @@ export default {
     } catch (error) {
       console.log(error)
     }
+
+    setTimeout(() => {
+      loader.hide()
+    }, 500)
   }
 }
 </script>

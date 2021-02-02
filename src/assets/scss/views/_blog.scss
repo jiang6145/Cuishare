@@ -4,6 +4,15 @@
   ul,li{
     list-style: none;
   }
+
+  .no-articles-text{
+    width: 100%;
+    padding-top: 2rem;
+    font-size: $heading-font-sm;
+    text-align: center;
+    letter-spacing: $letter-spacing-md;
+    color: $color-secondary;
+  }
 }
 
 .author-card{

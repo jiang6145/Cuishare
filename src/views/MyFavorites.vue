@@ -3,7 +3,8 @@
     b-container
       b-row
         b-col.mx-auto.mb-4(cols="12" lg="10")
-          h2.my-favorites__title 你收藏的文章
+          h2.my-favorites__title {{favoritesTitle}}
+
         b-col.mx-auto(cols="12" lg="10")
           .articles-item(v-for="article in favoritesArticles" :key="article._id")
             h2.articles-item__title(@click="toArticle(article)") {{ article.title }}
@@ -31,10 +32,14 @@
 </template>
 
 <script>
+import HorizontalArticleCard from '../components/HorizontalArticleCard'
 import { dateDifference } from '../dateDifference'
 
 export default {
   name: 'MyFavorites',
+  components: {
+    HorizontalArticleCard
+  },
   data () {
     return {
       articles: []
@@ -46,6 +51,9 @@ export default {
     },
     favoritesArticles () {
       return this.articles.filter(article => article.favorites.includes(this.user.id))
+    },
+    favoritesTitle () {
+      return this.favoritesArticles.length === 0 ? '你還沒有收藏的文章' : '你收藏的文章'
     }
   },
   methods: {
@@ -88,6 +96,7 @@ export default {
     }
   },
   async mounted () {
+    const loader = this.$loading.show()
     try {
       const res = await this.axios.get(process.env.VUE_APP_API + '/articles')
       const { success, result } = res.data
@@ -96,6 +105,7 @@ export default {
     } catch (error) {
       console.log(error)
     }
+    loader.hide()
   }
 }
 </script>

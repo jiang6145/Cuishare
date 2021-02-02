@@ -137,10 +137,13 @@ export default {
 
       try {
         const res = await this.axios.patch(process.env.VUE_APP_API + '/articles/' + this.article._id, data)
-        if (res.data.success) {
+        if (res.data.success && !this.currentEditArticle.isPublished) {
           this.$toasted.success('文章發佈成功，前往此文章')
           this.$router.push('/article/' + this.article._id)
+          return
         }
+        this.$toasted.success('文章修改成功')
+        this.$router.go(-1)
       } catch (error) {
         this.$toasted.error(error.response.data.message)
         console.log(error)

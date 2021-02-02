@@ -10,10 +10,13 @@ const routes = [
     path: '/',
     name: 'Home',
     component: Home,
-    meta: {
-      title: 'Cuishare | 首頁',
-      isLogin: false
-    }
+    meta: { isLogin: false }
+  },
+  {
+    path: '/about',
+    name: 'About',
+    component: () => import(/* webpackChunkName: "about" */ '../views/About.vue'),
+    meta: { isLogin: false }
   },
   {
     path: '/article/:id',

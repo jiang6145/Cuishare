@@ -14,6 +14,26 @@
 }
 
 #user-modal{
+  &::before{
+    content:'';
+    position: absolute;
+    min-width: 480px;
+    width: 35%;
+    height: 100%;
+    background-color: #000;
+    display: none;
+
+    @include media-breakpoint-up(xl){
+      display: block;
+    }
+  }
+
+  .modal-dialog{
+    @include media-breakpoint-up(xl){
+      margin-left: 45%;
+    }
+  }
+
   .modal-header{
     border-bottom: none;
   }

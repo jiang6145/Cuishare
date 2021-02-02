@@ -2,8 +2,9 @@
   .blog
     b-container
       b-row
+        p.no-articles-text(v-if="blogArticles.length <= 0 ") 目前還沒有文章，趕快分享你的想法
         b-col(cols="12" lg="3")
-          b-card(no-body).author-card
+          b-card(no-body).author-card(v-if="blogArticles.length > 0 ")
             b-card-header.author-card__header
               b-avatar.author-card__avatar(
                 :src="author.photoUrl"
@@ -69,25 +70,21 @@ export default {
     try {
       const res = await this.axios.get(process.env.VUE_APP_API + '/articles/author/' + this.$route.params.id)
       const { success, result } = res.data
-      if (result[0].author.isBlocked) {
-        this.$router.go(-1)
-        this.$toasted.error('此作者已被封鎖，不可訪問')
-      }
-      if (success) {
-        this.blogArticles = this.filterPublished(result)
-        this.author = this.blogArticles[0].author
-      }
 
-      setTimeout(() => {
-        loader.hide()
-      }, 500)
+      if (result.length > 0 && success) {
+        if (result[0].author.isBlocked) {
+          this.$router.go(-1)
+          this.$toasted.error('此作者已被封鎖，不可訪問')
+        }
+
+        this.blogArticles = this.filterPublished(result)
+        this.author = result[0].author
+      }
     } catch (error) {
       console.log(error)
-
-      setTimeout(() => {
-        loader.hide()
-      }, 500)
     }
+
+    loader.hide()
   }
 }
 </script>

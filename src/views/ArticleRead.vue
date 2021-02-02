@@ -78,13 +78,11 @@ export default {
         this.article = result
         this.initEditor()
       }
-
-      setTimeout(() => {
-        loader.hide()
-      }, 500)
     } catch (error) {
       console.log(error)
     }
+
+    loader.hide()
   }
 }
 </script>

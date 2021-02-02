@@ -1,14 +1,17 @@
 .navbar{
   min-height: 80px;
-  background-color: rgba(0,0,0,.3);
+  background-color: transparent;
   transition: background-color .3s;
 
   .navbar-brand{
     color: $color-basic;
-    max-width: 100px;
+    font-size: $heading-font-xs;
+    font-weight: 500;
+    max-width: 38px;
 
     .logo{
       width: 100%;
+      margin-right: 0.5rem;
     }
 
     &:hover{

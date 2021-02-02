@@ -19,7 +19,8 @@ export default new Vuex.Store({
       isBlocked: false
     },
     currentEditArticle: {},
-    isLoginModal: true
+    isLoginModal: true,
+    myArticleTabIndex: 0
   },
   mutations: {
     login (state, data) {
@@ -51,13 +52,21 @@ export default new Vuex.Store({
       state.user[key[0]] = data[key[0]]
     },
     following (state, data) {
-      state.user.following = data.following
+      const index = state.user.following.findIndex(id => id === data._id)
+      if (index < 0) {
+        state.user.following.push(data._id)
+      } else {
+        state.user.following.splice(index, 1)
+      }
     },
     toggleModal (state, data) {
       state.isLoginModal = data
     },
     currentEditArticle (state, data) {
       state.currentEditArticle = data
+    },
+    myArticleTabIndex (state, data) {
+      state.myArticleTabIndex = data
     }
   },
   actions: {

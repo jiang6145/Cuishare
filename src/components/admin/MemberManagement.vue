@@ -78,6 +78,7 @@ export default {
     }
   },
   async mounted () {
+    const loader = this.$loading.show()
     try {
       const res = await this.axios.get(process.env.VUE_APP_API + '/users')
       const { success, result } = res.data
@@ -92,6 +93,7 @@ export default {
     } catch (error) {
       console.log(error)
     }
+    loader.hide()
   }
 }
 </script>

@@ -34,10 +34,13 @@ export default {
 
         const res = await this.axios.patch(process.env.VUE_APP_API + '/users/follow/' + this.author._id)
         const { success, result } = res.data
-        console.log(result)
-        if (success) this.$store.commit('following', result)
+
+        if (success) {
+          this.$store.commit('following', result)
+          this.$emit('onClick', result)
+        }
       } catch (error) {
-        alert(error)
+        console.log(error)
       }
     }
   }

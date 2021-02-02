@@ -1,0 +1,34 @@
+.about{
+  .jumbotron{
+    position: relative;
+    height: 25vw;
+    min-height: 300px;
+    margin-bottom: 5rem;
+
+    &::before{
+      content:'';
+      @include mask(0.7)
+    }
+
+    &::after{
+      content:'ABOUT';
+      position: absolute;
+      top: 70%;
+      left: 50%;
+      transform: translate(-50%,-50%);
+      font-size: 4rem;
+      color: $color-basic;
+      letter-spacing: $letter-spacing-lg;
+    }
+  }
+
+  &__title{
+    font-size: $heading-font-lg;
+    letter-spacing: $letter-spacing-md;
+    margin-bottom: 1rem;
+  }
+
+  &__text{
+    font-size: $text-font-lg;
+  }
+}
